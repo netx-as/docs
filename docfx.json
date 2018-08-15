@@ -1,0 +1,58 @@
+{
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.md",
+          "*.md",
+          "*.yml"
+        ],
+ 		"exclude": [
+          "obj/**",
+          "_exported_templates/**",
+		  "_site/**"
+		]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "**/*.png",
+          "**/*.jpg",
+          "**/*.ico"
+        ],
+        "exclude": [
+          "_exported_templates/**",
+          "obj/**",
+          "_site/**"
+        ],
+      }
+    ],
+    "overwrite": [],
+    "globalMetadata": {
+		"_appTitle": "netx documentation",
+		"_appLogoPath": "templates/netx/logo.png",
+		"_appFaviconPath": "templates/netx/netx-icon.ico",
+		"_enableSearch": true,
+	},
+	"fileMetadata": {
+		"_disableAffix": {
+			"index.md": true
+		},
+		"_disableBreadcrumb": {
+			"index.md": true
+		},
+	},
+    "fileMetadataFiles": [],
+    "template": [
+      "templates/netx"
+    ],
+    "dest": "_site",
+    "markdownEngineName": "markdig",
+    "postProcessors": [],
+//    "noLangKeyword": false,
+//    "keepFileLink": false,
+//    "cleanupCacheHistory": false,
+//    "disableGitFeatures": false
+  }
+}
