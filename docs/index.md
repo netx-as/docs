@@ -1,14 +1,8 @@
-# Introduction to ASP.NET Core
+# Introduction #
 
-By [Daniel Roth](https://github.com/danroth27), [Rick Anderson](https://twitter.com/RickAndMSFT), and [Shaun Luttin](https://twitter.com/dicshaunary)
+NETX Smart Router series were jointly developed with Brno University of Technology to provide high-performance and open-source
+routing platform. NETX routers offer industry-standard routing and management protocols and support configuration through a command-line 
+interface (CLI) or via API.
 
-ASP.NET Core is a cross-platform, high-performance, [open-source](https://github.com/aspnet/home) framework for building modern, cloud-based, Internet-connected applications. With ASP.NET Core, you can:
-
-* Build web apps and services, [IoT](https://www.microsoft.com/internet-of-things/) apps, and mobile backends.
-* Use your favorite development tools on Windows, macOS, and Linux.
-* Deploy to the cloud or on-premises.
-* Run on [.NET Core or .NET Framework](https://docs.microsoft.com/dotnet/articles/standard/choosing-core-framework-server).
-
-## test
-
-## test1 test2 test3 test4 test5
+NETX routers use `netc`, a custom and higly flexible command line tool that allows to configure a Linux based system in the same way as 
+network devices. Philosophy of `netc` operation is based on Cisco/Juniper or Mikrotik configuration styles.
