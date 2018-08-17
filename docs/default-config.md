@@ -24,7 +24,7 @@ The `admin` account has full configuration privileges. The `root` account passwo
 
 > [!IMPORTANT]
 > For optimum security, the default password for `admin` account should be changed before you start to configure NETX 
-> router - see [User management](system/user-management.md) for details.
+> router - see [User management](system/basics.md#user-management) for details.
 
 After the first successful login, the default shell is shown:
 
@@ -41,7 +41,7 @@ After the first successful login, the default shell is shown:
 [NetX-X1120]#  
 ```
 
-The default `hostname` is set to NETX platform - `NetX-X1120` in the example. The hostname can be changed according the needs - see [Basic system settings](system/basic-settings.md). In the rest of the documentation, `netx` hostname is used.
+The default `hostname` is set to NETX platform - `NetX-X1120` in the example. The hostname can be changed according the needs - see [Basic system settings](system/basics.md#hostname). In the rest of the documentation, `netx` hostname is used.
 
 ## Serial Console 
 
