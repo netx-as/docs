@@ -4,4 +4,5 @@
 # [CLI](cli/netc-cli.md)
 # [Config files](system/system-config.md)
 # [Basic configuration](system/basics.md)
+# [L2 configuration](l2/l2-config.md)
 
