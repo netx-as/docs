@@ -115,8 +115,8 @@ The columns meaning is the following:
     * __#__ : source selected, an alternative backup. This is only shown if more than 10 remote servers are configured
     * __+__ : source selected, if the current time source (`*`) is discarded, this is a candidate as a new best source
     * __o__ : source selected, Pulse Per Second (PPS) is used
-    * __x__ : source discared by the intersection algorithm
-    * __.__ : source discarder by the intersection algorithm
+    * __x__ : source discarded by the intersection algorithm
+    * __.__ : source discarded by the intersection algorithm
     * __-__ : source discarded by cluster algorithm
     * __blank__ : source discarded as not valid, the reason can be uncreachability, high stratum, etc.
 
