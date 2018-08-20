@@ -1,13 +1,19 @@
-# Introduction to ASP.NET Core
+# NETX Docs
 
-By [Daniel Roth](https://github.com/danroth27), [Rick Anderson](https://twitter.com/RickAndMSFT), and [Shaun Luttin](https://twitter.com/dicshaunary)
+Welcome to NETX documentation website. Check out NETX [Docs](), [Tutorialas() or [API reference].
 
-ASP.NET Core is a cross-platform, high-performance, [open-source](https://github.com/aspnet/home) framework for building modern, cloud-based, Internet-connected applications. With ASP.NET Core, you can:
+We welcome contributions to help us improve and complete the docs. To contribute, see the Contributing Guide and the [issues](https://github.com/netx-as/docs/issues) list.
 
-* Build web apps and services, [IoT](https://www.microsoft.com/internet-of-things/) apps, and mobile backends.
-* Use your favorite development tools on Windows, macOS, and Linux.
-* Deploy to the cloud or on-premises.
-* Run on [.NET Core or .NET Framework](https://docs.microsoft.com/dotnet/articles/standard/choosing-core-framework-server).
+## Contributing Guide
 
-# test
-## test test
+* Grammar and spelling: Despite all efforts, grammar and spelling errors do make their way into our published documents. If you spot such a mistake, 
+you are more than welcome to create a pull request to fix the issue. Every article displays an "Improve this Doc" button that takes you to the source 
+file on GitHub. You can edit the article by clicking the pencil icon on GitHub. Once you have made your changes, scroll to the bottom of the page, enter 
+a title and description for your pull request and click Propose file change. We will be more than happy to review and merge your pull request.
+
+* Large contributions: If you want to make a large contribution, e.g., new article, add an image or changes that span multiple articles, please fork 
+the repository, create a new working branch in your local repository to capture your proposed changes and submit a pull request, so we could review 
+and merge your branch.
+
+If there's something missing or not clear, just create an issue so we can discuss the missing description or ambiguity. Thank you for contributing to
+NETX documentation!
