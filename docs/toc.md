@@ -7,4 +7,5 @@
 # [L2 configuration](l2/l2-config.md)
 # [L3 config and routing](l3/l3-basics.md)
 ## [Advanced routing](l3/l3-advanced.md)
+# [Troubleshooting tools](tools/tshoot.md)
 
