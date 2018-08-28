@@ -1,11 +1,12 @@
-# Introduction to ASP.NET Core
+# NETX tutorials
 
-By [Daniel Roth](https://github.com/danroth27), [Rick Anderson](https://twitter.com/RickAndMSFT), and [Shaun Luttin](https://twitter.com/dicshaunary)
+The following step-by-step guides for using NETX routers are available:
 
-ASP.NET Core is a cross-platform, high-performance, [open-source](https://github.com/aspnet/home) framework for building modern, cloud-based, Internet-connected applications. With ASP.NET Core, you can:
+## Routing
 
-* Build web apps and services, [IoT](https://www.microsoft.com/internet-of-things/) apps, and mobile backends.
-* Use your favorite development tools on Windows, macOS, and Linux.
-* Deploy to the cloud or on-premises.
-* Run on [.NET Core or .NET Framework](https://docs.microsoft.com/dotnet/articles/standard/choosing-core-framework-server).
+BGP and OSPF tutorials
 
+## API
+
+* [Set up firewall via REST API](api/firewall.md)
+* [Blacklist for a temporary block of IP addresses](api/blacklist.md)
