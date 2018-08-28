@@ -1,6 +1,6 @@
 # NETX Docs
 
-Welcome to NETX documentation website. Check out NETX [Docs](docs/index.md), [Tutorials](tutorials/index.md) or [API reference](docs/api/index.md).
+Welcome to NETX documentation website. Check out NETX [Docs](docs/index.md), [Tutorials](tutorials/index.md) or [API reference](docs/api/api.md).
 
 We welcome contributions to help us improve and complete the docs. To contribute, see the Contributing Guide and the [issues](https://github.com/netx-as/docs/issues) list.
 

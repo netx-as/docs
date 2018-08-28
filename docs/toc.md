@@ -8,4 +8,5 @@
 # [L3 config and routing](l3/l3-basics.md)
 ## [Advanced routing](l3/l3-advanced.md)
 # [Troubleshooting tools](tools/tshoot.md)
+# [API](api/api.md)
 
