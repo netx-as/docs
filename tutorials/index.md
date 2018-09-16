@@ -4,7 +4,7 @@ The following step-by-step guides for using NETX routers are available:
 
 ## Routing
 
-BGP and OSPF tutorials
+* [BGP: Set up peering between an exchange point and upstream provider](bgp/basic-bgp.md)
 
 ## API
 
