@@ -5,8 +5,8 @@
 # [Config files](system/system-config.md)
 # [Basic configuration](system/basics.md)
 # [L2 configuration](l2/l2-config.md)
-# [L3 config and routing](l3/l3-basics.md)
-## [Advanced routing](l3/l3-advanced.md)
+# [L3 configuration](l3/l3-basics.md)
+## [Routing](l3/l3-advanced.md)
 # [Troubleshooting tools](tools/tshoot.md)
 # [API](api/api.md)
 

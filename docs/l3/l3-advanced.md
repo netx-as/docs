@@ -1,13 +1,15 @@
-# Advanced Routing 
+# Routing 
 
-For more complex routing scenarios the NetX platform uses [bird](https://bird.network.cz/) routing daemon developed by CZ.NIC labs. The bird routing 
-daemon is integrated to the `netc` interface. The bird integration in `netc` is divided into two parts:
+For more complex routing scenarios the NetX platform uses [BIRD](https://bird.network.cz/) routing daemon developed by [CZ.NIC](https://www.nic.cz/). 
+The BIRD routing daemon is integrated to the `netc` interface. The BIRD integration in `netc` is divided into two parts:
 
-* __bird config file:__ The bird config is created in a text editor and not part of the `netc` CLI. However, it's easy to switch between CLI and editing of
-the config. The reason for that is that bird provides an amazing configuration language which is very clear and well arranged in the form of an edited file. 
-* __control and diagnostics:__ Commands for showing protocols status, etc. are available via netc interface 
+* __bird config file:__ The BIRD config file is created in a text editor, thus, routing commands are not integrated directly in `netc` CLI. The reason why 
+NetX use BIRD config file is that BIRD provides a very clear configuration language designed for writing complex filters and routing policies. 
+It is, however, very easy to switch between `netc` CLI and BIRD config.
+* __control and diagnostics:__ Commands for showing protocols status, BGP/OSPF neighbors, and all other detailed information are available by switching to
+internal BIRD CLI from `netc` interface 
 
-All bird related commands are available in `router bird` context. To enable bird routing daemon, use the following steps: 
+All BIRD related commands are available in `router bird` context. To enable BIRD routing daemon, use the following steps: 
 
 1. Switch to `router bird` context 
 
@@ -21,7 +23,7 @@ doesn’t exist `netc` will create a default minimal configuration which can be 
 
 ```
 netx(router-bird)# config-file bird.conf 
-ERROR: Building initial config file /etc/netc/bird/bird.conf
+ERROR: No config file found. Building an initial config file in /etc/netc/bird/bird.conf
 Starting bird
 ```
 
@@ -35,7 +37,7 @@ or
 netx(router-bird)# config-file bird.conf edit 
 ```
 
-4. Edit bird configuration. Please consult [bird documentation](https://bird.network.cz/?get_doc&f=bird.html&v=16) for the configuration syntax.
+4. Edit BIRD configuration. Please consult [BIRD documentation](https://bird.network.cz/?get_doc&f=bird.html&v=20) for the configuration syntax.
 
 5. The edited configuration is not applied immediately, but `apply` command must be used. The command will check the config file syntax and, if everything
 is correct, it will apply the config.
@@ -59,184 +61,95 @@ netx(router-bird)# apply
 > Reconfiguration confirmed
 > ```
 
-## Bird version 1/2
+## BIRD CLI
 
-NetX platform supports both Bird 1.x and Bird 2.x versions of routing daemons. The differences between those versions are outlined in the following table:
+Switching between `netc` and BIRD CLI can be easily done with `birdc` command. If bird version 1.x is running, `birdc` and `birdc6` commands are available as
+bird 1.x uses two separate routing processes -- see a [comparison](l3-advanced.md#bird-version-12) between versions.
 
-| Feature | Bird 1.x | Bird 2.x |
+```
+netx# birdc
+BIRD 2.0.2 ready.
+bird> 
+
+! Use exit, quit or ctrl+d to switch back to netc CLI
+
+bird> quit
+netx# 
+```
+
+BIRD CLI has several commands useful for troubleshooting and displaying info. You can use `?` to obtain context sensitive help.
+
+```
+! Obtain help in global context
+netx# birdc
+BIRD 2.0.2 ready.
+bird> ?
+quit                                           Quit the client
+exit                                           Exit the client
+help                                           Description of the help system
+show ...                                       Show status information
+dump ...                                       Dump debugging information
+eval <expr>                                    Evaluate an expression
+
+<snip>
+
+! Obtain help in show context
+
+bird> show ?
+show status                                    Show router status
+show memory                                    Show memory usage
+show protocols [<protocol> | "<pattern>"]      Show routing protocols
+show interfaces                                Show network interfaces
+show route ...                                 Show routing table
+
+<snip>
+```
+
+Further description can be found in BIRD [documentation](https://bird.network.cz/?get_doc&v=20&f=bird-4.html).
+
+## BIRD version 1/2
+
+NetX platform supports both BIRD 1.x and BIRD 2.x versions of routing daemons. The differences between these versions are outlined in the following table:
+
+| Feature | BIRD 1.x | BIRD 2.x |
 | ---     | ---      | ---      |
 | Code stability | Stable | Stable / Experimental |
 | Config file syntax stability | Stable | Incompatible changes can appear in future versions |
 | Deployment | Critical Environments (IXPs, Core routers) | Standard Environment |
-| IPv6 support | 2 separate routing process | Single routing process |
+| IPv6 support | 2 separate routing processes | Single routing process |
 | MPLS | no | yes |
 | FlowSpec | no | yes |
 | RPKI | no | yes |
 | NetX default | no | yes |
  
-Bird 2 is the default version on NetX platform, and it's recommended to use. If you need to switch to Bird 1.x, please contact NetX Support 
+BIRD 2 is the default version on NetX platform, and it's recommended to use. If you need to switch to BIRD 1.x, please contact NetX Support 
 (support@netx.as) for additional information.
 
-## BGP routing example
+## BGP
 
-In the following example, a simple configuration that connects NetX router to two BGP upstream peers is shown. One peer is a transit provider; the second 
-peer is an exchange point. In the example, only the default route from the upstream peer is accepted. All available routes on route servers are accepted 
-from IXP peer. Single IPv4 and IPv6 prefixes are announced to both upstream and IXP.
+Border Gateway Protocol (BGP) is a path vector routing protocol designed to exchange routing and reachability information among autonomous systems.
+BIRD routing deamon supports rich set of BGP standards. The list of supported standards together with detailed description of BIRD BGP commands are
+available [here](https://bird.network.cz/?get_doc&v=20&f=bird-6.html#ss6.3). The following examples are only a subset of basic commands used with BGP.
+See [tutorials](~/tutorials/bgp/basic-bgp.md) section for advanced config examples.
 
-* At the first step, we set up a basic config with the necessary options to run bird.
+Each instance of the BGP protocol in BIRD config file corresponds to one neighboring router. Syntax for BGP protocol is the following:
 
 ```
-log "/var/log/bird.log" all;
-log syslog { info, remote, warning, error, auth, fatal, bug };
+protocol bgp [name [from template_name]] { protocol options }
+```
 
-protocol device DEVICE { }
+*name* is not mandatory, but it's recommended for better troubleshooting. It's possible to set common options with a template and apply to a neighbor
+with *from template_name* expression. The following example sets BGP neighbor with name MY_CUSTOMER, ASN 64500 and IP addresses to 192.0.2.1 and 
+2001:db8::1. Other protocol options are left to default values. 
 
-protocol direct DIRECT { ipv4; ipv6; }
-
-protocol kernel KERNEL4 {
-    ipv4 { export all; import none; };
+```
+protocol bgp MY_CUSTOMER4 { 
+	local as 65000;
+	neighbor 192.0.2.1 as 64500; 
 }
 
-protocol kernel KERNEL6 {
-    ipv6 { export all; import none; };
+protocol bgp MY_CUSTOMER6 { 
+	local as 65000;
+	neighbor 2001:db8::1 as 64500; 
 }
-```
-
-We defined logging options and four essential protocols that every instance of bird needs to have. DEVICE and DIRECT protocols provide access to 
-locally configured interfaces for both IPv4 and IPv6 protocols. KERNEL4 and KERNEL6 protocols define interfaces between internal bird routing 
-structures and kernel’s IPv4 and IPv6 FIBs. We usually export all routes from internal bird routing table to kernel’s table. The kernel protocols 
-must be defined separately for IPv4 and IPv6.
-
-* When NetX is acting as a border BGP router, we will typically need to create a single static blackholed route that will be later propagated via 
-BGP to our peers.  
-
-```
-protocol static STATIC4 {
-    ipv4 { preference 110; };
-    route 185.217.234.0/23 blackhole;
-}
-
-protocol static STATIC6 {
-    ipv6 { preference 110; };
-    route 2a07:6881::/32 blackhole;
-}
-```
-
-* It's recommended to create templates to make the configuration clearer. A template doesn't represent any protocol, but it can be used later in protocol 
-definition. The template can contain definitions for both IPv4 and IPv6 protocols (channels). 
-
-```
-template bgp T_UPSTREAM {
-    local as myas;
-
-    ipv4 {
-        import filter {
-            if ( net ~ [ 0.0.0.0/0 ] ) then accept;
-            reject;
-        };
-        export filter {
-            if ( net ~ [ 185.217.234.0/23 ] ) then accept;
-            reject;
-        };
-    };
-
-    ipv6 {
-        import filter {
-            if ( net ~ [ 0::/0 ] ) then accept;
-            reject;
-        };
-        export filter {
-            if ( net ~ [ 2a07:6881::/32 ] ) then accept;
-            reject;
-        };
-    };
-
-}
-```
-
-We defined input and output filters in the template. Input filters are simple - only default route from the upstream provider is accepted. This default 
-route will be installed in FIB after the BGP session is established. The output filter defines which routes will be sent to an upstream provider. 
-We set up the export filter to announce only routes that are allowed to announce to global BGP routing table from our ASN. In the example, we announce 
-one IPv4 /23 and one /32 IPv6 route that we created in the previous step via static protocols.
-
-* After setting up protocols and a template, we can establish BGP sessions towards upstream routers and route servers in an exchange point. The 
-session UPS41 and UPS42 are IPv4 sessions to the upstream provider. Similar sessions are established for IPv6. 
-
-```
-protocol bgp UPS41  from T_UPSTREAM  { neighbor 147.229.252.114 as 197451; }
-protocol bgp UPS42  from T_UPSTREAM  { neighbor 147.229.253.233 as 197451; }
-
-protocol bgp UPS61  from T_UPSTREAM  { neighbor 2001:67c:1220:fa48::3 as 197451; }
-protocol bgp UPS62  from T_UPSTREAM  { neighbor 2001:67c:1220:fa48::3 as 197451; }
-```
-
-* Another BGP sessions are established towards Route servers in an Exchange Point.  Only routes from route servers are accepted. This is done by 
-changing default import filter from template by adding `ipv4 { import all; }`  or `ipv6 { import all; }` to the protocol definition.
-
-```
-protocol bgp IXP_RS41 from T_UPSTREAM { neighbor 185.1.25.1 as 60143; ipv4 { import all; } }
-protocol bgp IXP_RS42 from T_UPSTREAM { neighbor 185.1.25.1 as 60143; ipv4 { import all; } }
-
-protocol bgp IXP_RS61 from T_UPSTREAM { neighbor 2001:7f8:87::1 as 60143; ipv6 { import all; } }
-protocol bgp IXP_RS62 from T_UPSTREAM { neighbor 2001:7f8:87::2 as 60143; ipv6 { import all; } }
-```
-
-## Display config, protocol status
-
-It's possible to check status of bird by issuing `show protocols` in `router bird` context. E.g.:
-
-```
-netx(router-bird)# show protocols 
-Name       Proto      Table      State  Since         Info
-device1    Device     ---        up     2018-06-20    
-DIRECT     Direct     ---        up     2018-06-20    
-KERNEL4    Kernel     master4    up     2018-06-20    
-KERNEL6    Kernel     master6    up     2018-06-20    
-STATIC4    Static     master4    up     2018-06-20    
-STATIC6    Static     master6    up     2018-06-20    
-UPS41      BGP        ---        up     2018-06-20    Established   
-UPS42      BGP        ---        up     2018-06-20    Established   
-UPS61      BGP        ---        up     2018-06-20    Established   
-UPS62      BGP        ---        up     2018-06-20    Established   
-IXP_RS41   BGP        ---        up     2018-06-20    Established   
-IXP_RS42   BGP        ---        up     2018-06-20    Established   
-IXP_RS61   BGP        ---        up     2018-06-20    Established   
-IXP_RS62   BGP        ---        up     2018-06-20    Established   
-```
-
-More detailed information related to each protocol can be obtained by `show protocols` command extended with bird protocol name.
-
-```
-netx(router-bird)# show protocols IXP_RS41
-Name       Proto      Table      State  Since         Info
-IXP_RS41   BGP        ---        up     2018-06-20    Established   
-  BGP state:          Established
-    Neighbor address: 185.1.25.1
-    Neighbor AS:      60143
-    Neighbor ID:      185.1.25.1
-    Local capabilities
-      Multiprotocol
-        AF announced: ipv4 ipv6
-      Route refresh
-      Graceful restart
-      4-octet AS numbers
-      Enhanced refresh
-    Neighbor capabilities
-      Multiprotocol
-        AF announced: ipv4
-      Route refresh
-      Graceful restart
-      4-octet AS numbers
-    Session:          external AS4
-    Source address:   185.1.25.30
-    Hold timer:       184.767/240
-    Keepalive timer:  29.445/80
-  Channel ipv4
-    State:          UP
-    Table:          master4
-    Preference:     100
-    Input filter:   (unnamed)
-    Output filter:  (unnamed)
------- Q: quit   A: print all   <space> : continue -------
-```
-
+```  
