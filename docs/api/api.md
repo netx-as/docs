@@ -1,5 +1,11 @@
 # REST API
 
+> [!TIP]
+> Check also the folowing tutorials:
+> * [Set up firewall via REST API](~/tutorials/api/firewall.md)
+> * [Blacklist for a temporary block of IP addresses](~/tutorials/api/blacklist.md)
+> * [Token based authentication](~/tutorials/api/token.md)
+
 NETX routers can be configured either via `netc` CLI shell or via REST API. REST API allows to integrate and automate
 the whole configuration process with your internal system or via any HTTP client. All commands available in CLI are available via
 REST API as well. REST API returns `JSON` objects for further processing and parsing. API is available via the following URL:
