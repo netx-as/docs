@@ -146,7 +146,7 @@ PossibleOptions  |   structure        |      Different options for the node. See
 The following example shows output of `/api/interface` command. 
 
 ```
-# curl -X GET -u user:passwd https://netx.example/api/interface | jq '.'
+# curl -X GET -u user:passwd https://<netx-address>/api/interface | jq '.'
 
 {
   "NodeInfo": {
@@ -229,7 +229,7 @@ Key              | `0` or `1`          |    If set, the option is the key for Se
 Example of the OptionInfo structure can be seen by calling `ping` command.
 
 ```
-# curl -X GET -u user:passwd https://netx.example/api/ping | jq '.'
+# curl -X GET -u user:passwd https://<netx-address>/api/ping | jq '.'
 {
   "NodeInfo": {
     "HasSubnodes": 1,
