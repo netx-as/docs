@@ -7,4 +7,5 @@ the current tutorials.
 
 * [Set up firewall via REST API](firewall.md)
 * [Blacklist for a temporary block of IP addresses](blacklist.md)
+* [Token based authentication](token.md)
 

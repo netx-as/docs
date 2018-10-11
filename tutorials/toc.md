@@ -2,4 +2,5 @@
 # [API](api/index.md)
 ## [Firewall](api/firewall.md)
 ## [IP blacklist](api/blacklist.md)
+## [Token authentication](api/token.md)
 # [BGP](bgp/basic-bgp.md)

@@ -10,3 +10,4 @@ The following step-by-step guides for using NETX routers are available:
 
 * [Set up firewall via REST API](api/firewall.md)
 * [Blacklist for a temporary block of IP addresses](api/blacklist.md)
+* [Token based authentication](api/token.md)
