@@ -33,6 +33,7 @@
 		"_appTitle": "netx documentation",
 		"_appLogoPath": "templates/netx/logo.png",
 		"_appFaviconPath": "templates/netx/netx-icon.ico",
+		"_appFooter": "<a href=\"https://netx.as\">netx.as</a>",
 		"_enableSearch": true,
 	},
 	"fileMetadata": {
