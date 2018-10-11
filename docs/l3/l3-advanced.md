@@ -1,5 +1,9 @@
 # Routing 
 
+> [!TIP]
+> Check also the folowing tutorials:
+> * [BGP: Set up peering between an exchange point and upstream provider](~/tutorials/bgp/basic-bgp.md)
+
 For more complex routing scenarios the NetX platform uses [BIRD](https://bird.network.cz/) routing daemon developed by [CZ.NIC](https://www.nic.cz/). 
 The BIRD routing daemon is integrated to the `netc` interface. The BIRD integration in `netc` is divided into two parts:
 
@@ -130,7 +134,9 @@ BIRD 2 is the default version on NetX platform, and it's recommended to use. If 
 Border Gateway Protocol (BGP) is a path vector routing protocol designed to exchange routing and reachability information among autonomous systems.
 BIRD routing deamon supports rich set of BGP standards. The list of supported standards together with detailed description of BIRD BGP commands are
 available [here](https://bird.network.cz/?get_doc&v=20&f=bird-6.html#ss6.3). The following examples are only a subset of basic commands used with BGP.
-See [tutorials](~/tutorials/bgp/basic-bgp.md) section for advanced config examples.
+
+> [!TIP]
+> See [tutorials](~/tutorials/bgp/basic-bgp.md) section for advanced config examples.
 
 Each instance of the BGP protocol in BIRD config file corresponds to one neighboring router. Syntax for BGP protocol is the following:
 
@@ -153,3 +159,4 @@ protocol bgp MY_CUSTOMER6 {
 	neighbor 2001:db8::1 as 64500; 
 }
 ```  
+
