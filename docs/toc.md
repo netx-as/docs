@@ -4,6 +4,7 @@
 # [CLI](cli/netc-cli.md)
 # [Config files](system/system-config.md)
 # [Basic configuration](system/basics.md)
+## [System update](system/system-update.md)
 # [L2 configuration](l2/l2-config.md)
 # [L3 configuration](l3/l3-basics.md)
 ## [Routing](l3/l3-advanced.md)
