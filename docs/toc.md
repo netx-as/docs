@@ -8,6 +8,7 @@
 # [L2 configuration](l2/l2-config.md)
 # [L3 configuration](l3/l3-basics.md)
 ## [Routing](l3/l3-advanced.md)
+# [High availability](ha/vrrp.md)
 # [Troubleshooting tools](tools/tshoot.md)
 # [API](api/api.md)
 
