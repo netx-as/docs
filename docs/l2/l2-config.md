@@ -21,8 +21,22 @@ network interfaces:
 | bond        | Link aggregation interface       |
 | bridge      | virtual interface for bridging multiple interfaces |
 | vxlan       | vxlan interface                  |
+| lo          | loopback interface               |
 
-The command `show interface` displays basic information and traffic statistics. 
+The command `show interface` displays basic information and traffic statistics for all interfaces.
+
+```
+netx# show interface
+INTERFACE       STATE          RX                    TX
+                          b/s      p/s          b/s      p/s
+lo1                       0.0      0.0          0.0      0.0
+bond0          10G-FD     9.8M    15.1k         9.3M    14.9k
+bond0.110      10G-FD   340.6k   622.6        296.0k   624.1  main-backbone
+ge1              down     0.0      0.0          0.0      0.0
+<snip>
+```
+
+Interface specific configuration can be displayed by extending the `show interface` command with an interface name. E.g.
 
 ```
 netx# show interface ge1
@@ -41,7 +55,7 @@ dropped                341.0        0.6             0.0        0.0
 errors                   0.0        0.0             0.0        0.0 
 ```
 
-Detailed statistics can be shown by addind `detail` keyword -- `show interface ge1 detail`
+Detailed statistics can be shown by adding `detail` keyword -- `show interface ge1 detail`
 
 ```
 show interface ge1 detail 
@@ -80,9 +94,13 @@ netx(if-ge1)# show description
 mgmt
 ```
 
+> [!NOTE]
+> If there is a standard `ifcfg` config file for an interface in `/etc/syscofig/network-scripts/`, `netc` will ignore the interface and will
+> not display the interface in running config.
+
 ## VLAN
 
-VLAN (IEEE 802.1Q) is configured as sub-interface. VLAN subinterface is created by adding the VLAN number after 
+VLAN (IEEE 802.1Q) is configured as a sub-interface. VLAN subinterface is created by adding the VLAN number after
 the name of the parent interface. The parent interface and VLAN number are separated using `.` symbol.
 The following command creates VLAN 112 on interface bond0.
 
@@ -91,6 +109,29 @@ netx# interface bond0.112
 Creating vlan interface bond0.112
 netx(if-bond0.112)#
 ```
+
+## Loopback
+
+A loopback interface is a virtual interface. The physical layer state of a loopback interface is always up unless the loopback
+interface is manually shut down. It is possible to create a loopback interface using `interface lo<number>` command. E.g.:
+
+```
+netx# interface lo1
+Creating loopback interface lo1
+netx(if-lo1)#
+```
+
+Loopback interface can be deleted using `no interface lo<number>` command. E.g.
+
+```
+netx# no interface lo1
+Removing loopback interface lo1
+netx#
+```
+
+> [!NOTE]
+> Default Linux loopback interface `lo` is ignored by `netc` and not displayed in running config. However, it is possible to edit `lo`
+> settings using `interface lo` command without a problem.
 
 ## Link Aggregation
 
