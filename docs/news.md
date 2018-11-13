@@ -2,6 +2,24 @@
 
 This page provides a summary of new features in each release of `netc` CLI. 
 
+## Version 1.13
+
+### New features
+
+* bird2 is use as a default routing daemon
+* support for token based API access - see [Token authentication](~/tutorials/api/token.md) tutorial for details
+* support for new X1102 hardware
+* add serial number to `show system` command
+* performance optimization after spectre/meltdown patches
+
+### Fixed issues
+
+* fix handling routes learned from DHCP
+* better detection between bird/bird2 routing instances
+* ARP protocol will always use the best local address
+* ARP will reply only if the target IP address is local address configured on the incoming interface
+* unify outpus of error/warning messages
+
 ## Version 1.12
 
 ### New features
