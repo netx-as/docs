@@ -34,6 +34,42 @@ bond0.112        up 2001:db8:112::3/64
                     fe80::8cee:6aff:fe64:bef7/64
 ```
 
+## DHCP
+
+Another option how to configure an address is to use the Dynamic Host Configuration Protocol (DHCP). The `ipv4 address dhcp` command can be used to enable 
+the DHCP client on an interface.
+
+```
+netx# interface ve1
+netx(if-ve1)# ipv4 address dhcp
+```
+
+Using show command, it's possible to check configuration parameters set from the DHCP server.
+
+```
+netx(if-ve1)# show interface ve1
+Device:              ve1
+HW Address:          00:50:56:b4:91:23
+Oper status:         up
+Link status:         10Gb/s Full
+IP Address:          100.90.110.22/24 [dhcp]
+DHCP Renew:          2018-11-14.20:52:42
+DHCP Expire:         2018-11-15.04:18:20
+DHCP Lease Time:     43200
+DHCP Routers:        100.90.110.1
+DHCP DNS Servers:    185.217.234.1,185.217.234.2
+IP Address:          fe80::250:56ff:feb4:9123/64
+MTU:                 1500
+
+STATISTICS                    RX                         TX
+                        total     per/sec          total     per/sec
+Bytes,bits/s             7.6M     400.2           549.2k       0.0
+packets                122.0k       0.4             7.9k       0.0
+multicast                0.0        0.0              --        0.0
+dropped                  0.0        0.0             0.0        0.0
+errors                   0.0        0.0             0.0        0.0
+```
+
 ## ARP/Neighbour tables
 
 Bindings between protocol addresses and link layer addresses can be displayed using
