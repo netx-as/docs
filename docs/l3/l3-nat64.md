@@ -60,6 +60,7 @@ For example:
 ```
 netx# ipv6 nat64 pool4 192.0.64.128/25
 ```
+
 A static route to the Jool's virtual network namespace is automatically created for the selected IPv4 pool.
 
 3. BIB

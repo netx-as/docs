@@ -3,10 +3,10 @@
 This example shows a simple configuration that connects IPv6 only network with the rest of the Internet. 
 IPv4 only hosts are still reachable through NAT64 AFTR running on NetX router. 
 
-Whenever an IPv6 host wants to contact a host on the Internet, it asks DNS64 for address translation. If the DNS64 server detects that the requested service does not have a matching AAAA record, the response is created by concatenation of NAT64 prefix and queried host IPv4 address. All hosts now seem to have IPv6 connectivity. The used DNS64 server in this example is a [public Google DNS64 server](https://developers.google.com/speed/public-dns/docs/dns64) 2001:4860:4860::64.
+Whenever an IPv6 host wants to contact a host on the Internet, it asks DNS64 for address translation. If the DNS64 server detects that the requested service does not have a matching AAAA record, the response is created by concatenation of NAT64 prefix and queried host IPv4 address. All hosts now seem to have IPv6 connectivity. The used DNS64 server in this example is [public Google DNS64 server](https://developers.google.com/speed/public-dns/docs/dns64) 2001:4860:4860::64.
 
 > [!NOTE]
-> DNS resolution must take place before work with IP literal. Some applications with hard-coded IPv4 literal could have problems.
+> DNS resolution must take place before work with IP literals. Some applications with hard-coded IPv4 literal could have problems.
 
 
 There is also a static record in the BIB table so that a web server inside the internal IPv6 only network is also available for external IPv4 only clients.
@@ -32,6 +32,8 @@ The following commands can be used to set up IP addresses:
 ! set up ge1 addresses
 netx# interface ge1 ipv4 address 80.254.236.1/30
 netx# interface ge1 ipv6 address 2a07:6881:0:1::1/64
+netx# ipv4 route 0.0.0.0/0 80.254.236.2
+netx# ipv6 route ::/0 2a07:6881:0:1::2
 
 ! set up tge3 addresses
 netx# interface tge3 ipv6 address 2a07:6881:0:2::1/64
@@ -59,7 +61,7 @@ Basic address, default route and DNS server assignment.
 
 ## NetX NAT64 config
 
-* NAT64 instance is creation. 
+* NAT64 instance creation. 
 
 ```
 netx# ipv6 nat64 instance 64:ff9b::/96 2a07:6881:0:64::0/64 80.254.236.4/30
