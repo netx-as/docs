@@ -65,7 +65,7 @@ A static route to the Jool's virtual network namespace is automatically created 
 
 3. BIB
 
-Binding Information Base (BIB) is a table that keeps a binding between a source IPv6 transport address and a source IPv4 transport address. Entries to the table are dynamically inserted based on active connections. It is also possible to add a static record to the table and create a permanent binding. A static record is used if a connection from the IPv4 network needs to established without prior communication — an analogy of IPv4 port forwarding.
+Binding Information Base (BIB) is a table that keeps a binding between a source IPv6 transport address and a source IPv4 transport address. Entries to the table are dynamically inserted based on active connections. It is also possible to add a static record to the table and create a permanent binding. A static record is used if a connection from the IPv4 network needs to be established without prior communication — an analogy of IPv4 port forwarding.
 
 ```
 netx# ipv6 nat64 bib <ipv4 transport address> <ipv6 transport address>
