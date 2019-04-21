@@ -13,7 +13,7 @@ Jool is integrated into the NetX platform using virtual network namespace. After
 The Jool system is integrated into the `netc` interface. 
 All NAT64 related commands are available in `ipv6 nat64` context. 
 
-1. Instance
+## 1. Instance
 
 Instance command creates a new virtual network namespace with a Jool instance. For communication between regular network namespace and Jool's network namespace, virtual interfaces are used, which need to be addressed.
 
@@ -45,7 +45,30 @@ The third argument is an IPv4 subnet, that is used for addressing the P2P networ
 
 In this step, NAT64 is already running, and translations are taking place. For translation, the IPv4 address used on the P2P link between the namespaces is used. However, the number of usable ports is limited (61001 to 65535) therefore it is advisable to add an IPv4 pool.
 
-2. IPv4 pool
+
+`show ipv6 nat64` displays information about nat64. Displays whether the instance and the virtual network namespace are running and if it is enabled. Instance and the virtual network namespace can be running but can be manually disabled via `ipv6 nat64 options manually-enabled false`. `no ipv6 nat64` destroys the instance a deletes NAT64 configuration. Manually disabling is good for temporary disabling the NAT64 without losing current configuration. 
+
+Furthermore, you can see if the IPv4 pool is used and how many addresses are available in the pool. If an IPv4 pool is configured the commands check if a proper route is installed.
+
+```
+Pool4: not set. P2P address is used!
+```
+
+vs
+
+```
+Pool4: 80.254.236.128/25
+Pool4 route inserted: Yes
+```
+
+The last line of the show command displays the current number of entries in the BIB table. The number of records = number of static records + number of currently opened connections.
+
+`show ipv6 nat64 session` shows currently active sessions/connections.
+
+
+`show ipv6 nat64 stats` show some NAT64 stats.
+
+## 2. IPv4 pool
 
 Adds a pool of IPv4 address for translating IPv6 sources.
 
@@ -63,7 +86,9 @@ netx# ipv6 nat64 pool4 192.0.64.128/25
 
 A static route to the Jool's virtual network namespace is automatically created for the selected IPv4 pool.
 
-3. BIB
+`show ipv6 nat64 pool4` shows IPv4 addresses in the pool in detail as Jool internally manages them.
+
+## 3. BIB
 
 Binding Information Base (BIB) is a table that keeps a binding between a source IPv6 transport address and a source IPv4 transport address. Entries to the table are dynamically inserted based on active connections. It is also possible to add a static record to the table and create a permanent binding. A static record is used if a connection from the IPv4 network needs to be established without prior communication — an analogy of IPv4 port forwarding.
 
@@ -84,7 +109,7 @@ netx# show ipv6 nat64 bib
 [Dynamic ICMP] 192.0.64.5#606 - 2001:db8:0:64::1#16363
 ``` 
 
-4. Jool's instance options
+## 4. Jool's instance options
 
 Mantains subset of supported Jool's instance options. 
 
