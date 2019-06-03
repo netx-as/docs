@@ -233,14 +233,14 @@ examples how to use all those fields.
 or hieararchical shaping is used.
 
 ```
-IP				          GRP     DOWNLOAD  UPLOAD   MARK  PARENT
+IP                        GRP     DOWNLOAD  UPLOAD   MARK  PARENT
 192.0.2.5                 NULL    10000000  5000000  NULL  NULL
 ```
 
 * Shaping a prefix: It's possible to shape a whole prefix (either IPv4 or IPv6). E.g.
 
 ```
-IP				          GRP     DOWNLOAD  UPLOAD   MARK  PARENT
+IP                        GRP     DOWNLOAD  UPLOAD   MARK  PARENT
 2001:db8:1220:a::/64      NULL    10000000  5000000  NULL  NULL
 ```
 
@@ -249,7 +249,7 @@ grouping all IP addresses (IPv4 or IPv6) to one group. In the following example,
 particular group will have togeteher 10 Mb/s download and 5 Mb/s upload.
 
 ```
-IP				          GRP     DOWNLOAD  UPLOAD   MARK  PARENT
+IP                        GRP     DOWNLOAD  UPLOAD   MARK  PARENT
 192.0.2.5                 user1   10000000  5000000  NULL  NULL
 2001:67c:1220:a::/64      user1   10000000  5000000  NULL  NULL
 192.0.2.6                 user2   10000000  5000000  NULL  NULL
