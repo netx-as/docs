@@ -16,6 +16,7 @@ The following NETX documentation topics are available:
 * [L2 configuration](l2/l2-config.md): Layer 2 config options - interface types, VLAN, link aggregations, interface statistics, etc.
 * [L3 configuration](l3/l3-basics.md): IP address configuration, listing ARP/ND caches, routing table or setting up static routes.
 * [Routing](l3/l3-advanced.md): Advanced routing configuration, BGP, OSFP and RIP settings.
+* [QoS](qos/traffic-shaping.md): Traffic shaping and integration with 3rd party management softwares and custom scripts.
 * [High availability](ha/vrrp.md): Describes how to set Virtual Router Redundancy Protocol to achieve high availability for default gateway.
 * [Troubleshooting tools](tools/tshoot.md): Describes basic troubleshooting tools - e.g., `ping`, `traceroute` or `tcpdump`.
 * [API](api/api.md): REST API documentation and basic examples.
