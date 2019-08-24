@@ -140,12 +140,12 @@ overriding template import filter in the protocol definition. The following conf
 ```
 protocol bgp IXP4 from T_UPSTREAM { 
 	neighbor 203.0.113.1 as 60001; 
-	ipv4 { import all; } 
+	ipv4 { import all; };
 }
 
 protocol bgp IXP6 from T_UPSTREAM { 
 	neighbor 2001:db8:ea61::1 as 60001; 
-	ipv6 { import all; } 
+	ipv6 { import all; };
 }
 ```
 
