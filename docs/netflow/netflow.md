@@ -52,7 +52,7 @@ netx# ipv4 firewall table filter chain FORWARD
 netx(fw4-filter-FORWARD)# action NETFLOW
 ```
 
-> ! NOTE
+> [!NOTE]
 > __License key__: NetX allows by default 100 000 active flows in the flow-cache. License key is required for higher number of flows. 
 
 ## Display configuration
