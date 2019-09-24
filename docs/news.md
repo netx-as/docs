@@ -2,6 +2,24 @@
 
 This page provides a summary of new features in each release of `netc` CLI. 
 
+## Version 1.17.0
+
+### New features and notable changes
+* support for Policy Based Routing
+* support for NetFlow export
+* change dhclient to dhcpcd
+* change edit config behavior for bird config
+* traffic shaping redesign, better support for hierarchical shaping
+* support for setting dhcp in service module (dhcp is now default) 
+
+### Fixed issues
+* fixed atomic processing of dumpdb file
+* fixed several issues with traffic manager output
+* fixed issues with shaping statistics and output
+
+### HW Platform
+* Support for HW platforms X2340 and X1240
+
 ## Version 1.16.0
 
 ### New features and notable changes
