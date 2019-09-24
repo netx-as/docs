@@ -19,5 +19,6 @@ The following NETX documentation topics are available:
 * [QoS](qos/traffic-shaping.md): Traffic shaping and integration with 3rd party management softwares and custom scripts.
 * [High availability](ha/vrrp.md): Describes how to set Virtual Router Redundancy Protocol to achieve high availability for default gateway.
 * [Troubleshooting tools](tools/tshoot.md): Describes basic troubleshooting tools - e.g., `ping`, `traceroute` or `tcpdump`.
+* [NetFlow export](netflow/netflow.md): NetFlow export configuration and accounting.
 * [API](api/api.md): REST API documentation and basic examples.
 
