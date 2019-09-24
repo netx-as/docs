@@ -60,7 +60,7 @@ netx(fw4-filter-FORWARD)# action NETFLOW
 It's possible to use `show netflow` command to display information about NetFlow export.
 
 ```
-Status:                  disabled
+Status:                  enabled
 Protocol version:        9
 NetFlow collector:       192.0.2.1:2055
 License key:             XXXXXXXXXXXXXX
