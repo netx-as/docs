@@ -7,11 +7,12 @@ RPKI validator is used to download all of the certificates and ROAs in their rep
 RPKI configuration example in BIRD routing daemon:
 
 1. Start a RPKI validator (Routinator) or use a `rpki.netx.as` on port `3323` as validator.
+
 2. Edit BIRD configuration file:
 ```
 netx# router bird edit
 ```
-2. Add ROA table and RPKI protocol to BIRD config:
+3. Add ROA table and RPKI protocol to BIRD config:
 
 ```	
 roa4 table t_roa;
@@ -25,7 +26,7 @@ protocol rpki rpki1 {
 }
 ```
 
-3. Add filter to reject ROA invalid routes:
+4. Add filter to reject ROA invalid routes:
 
 ```
 filter peer_in_v4 {
