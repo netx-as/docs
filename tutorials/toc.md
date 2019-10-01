@@ -4,3 +4,4 @@
 ## [IP blacklist](api/blacklist.md)
 ## [Token authentication](api/token.md)
 # [BGP](bgp/basic-bgp.md)
+# [RPKI](rpki/rpki.md)
