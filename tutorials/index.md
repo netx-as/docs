@@ -5,6 +5,7 @@ The following step-by-step guides for using NETX routers are available:
 ## Routing
 
 * [BGP: Set up peering between an exchange point and upstream provider](bgp/basic-bgp.md)
+* [RPKI: Set up prefix validation](rpki/rpki.md)
 
 ## API
 
