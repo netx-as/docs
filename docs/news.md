@@ -2,6 +2,16 @@
 
 This page provides a summary of new features in each release of `netc` CLI. 
 
+## Version 1.17.1
+
+### New features and notable changes
+* allows ipv4/ipv6 neighbor cache clearing - see [ARP/Neighbour tables](~/docs/l3/l3-basics.md#arpneighbour-tables) for details
+* support dport range for firewall
+
+### Fixed issues
+* don't show exit command in wrong contexts
+* fix error if only one psu is installed
+
 ## Version 1.17.0
 
 ### New features and notable changes
