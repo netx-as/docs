@@ -101,6 +101,33 @@ The neighbour entry can be in different states based on Neighbour Unreachability
 * __PROBE__ : the neighbor is no longer known to be reachable, probes are being sent to verify reachability.
 * __FAILED__ : max number of probes exceeded without success, neighbor validation has ultimately failed.
 
+It's possible to clear IPv4/IPv6 mapping with `no` keyword. Without a specific IPv4/IPv6 address the whole table is cleared. 
+
+* Clear a specific IPv6 entry:
+
+```
+netx# show ipv6 neighbours
+fe80::ec4:7aff:fe99:ac36 dev ve1 lladdr 0c:c4:7a:99:ac:36 STALE
+fe80::ec4:7aff:fe99:ab88 dev ve1 lladdr 0c:c4:7a:99:ab:88 STALE
+fe80::ae1f:6bff:fe22:c05f dev ve1 lladdr ac:1f:6b:22:c0:5f STALE
+
+netx# no ipv6 neighbors fe80::ec4:7aff:fe99:ac36
+netx# show ipv6 neighbours
+fe80::ec4:7aff:fe99:ab88 dev ve1 lladdr 0c:c4:7a:99:ab:88 STALE
+fe80::ae1f:6bff:fe22:c05f dev ve1 lladdr ac:1f:6b:22:c0:5f STALE
+```
+
+* Clear all entries in neighbour cache:
+
+```
+netx# show ipv6 neighbours
+fe80::ec4:7aff:fe99:ab88 dev ve1 lladdr 0c:c4:7a:99:ab:88 STALE
+fe80::ae1f:6bff:fe22:c05f dev ve1 lladdr ac:1f:6b:22:c0:5f STALE
+netx# no ipv6 neighbours
+netx# show ipv6 neighbours
+netx#
+```
+
 ## Routing table
 Routes in NETX's forwarding table can be can be displayed by using `show ipv4 route` or `show ipv6 route` commands. If the NETX router has
 significant number of routes, the command's output is paginated as in the following example.
