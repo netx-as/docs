@@ -292,3 +292,18 @@ netx(config)# show service-module user
 netx new_admin
 ```
 
+## Remote logging
+
+Remote logging is available using syslog protocol via UDP. Server can be configured using `system logging server`
+command with server's `hostname` or `ip address`. Port can be also specified using `:portnumber` after server's address. Port number configuration is optional, if port is not configured, the default port `514` will be used. E.g.:
+
+```
+netx(config)# system logging server 192.168.1.1:514
+```
+
+Syslog messages are classified by facility and severity. More than one logging `facility` can be configured to filter messages sent to server. If no `facility` is configured, NETX does not filter logging messages and sends them to server. E.g.:
+
+```
+netx(config)# system logging facility auth
+netx(config)# system logging facility syslog
+```
