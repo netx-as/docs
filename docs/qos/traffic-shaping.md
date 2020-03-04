@@ -182,11 +182,24 @@ manager is connected to ISPadmin to download all shaping rules.
 ```
 netx# sync-manager 
 netx(sync-mgr)# data-source ispadmin
-netx(sync-mgr)# db-host 10.100.170.6
-netx(sync-mgr)# db-password sGX8fJu7T
+netx(sync-mgr)# db-host 10.100.103.2
+netx(sync-mgr)# db-password j43nvfk3
 netx(sync-mgr)# db-username netx
 netx(sync-mgr)# enable
 ```
+
+### Sync manager - dynamic shaping configuration
+
+Sync manger also supports dynamic shaping algorithm (currently supported with ISPadmin only). It provides dynamic bandwidth alocation based on additional parameters. If download or upload threshold limit is exceeded, bandwidth is reduced according to number of configured steps and minimal guaranteed bandwidth. Sync manager is checking the bandwidth every minute.
+
+ISPadmin parameters and their description:
+* `Download/Upload (speed)` : Download/Upload speed in kbps
+* `BURST threshold:` : Download/Upload threshold speed in kbps.
+* `BURST time:` : Minimal guaranteed download/upload bandwidth.
+* `Priority:` : Number of algorithm steps.
+
+Simple example:
+Subscriber has a 100 Mbps download bandwidth. Threshold is set to 10 Mbps, minimal guaranteed bandwidth to 10 Mbps and step to 3 (algorithm will have three steps). Algorithm calculates that in each step, subscriber will be limited by 30 Mbps. Subscriber starts to download a large file. After a minute, sync manager changes a download bandwidth to 70 Mbps. One minute later to 40 Mbps and then to 10 Mbps. This works also vice versa (subscriber will gain back full bandwidth after 3 minutes of not crossing the threshold).
 
 ## Database schema
 
