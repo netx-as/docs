@@ -133,6 +133,17 @@ The columns meaning is the following:
 * **offset** : how far off are the clock from the reported time on the remote server (milliseconds). It can be possitive or negative. 
 * **jitter** : the root mean squared deviation of offsets (milliseconds).
 
+The initial clock synchronization can take some time. If necessary, it is possible to sync clock manualy using `system ntp sync` command. 
+
+```
+netx# system ntp sync
+12 Apr 19:31:42 ntpdate[1294]: adjust time server 5.1.56.123 offset -0.000804 sec
+```
+
+> [!NOTE] 
+> After manual sync, it will take some time before NTP marks clock as synchronized in `show system ntp` 
+> and `show system clock` commands.
+
 ## User management
 
 The default username in NETX routers is `admin` with `netc` set as the default shell. Additional users can be added in the `system` context
