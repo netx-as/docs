@@ -13,4 +13,5 @@
 # [Troubleshooting tools](tools/tshoot.md)
 # [NetFlow export](netflow/netflow.md)
 # [API](api/api.md)
+# [Tutorials](~/tutorials/index.md)
 
