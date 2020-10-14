@@ -67,8 +67,8 @@ netx(router-bird)# apply
 
 ## BIRD CLI
 
-Switching between `netc` and BIRD CLI can be easily done with `birdc` command. If bird version 1.x is running, `birdc` and `birdc6` commands are available as
-bird 1.x uses two separate routing processes -- see a [comparison](l3-advanced.md#bird-version-12) between versions.
+Switching between `netc` and BIRD CLI can be easily done with `birdc` command. If BIRD version 1.x is running, `birdc` and `birdc6` commands are available as
+BIRD 1.x uses two separate routing processes -- see a [comparison](l3-advanced.md#bird-version-12) between versions.
 
 ```
 netx# birdc
@@ -160,3 +160,60 @@ protocol bgp MY_CUSTOMER6 {
 }
 ```  
 
+## OSPF
+
+Open Shortest Path First (OSPF) is a link state, interior gateway protocol. Two versions exist: OSPFv2 defined in [RFC 2328](https://tools.ietf.org/html/rfc2328) for IPv4 protocol and OSPFv3 defined in [RFC 5340](https://tools.ietf.org/html/rfc5340) for IPv6 protocol.
+Both protocols are supported and can be configured by editing BIRD config file. The desired OSPF version can be specified by using ospf v2 or ospf v3 as a protocol type.
+By default, OSPFv2 is used. The following example shows the syntax for OSPF protocol:
+
+```
+protocol ospf [v2|v3] [name] { protocol options }
+```
+
+The following configuration example enables both OSPFv2 and OSPFv3 on `ge2` interface in backbone OSPF area.
+
+```
+protocol ospf v2 OSPFv2 {
+    ipv4 { export all; };
+    area 0 {
+        interface "ge2";
+    };
+}
+
+protocol ospf v3 OSPFv3 {
+    ipv6 { export all; };
+    area 0 {
+        interface "ge2";
+    };
+}
+```
+
+It is possible to verify protocols details using `show` commands in BIRD CLI. E.g.
+
+```
+! switch to BIRD CLI
+netx# birdc
+BIRD 2.0.2 ready.
+
+! display all configured protocols
+bird> show protocols
+Name       Proto      Table      State  Since         Info
+DEVICE     Device     ---        up     16:16:32.849
+DIRECT     Direct     ---        up     23:03:30.775
+KERNEL4    Kernel     master4    up     16:16:32.849
+KERNEL6    Kernel     master6    up     16:16:32.849
+OSPFv2     OSPF       master4    up     17:21:16.001  Running
+OSPFv3     OSPF       master6    up     00:07:13.115  Running
+
+! display OSPFv2 neighbors
+
+bird> show ospf neighbors OSPFv2
+OSPFv2:
+Router ID   	Pri	     State     	DTime	Interface  Router IP
+192.168.1.26	  1	Full/BDR  	 35.885	ge2        192.168.1.26
+
+! go back to NETX CLI
+bird> exit
+netx#
+
+BIRD allows to set a rich set of different OSPF protocol options.

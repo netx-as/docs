@@ -7,6 +7,10 @@ The following step-by-step guides for using NETX routers are available:
 * [BGP: Set up peering between an exchange point and upstream provider](bgp/basic-bgp.md)
 * [RPKI: Set up prefix validation](rpki/rpki.md)
 
+## IPv6
+
+* [NAT64: Set up IPv6 only network using NAT64](nat64/basic-nat64.md)
+
 ## API
 
 * [Set up firewall via REST API](api/firewall.md)

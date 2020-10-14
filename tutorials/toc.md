@@ -5,3 +5,4 @@
 ## [Token authentication](api/token.md)
 # [BGP](bgp/basic-bgp.md)
 # [RPKI](rpki/rpki.md)
+# [NAT64](nat64/basic-nat64.md)

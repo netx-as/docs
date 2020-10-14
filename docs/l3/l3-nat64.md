@@ -1,8 +1,11 @@
 # Stateful NAT64 
 
+> [!IMPORTANT]
+> NAT64 is an experimental NetX feature. Please contact NetX support (support@netx.as) to assist you with the deployment.
+
 > [!TIP]
 > Check also the following tutorials:
-> * [NA64: Set up basic NAT64 configuration](~/tutorials/nat64/basic-na64.md)
+> * [NAT64: Set up basic NAT64 configuration](~/tutorials/nat64/basic-nat64.md)
 
 For Stateful NAT64 (RFC 6146) the NetX platform uses [Jool](https://www.jool.mx) developed by [NIC MÉXICO](https://www.nicmexico.mx/) and [Tecnológico de Monterrey](https://tec.mx)
 
@@ -10,7 +13,6 @@ Jool is integrated into the NetX platform using virtual network namespace. After
 
 ![topology](figs/jool-ns-topo.png)
 
-The Jool system is integrated into the `netc` interface. 
 All NAT64 related commands are available in `ipv6 nat64` context. 
 
 ## 1. Instance
@@ -19,7 +21,6 @@ Instance command creates a new virtual network namespace with a Jool instance. F
 
 ```
 netx# ipv6 nat64 instance <NAT64 prefix> <IPv6 P2P subnet> <IPv4 P2P subnet>
-netx# no ipv6 nat64
 netx# show ipv6 nat64
 netx# show ipv6 nat64 session
 netx# show ipv6 nat64 stats
@@ -74,7 +75,6 @@ Adds a pool of IPv4 address for translating IPv6 sources.
 
 ```
 netx# ipv6 nat64 pool4 <ipv4 pool>
-netx# no ipv6 nat64 pool4 <ipv4 pool>
 netx# show ipv6 nat64 pool4
 ```
 
@@ -94,7 +94,6 @@ Binding Information Base (BIB) is a table that keeps a binding between a source 
 
 ```
 netx# ipv6 nat64 bib <ipv4 transport address> <ipv6 transport address>
-netx# no ipv6 nat64 bib <ipv4 transport address> <ipv6 transport address>
 netx# show ipv6 nat64 bib 
 ```
 For example:
@@ -135,4 +134,3 @@ Supported options are:
 * zeroize-traffic-class 
 
 The option meanings are listed in the [official Jool documentation](https://www.jool.mx/en/usr-flags-global.html)
-

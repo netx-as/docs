@@ -1,5 +1,8 @@
 # NAT64 example
 
+> [!IMPORTANT]
+> NAT64 is an experimental NetX feature. Please contact NetX support (support@netx.as) to assist you with the deployment.
+
 This example shows a simple configuration that connects IPv6 only network with the rest of the Internet. 
 IPv4 only hosts are still reachable through NAT64 AFTR running on NetX router. 
 
