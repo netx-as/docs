@@ -2,6 +2,23 @@
 
 This page provides a summary of new features in each release of `netc` CLI. 
 
+## Version 1.19.2
+
+### New features and notable changes
+* Allow to display content of a custom firewall script
+* Export network card driver version via statsd
+* traffic manager MUST be enabled using `enable` command in traffic-manager context
+* Support for [Adminus CRM](https://www.adminus.cz/)
+* Allow to set strings with whitespace characters (e.g. description, etc.) all strings are escaped with quotes
+* Add support for multiple NetFlow collectors
+* Display total traffic and CPU usage in `show system` command
+* Allow to set qos-rules using netc CLI 
+
+### Fixed issues
+* fix various integration issues with mango CRM
+* fix default flow-cache size
+* fix `show ipv4` alignment
+
 ## Version 1.19.1
 
 ### New features and notable changes
