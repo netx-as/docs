@@ -1,10 +1,10 @@
-# Introduction #
+# Introduction
 
 NETX Smart Router series were jointly developed with Brno University of Technology to provide high-performance and open-source
-routing platform. NETX routers offer industry-standard routing and management protocols and support configuration through a command-line 
+routing platform. NETX routers offer industry-standard routing and management protocols and support configuration through a command-line
 interface (CLI) or via API.
 
-NETX routers use `netc`, a custom and higly flexible command line tool that allows to configure a Linux based system in the same way as 
+NETX routers use `netc`, a custom and higly flexible command line tool that allows to configure a Linux based system in the same way as
 network devices. Philosophy of `netc` operation is based on Cisco/Juniper or Mikrotik configuration styles.
 
 The following NETX documentation topics are available:
@@ -21,4 +21,3 @@ The following NETX documentation topics are available:
 * [Troubleshooting tools](tools/tshoot.md): Describes basic troubleshooting tools - e.g., `ping`, `traceroute` or `tcpdump`.
 * [NetFlow export](netflow/netflow.md): NetFlow export configuration and accounting.
 * [API](api/api.md): REST API documentation and basic examples.
-
