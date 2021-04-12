@@ -9,7 +9,7 @@
 # [L3 configuration](l3/l3-basics.md)
 ## [Routing](l3/l3-advanced.md)
 ## [NAT64](l3/l3-nat64.md)
-# [Traffic shaping](qos/traffic-shaping.md)
+# [QoS](qos/traffic-shaping.md)
 # [High availability](ha/vrrp.md)
 # [Troubleshooting tools](tools/tshoot.md)
 # [NetFlow export](netflow/netflow.md)
