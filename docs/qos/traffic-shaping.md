@@ -1,271 +1,985 @@
-# Traffic shaping
+# QoS
 
-NetX platform offers comprehensive set of functions for managing QoS rules, perform traffic shaping, policing or marking. The main service 
-responsible for managing QoS rules is traffic manager. Traffic manager has two major roles:
+Quality of Service (QoS) controls network traffic and allow a service provider to meet the level of service required by a customer.
+QoS reduces packet loss, provides dedicated bandwidth for users or services and implements congestion management.
 
-1. Takes care about loading shaping rules from external or internal sources and based on this information 
-   orchestrate NetX platform to perform the necessary action. 
-2. Marks packets passing through NetX router. Every packet can be marked with a tag. The mark tag can be referenced later in firewall, 
-   traffic redirection or used during routing decisions. 
+NetX platform offers comprehensive set of functions for managing QoS rules, perform traffic shaping using several advanced algorithms,
+policing or marking for every single user. The traffic for each user is defined by rules that can be organised into a hierarchical
+structure. There can be several parameters such as priority, bursts and other options defined for each rule. For more sophisticated
+traffic shaping strategy, adaptive shaping can be defined.
 
-Traffic manager is designed to handle tens of thousands of records. It is possible to create separate shaping queues with own shaping 
-parameters, organize shaping queues into hierarchical structure and much more. To get all necessary metadata (shaping and policing rules),
-the traffic manager can poll directly an ISP's database as shown in the following figure.
+## Traffic manager
 
-![traffic-manager](figs/traffic-manager.png)
+The main NetX service responsible for managing QoS rules is the traffic manager. The traffic manager has two major roles:
 
-If there is a need for data preprocessing, it is possible to use traffic manager together with a sync manager. In this scenario, the sync manager 
-handles the communication with an external data source, does data preprocessing and stores the data to NetX internal database. Traffic manager then 
-uses the local copy of the metadata and orchestrate the NetX platform accordingly as shown in the following picture. 
+1. Takes care about loading and setting shaping rules and orchestrate NetX platform to perform the necessary action.
+2. Marks packets passing through NetX router. Every packet can be marked with a tag. The mark tag can be referenced later in firewall,
+   traffic redirection or used during routing decisions.
 
-![traffic-sync-manager](figs/traffic-sync-manager.png)
+Traffic manager is designed to handle tens of thousands of records. It is possible to create separate shaping queues with own shaping
+parameters, organize shaping queues into hierarchical structure and much more.
 
-## Basic configuration
+### Context
 
-The following configuration describes the scenario where traffic manager is directly connected to an external source. The external source
-is MySQL server with a shaping database. 
-
-1. Connect to the NetX appliance, enter traffic-manager context:
+It is possible to switch to the traffic manager context using `traffic-manager` command.
 
 ```
-netx# traffic-manager 
-netx(traff-mgr)# 
+netx# traffic-mannager
+netx(traff-mgr)# <command>
 ```
 
-2. Configure an interface where traffic manager will perform traffic shaping:
+### Commands
+
+The following commands are available in traffic-manager context.
+
+#### enable
+
+Enable traffic manager engine.
+
+##### Syntax
+
+`enable`
+
+##### Default value
+
+traffic manager is disabled by default.
+
+---
+
+#### interface
+
+Interface that traffic-manager works on. Multiple interfaces can be specified. If no interface is configured the traffic manager
+does not install any rules.
+
+##### Syntax
+
+`interface <interface-name>`
+
+##### Default value
+
+No interface is set.
+
+##### Example
+
+The following example configures traffic-manager to work on bond0 and bond1 interfaces.
 
 ```
-netx(traff-mgr)# interface bond0 
-netx(traff-mgr)# interface ve3
+netx# traffic-mannager
+netx(traff-mgr)# interface bond0
+netx(traff-mgr)# interface bond1
 ```
 
-3. Configure connection parameters to SQL server:
+---
+
+#### db-qos-min-records
+
+The minimum number of QoS records that must be retrieved by a QoS query. If the number of retrieved records is lower than
+the set value, the query is ignored and `min records limit reached` is shown in query status. QoS rules that are in effect on
+an interface are not affected.
+
+##### Syntax
+
+`db-qos-min-records <int>`
+
+##### Default value
+
+Not set.
+
+---
+
+#### force-update
+
+`force-update` refresh and reinstall the QoS rules on an interface configured with [interface](traffic-shaping.md#interface) command.
+
+##### Syntax
+
+`force-update`
+
+---
+
+## Configuring QoS rules
+
+QoS rules are configured in traffic-manager context. The rules don’t have to be configured if sync-manager takes care of rules
+synchronization with a third party database.
+
+### Context
+
+`qos-rules` command has own subcontext. It is possible to switch to the subcontext using the following command.
 
 ```
-netx(traff-mgr)# db-driver mysql 
-netx(traff-mgr)# db-dbname test
-netx(traff-mgr)# db-host 192.0.2.10
-netx(traff-mgr)# db-username netxmgmr
-netx(traff-mgr)# db-password <secret password> 
+netx# traffic-manager qos-rules
+netx(traff-mgr-rules)#
 ```
 
-4. Prepare and attach an SQL query that download the necessary metadata from the SQL server. If the SQL server uses the 
-standard [database schema](traffic-shaping.md#database-schema), the following query could be used:
+The main comnand for setting a QoS rule and various rule options is `action shape` command in `qos-rules` subcontext.
+
+#### action shape
+
+The main command for configuring QoS rules. Contains several options for detailed setting of a QoS rule.
+
+##### Syntax
+
+`action shape <opts>`
+
+##### Example
+
+See the following [QoS rule options](traffic-shaping.md#qos-rule-options) for further information.
+
+---
+
+### QoS rule options
+
+
+#### group
+
+A group name that identifies the node.
+
+##### Syntax
+
+`group <string>`
+
+##### Default value
+
+If group name is not provided, the value is derived from `prefix` as `grp-<prefix>`
+
+##### Example
+
+`group node1`
+
+---
+
+#### prefix
+
+IP prefix that the shaping rule is applied on. `x.x.x.x/x` for IPv4, `XX:XX::X/X` for IPv6. Mask length can be omitted if only one
+host should be selected.
+
+##### Syntax
+
+`prefix <IPv4Prefix>|<IPv6Prefix>`
+
+##### Example
 
 ```
-netx(traff-mgr)# shell
-[root@netx admin]# cat > /etc/netc/sql/qos-basic.sql << EOF
-# cat qos-basic.sql
-SELECT 
-	ipaddr, grp, download, upload, mark, parent 
-FROM 
-	shaping 
-WHERE 
-	active = 1
-EOF
+prefix 100.64.10.0/24
+prefix 2001:db8:85a3::/64
+prefix 100.64.10.10
+prefix 2001:db8:85a3::10
 ```
 
+---
+
+#### download
+
+Base download speed in b/s. It's possible to use standard prefix `k`, `M`, `G` and use a human readable numbers.
+
+##### Syntax
+
+`download <num>[<.num>]<suffix>`
+
+##### Example
+
+* limit download speed to 5.5 Mb/s
+
 ```
-netx(traff-mgr)# db-qos-query qos-basic.sql
+download 5.5M
 ```
+
+* limit download speed to 100 Mb/s
+
+```
+download 100M
+```
+
+---
+
+#### upload
+
+Base upload speed in b/s. See [download](traffic-shaping.md#download) for details.
+
+##### Syntax
+
+`upload<num>[<.num>]<suffix>`
+
+---
+
+#### parent
+
+A parent node if QoS rules are organized in a [hierarchical](traffic-shaping.md#hierarchical-shaping) structure.
+
+##### Syntax
+
+`parent <string>`
+
+##### Example
+
+```
+parent line1
+```
+
+---
+
+#### mark
+
+Internal mark sets on packets for an IP address or prefix. The mark is encoded in 8 bits where 4 bits are used if
+prefix is identified as source and 4 bits are set if prefix is identified as destination.
+
+##### Syntax
+
+`mark <0-15>`
+
+##### Example
+
+```
+mark 10
+```
+
+---
+
+#### priority
+
+Priority of a QoS rule if hierarchical shaping is used. See [Shaping Priorities]() for further information.
+
+##### Syntax
+
+`priority  <number>[/<number-up>]`
+
+* `<number>` - priority for download bandwidth or both download and upload bandwidth if `<number-up>` is not defined.
+* `<number-up>` - priority for upload bandwidth (if different priority is required for download and upload)
+
+##### Default value
+
+Default priority value is `100`.
+
+##### Example
+
+* Sets priority to 90 for both download and upload
+
+```
+priority 90
+```
+
+* Sets priority to 300 for download and 50 for upload.
+
+```
+priority 300/50
+```
+
+---
+
+#### burst
+
+Amount of additional bandwidth that is added to the base bandwidth at the beginning of download/upload.
+See [Queue Burst](traffic-shaping.md#queue-burst) for further information.
+
+##### Syntax
+
+`burst <percent>[,<time>][/<percent-up>[,<time-up>]]`
+
+* `percent` - increase the download bandwidth by the amount of `<percent>` for <time> period (in seconds). Increase both download and upload if `<percent-up> is not defined.
+* `time` - time interval in seconds
+* `percent-up` - increase the upload bandwidth for the amount of `percent`
+
+If negative value is used, the amount of bandwidth is decreased.
+
+##### Default value
+
+* `percent` : 0 (burst is disabled)
+* `time` : 10
+
+##### Example
+
+* Add 20% of bandwidth for 10 seconds (both upload and download)
+
+```
+burst 20
+```
+
+* Add 20% of bandwidth for 30 seconds (both upload and download)
+
+```
+burst 20,30
+```
+
+* Add 20% of download bandwidth for 30 seconds and add 30% of upload bandwidth for 40 seconds
+
+```
+burst 20,30/30,40
+```
+
+* Decrease initial bandwidth by 20% for 15 seconds (both upload and download)
+
+```
+burst -20,15
+```
+
+---
+
+#### adaptive
+
+Adaptive shaping can be used to update the QoS rule in realtime based on the rule utilization. This can help to limit
+subscribers that transmit permanently huge portions of data. NetX makes internall statistics of each shaping group
+every minute, these statistics are used to apply adaptive shaping. See [Adaptive shaping]() for further information.
+
+##### Syntax
+
+`adaptive <steps>[,<min-bw>[,<threshold>[,<algo>]]][/<steps-up>[,<min-bw-up>[,<threshold-up>[,<algo-up>]]]]`
+
+* `steps` - number of steps in adaptive shaping
+* `min-bw` - minimal download/upload bandwidth as percentage of the main bandwidth
+* `threshold` - percentage of the main bandwidth to activate adaptive shaping
+* `algo` - algorithm to use (linear, log, exp)
+
+##### Example
+
+```
+adaptive 60,20,50
+adaptive 60,20,50,linear
+```
+
+See [Adaptive shaping]() for further information.
+
+---
+
+#### halfduplex
+
+Sets half duplex shaping - both download and upload traffic is directed to the same queue.
+
+##### Syntax
+
+`halfduplex`
+
+##### Default value
+
+halfduplex is not set
+
+---
+
+#### comment
+
+Each rule can have a string comment for easier maintaining and troubleshooting. If empty spaces are
+required, the comment should be enclosed in quotation marks.
+
+##### Syntax
+
+`comment <string>`
+
+##### Example
+
+```
+comment "user comment"
+```
+
+---
+
+#### ecn
+
+In case of congestion, marks packets with ECN ([Explicit Congestion Notification](https://datatracker.ietf.org/doc/html/rfc3168))
+bit instead of dropping them. Works with codel as shadiscipline.
+
+##### Syntax
+
+`ecn`
+
+##### Default value
+
+Marking packets with ECN is disabled by default.
+
+---
+
+#### queuelimit
+
+Limit queue size. When this limit is reached, incoming packets are dropped.
+If the value is lowered, packets are dropped so that the new limit is met.
+Works with codel as queuing discipline.
+
+##### Syntax
+
+`queuelimit <number>`
+
+##### Default value
+
+Default is 1000 packets.
+
+##### Example
+
+```
+queuelimit 10000
+```
+
+---
+
+## Hierarchical shaping
+
+QoS shaping rules can be organized in a hierarchical structure. Nodes in the structure are connected together
+via [group](traffic-shaping.md#group) name and [parent](traffic-shaping.md#parent). The
+structure typically follows a physical topology of a network. The following figure shows a simple network
+topology with four lines (line1, line2, line21 and line22) and several hosts using these lines. Each
+line has a bandwidth limit and each client has a contract with an individual speed limit.
+
+![hierarchical-shaping](figs/hierarchical-shaping.png)
+
+The topology can be implemented with the following commands in netc CLI.
+
+```
+netx# traffic-manager qos-rules
+netx(traff-mgr-rules)#
+netx(traff-mgr-rules)# shape group line1 download 100M upload 100M
+netx(traff-mgr-rules)# shape prefix 100.64.1.1 download 100M upload 100M parent line1
+netx(traff-mgr-rules)# shape prefix 100.64.1.2 download 100M upload 100M parent line1
+netx(traff-mgr-rules)# shape group line2 download 90M upload 30M
+netx(traff-mgr-rules)# shape group line21 download 70M upload 25M parent line2
+netx(traff-mgr-rules)# shape prefix 100.64.2.1 download 50M upload 20M parent line21
+netx(traff-mgr-rules)# shape prefix 100.64.2.2 download 50M upload 20M parent line21
+netx(traff-mgr-rules)# shape group line22 download 50M upload 20M parent line2
+netx(traff-mgr-rules)# shape prefix 100.64.3.1 download 50M upload 20M parent line22
+netx(traff-mgr-rules)# shape prefix 100.64.3.2 download 20M upload 10M parent line22
+```
+
+### Traffic distribution
+
+The traffic is distributed equally amongst all subnodes in the default configuration. Let’s
+consider the following hierarchy to show some examples of traffic distribution between nodes
+(to make things easier we discuss only the download direction, but the upload direction works the same way).
+
+<p align="center">
+<img src="figs/traffic-distribution.png" title="traffic-distribution" width="50%" />
+</p>
+
+The nodes have the following config speeds:
+
+```
+N1: download 2000Mb/s
+	N1.1: download 400Mb/s
+	N1.2: download 200Mb/s
+	N1.3: download 200Mb/s
+	N1.4: download 200Mb/s
+	N1.5: download 200Mb/s
+```
+
+There are four nodes (N1.2 - N1.5) with configured download speed 200Mb/s and one node (N1.1)
+that is configured with download speed 400Mb/s. All these nodes are connected to the parent
+node (N1) which has configured bandwidth 2000 Mb/s. Let’s discuss several different scenarios
+how nodes request bandwidth and how bandwidth is allocated between nodes.
+
+* Let's say that all nodes N1.1 - N1.5 request maximum capacity. In this case, all nodes will
+be satisfied completely as the parent node (N1) has configured enough bandwidth to do that.
+
+```
+N1: download 2000Mb/s, requests 1200Mb/s, gets 1200Mb/s
+	N1.1: download 400Mb/s, requests maximum, gets 400Mb/s
+	N1.2: download 200Mb/s, requests maximum, gets 200Mb/s
+	N1.3: download 200Mb/s, requests maximum, gets 200Mb/s
+	N1.4: download 200Mb/s, requests maximum, gets 200Mb/s
+	N1.5: download 200Mb/s, requests maximum, gets 200Mb/s
+```
+
+* Different situation happens if the parent node (N1) doesn’t have enough bandwidth. Let's slightly
+change the previous example and limit the parent node N1 with only 500Mb/s bandwidth. In such case,
+the traffic is distributed equally amongst all nodes.
+
+```
+N1: download 500Mb/s, requests maximum, gets 500Mb/s
+	N1.1: download 400Mb/s, requests maximum, gets 100Mb/s
+	N1.2: download 200Mb/s, requests maximum, gets 100Mb/s
+	N1.3: download 200Mb/s, requests maximum, gets 100Mb/s
+	N1.4: download 200Mb/s, requests maximum, gets 100Mb/s
+	N1.5: download 200Mb/s, requests maximum, gets 100Mb/s
+```
+
+In case that a node does not request full bandwidth, the remaining traffic is distributed to other
+nodes. There are several examples of traffic distribution amongst nodes.
+
+* Node N1.1 requests 300 Mb/s and node N1.2 requests 200 Mb/s. These requests can be satisfied by the
+parent node, thus these requests are fulfiled.
+
+```
+N1: download 500Mb/s, requests 500Mb/s, gets 500Mb/s
+	N1.1: download 400Mb/s, requests 300Mb/s, gets 300Mb/s
+	N1.2: download 200Mb/s, requests 200Mb/s, gets 200Mb/s
+	N1.3: download 200Mb/s, requests   0Mb/s, gets   0Mb/s
+	N1.4: download 200Mb/s, requests   0Mb/s, gets   0Mb/s
+	N1.5: download 200Mb/s, requests   0Mb/s, gets   0Mb/s
+```
+
+* Nodes N1.1, N1.2, N1.3 request capacity that exceeds the parent limitation, thus, the bandwidth
+is redistributed between requesting nodes.
+
+```
+N1: download 500Mb/s, requests maximum, gets 500Mb/s
+	N1.1: download 400Mb/s, requests 300Mb/s, gets 166Mb/s
+	N1.2: download 200Mb/s, requests 200Mb/s, gets 166Mb/s
+	N1.3: download 200Mb/s, requests 200Mb/s, gets 166Mb/s
+	N1.4: download 200Mb/s, requests   0Mb/s, gets   0Mb/s
+	N1.5: download 200Mb/s, requests   0Mb/s, gets   0Mb/s
+```
+
+* The following example shows different case of traffic distribution if sum of all requests exceeds
+the parent limitation.
+
+```
+N1: download 500Mb/s, requests maximum, gets 500Mb/s
+	N1.1: download 400Mb/s, requests 300Mb/s, gets 290Mb/s
+	N1.2: download 200Mb/s, requests 200Mb/s, gets 200Mb/s
+	N1.3: download 200Mb/s, requests  10Mb/s, gets  10Mb/s
+	N1.4: download 200Mb/s, requests   0Mb/s, gets   0Mb/s
+	N1.5: download 200Mb/s, requests   0Mb/s, gets   0Mb/s
+```
+
+* If there are several nodes requesting bandwidth, the bandwidth is distributed between nodes as shown
+in previous examples. In the following example, the nodes N1.3, N1.4 and N1.5 request 20Mb/s. As the theoretical limit
+for a node is 100Mb/s, these requests are fulfilled and the remaining traffic is distributed to nodes
+N1.2 and N1.1.
+
+```
+N1: download 500Mb/s, requests maximum, gets 500Mb/s
+	N1.1: download 400Mb/s, requests maximum, gets 240Mb/s
+	N1.2: download 200Mb/s, requests maximum, gets 200Mb/s
+	N1.3: download  20Mb/s, requests maximum, gets  20Mb/s
+	N1.4: download  20Mb/s, requests maximum, gets  20Mb/s
+	N1.5: download  20Mb/s, requests maximum, gets  20Mb/s
+```
+
+* Let's consider slightly different scenario. If there are 200 nodes. N1.1 node is configured with download
+bandwidth 400 Mb/s, the rest 199 nodes are configured with 10 Mb/s. If all nodes requests their maximum
+capacity, it can lead to the starvation of N1.1 node.
+
+```
+N1: download 500Mb/s, requests maximum, gets 500Mb/s
+	N1.1: download  400Mb/s, requests maximum, gets 2.5Mb/s
+	N1.2: download   10Mb/s, requests maximum, gets 2.5Mb/s
+	N1.3: download   10Mb/s, requests maximum, gets 2.5Mb/s
+	... another 197 nodes configured with 10Mb/s
+	N1.200: download 10Mb/s, requests maximum, gets 2.5Mb/s
+```
+
+The last example shows that large number of nodes configured with small bandwidth can starve the node N1.1. Such situation can be prevented
+by setting [node priority](traffic-shaping.md#shaping-priorities).
+
+### Shaping Priorities
+
+All nodes have the same [priority](traffic-shaping.md#priority) set to 100 by default. Priority defines
+the **ratio** of the traffic that should be delivered in shaping hierarchy to a particular subnode. Let's
+consider the following scenarios.
+
+* There is a parent node configured with 500 Mb/s bandwidth and two subnodes configured each with 400 Mb/s.
+If no priority is set and nodes request maximum of their capacity, each node receives 250 Mb/s. However,
+if we set a shaping priority, we can achieve different bandwidth ratio. Consider the following example:
+
+```
+N1: download 500Mb/s, requests maximum, gets 500Mb/s
+	N1.1: download 400Mb/s, priority 2, requests maximum, gets 200Mb/s
+	N1.2: download 400Mb/s, priority 3, requests maximum, gets 300Mb/s
+```
+
+N1.1 node is configured with priority 2 and node N1.2 with priority 3. In this scenario, priorities are
+configured in `2/3` ratio, thus N1.1 receives 200 Mb/s, and N1.2 receives 300 Mb/s.
+
 > [!NOTE]
-> Without the path, the `netc` look for the file in `/etc/netc/sql/` directory. If the SQL query is stored in a different location, it's possible
-> to add the location's path, e.g. `/home/admin/shaping/qos-basic.sql`
+> The priority sets the ratio of the traffic. Thus, the same result can be achieved by setting N1.1 with priority 200
+> and N1.2 with priority 300 as the ratio is still the same (2/3). We can achieve also the same result with setting only
+> N1.2 with priority 150. The N1.1 has the default priority 100, thus, the ratio is still 2/3.
 
-5. Review the configuration:
 
-```
-netx(traff-mgr)# show this 
-  db-dbname test
-  db-driver mysql
-  db-host 192.0.2.10
-  db-qos-query qos-basic.sql
-  db-scan-interval 60
-  db-username netxmgmr
-  interface ve3
-  interface bond0
-```
-
-6. Show internal status of traffic manager:
+* The following configuration sets different priorities for nodes N1.1, N1.2, N1.3. The ratio is 1:2:3, thus, the
+N1.1 receives 83 Mb/s, N1.2 receives 167 Mb/s and N1.3 250 Mb/s.
 
 ```
-netx(traff-mgr)# show config 
-DB Driver Name                : mysql
-DB Name                       : test
-DB User Name                  : netxmgmr
-Scan Time (secs)              : 60
-QoS Scan Query File           : qos-basic.sql
+N1: download 500Mb/s, requests maximum, gets 500Mb/s
+	N1.1: download 400Mb/s, priority 1, requests maximum, gets  83Mb/s
+	N1.2: download 400Mb/s, priority 2, requests maximum, gets 167Mb/s
+	N1.2: download 400Mb/s, priority 3, requests maximum, gets 250Mb/s
+```
+
+* The same configuration can be achieved by setting priorities to 100, 200 and 300, as the ratio is still the same.
+
+```
+N1: download 500Mb/s, requests maximum, gets 500Mb/s
+	N1.1: download 400Mb/s, priority 100, requests maximum, gets  83Mb/s
+	N1.2: download 400Mb/s, priority 200, requests maximum, gets 167Mb/s
+	N1.2: download 400Mb/s, priority 300, requests maximum, gets 250Mb/s
+```
+
+* Keep in mind, that distribution of the bandwidth relays only on configured priority, no matter
+which bandwidth is configured for upload or download:
+
+```
+N1: download 500Mb/s, requests maximum, gets 500Mb/s
+	N1.1: download 500Mb/s, priority 100, requests maximum, gets  83Mb/s
+	N1.2: download 400Mb/s, priority 200, requests maximum, gets 167Mb/s
+	N1.2: download 300Mb/s, priority 300, requests maximum, gets 250Mb/s
+```
+
+* It can be useful to configure priority to the same value as bandwidth.
+
+```
+N1: download 500Mb/s, requests maximum, gets 500Mb/s
+	N1.1: download 500Mb/s, priority 500, requests maximum, gets 208Mb/s
+	N1.2: download 400Mb/s, priority 400, requests maximum, gets 167Mb/s
+	N1.2: download 300Mb/s, priority 300, requests maximum, gets 125Mb/s
+```
+
+* If a subnode is not requesting bandwidth, such bandwidth is also distributed according to the priority:
+
+```
+N1: download 500Mb/s, requests maximum, gets 500Mb/s
+	N1.1: download 500Mb/s, priority 500, requests maximum, gets 313Mb/s
+	N1.2: download 400Mb/s, priority 400, requests   0Mb/s, gets   0Mb/s
+	N1.2: download 300Mb/s, priority 300, requests maximum, gets 187Mb/s
+```
+
+* The last example in the [previous section](traffic-shaping.md#traffic-distribution) describes example of
+starvation of a high bandwidth node if there are a lot of nodes with small bandwidth. Let's consider the same
+example if priorities configured same as bandwidth are used.
+
+```
+N1: download 500Mb/s, requests maximum, gets 500Mb/s
+	N1.1: download 400Mb/s, priority 400, requests maximum, gets 83Mb/s
+	N1.2: download  10Mb/s, priority  10, requests maximum, gets 2.0Mb/s
+	N1.3: download  10Mb/s, priority  10, requests maximum, gets 2.0Mb/s
+	... another 197 nodes configured with 10Mb/s
+	N1.200:  upload 10Mb/s, priority 10, requests maximum, gets 2.0Mb/s
+```
+
+The result is better, as the starvation of N1.1 node is not as big as in the previous example. However, it's probably far
+from ideal, as the N1.1 node is still quite starved. The better solution can be adding another layer of hierarchy in this case.
+Let's consider the following scenario:
+
+```
+N1: download 500Mb/s, request maximum, gets 500Mb/s
+	N1.1: download 400Mb/s, request maximum, gets 250Mb/s
+	N1.2: download 400Mb/s, request maximum, gets 250Mb/s
+		N.2.1: download 10Mb/s, request maximum, gets 1.25Mb/s
+		N.2.2: download 10Mb/s, request maximum, gets 1.25Mb/s
+		... another 197 nodes configured with 10Mb/s
+		N.2.199: download 10Mb/s, request maximum, gets 1.25Mb/s
+```
+
+If all small nodes are part of a subnode N1.2, it's not necessary to configure priorities at all and N1.1 is not starved
+as much as in previous examples.
+
+## Queue Burst
+
+It can be useful to provide user extra bandwidth on the top of user's basic rate. By using [burst](traffic-shaping.md#burst) command,
+it is possible to increase the user's basic rate for a defined time period.
+
+Following example configures 20% burst for 30 seconds on 100Mb/s line for both download and upload direction.
+
+```
+netx# traffic-manager qos-rules
+netx(traff-mgr-rules)# shape group line1 download 100M upload 100M burst 20,30
+```
+
+The following graph shows how traffic burst works. 120 Mbps is allowed for initial 30 seconds, after the configured time, the traffic
+is shaped to configured 100 Mbps.
+
+<p align="center">
+<img src="figs/traffic-burst.svg" title="traffic-burst" />
+</p>
+
+
+### Queue Burst in ISPadmin
+
+NetX supports integration burst configuration in [ISPadmin](https://ispadmin.eu/) as well. It is possible to configure `Burst threshold` and
+`Burst time` in ISPadmin tariff settings (settings -> tariffs -> internet). `Burst threshold` has to be entered as a percentage from the base
+download/upload speed and means how much additional bandwidth the subscriber will get. `Burst time` is entered in seconds and means how long
+will the burst speed last. If these parameters are entered and “ispa-data-interpretation” is set to “burst” then burst will be activated. For
+further details of NetX - ISPadmin integration, please see [Sync manager]() settings.
+
+
+## Firewall integration
+
+It is useful to let interact traffic manager with firewall in some cases. The typical use-case is to allow addresses configured in traffic manager
+to access Internet and addresses not configured in traffic manager redirect to another IP address (e.g. a server with an information webpage).
+Traffic manager can mark packets with an internal mark and the mark can be used later for constructing firewall rules.
+
+Mark is configured as a number either via CLI QoS option [mark](traffic-shaping.md#mark) or provided by an external system via [sync manager]().
+The following example sets mark to value 10. (0xA in hexadecimal format).
+
+```
+netx# traffic-manager qos-rules
+netx(traff-mgr-rules)# shape prefix 192.168.1.1/32 group host1 download 100M upload 100M mark 10
+```
+
+All packets with source address 192.168.1.1 will have set mark 10 (0xA) in top four bits and all packets with destination address 192.168.1.1 will have
+set the mark in bottom four bits.
+
+We can then used the mark value to create a firewall rule. Consider the following example:
+
+```
+netx# ipv4 firewall
+netx(fw4)# table nat chain PREROUTING
+netx(fw4-nat-PREROUTING)# action DNAT mark 0xA0/0xF0 to-destination 100.100.100.12
+```
+
+This firewall rule will redirect all traffic originated from packets marked 0xA in top four bits to address 100.100.100.12. If we consider the
+previously defined QoS rule, the firewall rule redirects all traffic with source ip 192.168.1.1. If we would like to define a rule to redirect
+traffic where 192.168.1.1 address is destination, the rule is following.
+
+```
+netx(fw4-nat-PREROUTING)# action DNAT mark 0x0A/0x0F to-destination 100.100.100.12
+```
+
+> [!NOTE]
+> The syntax of the mark field in firewall is `mark[/mask]` where mark is a mark value set up using [mark](traffic-shaping.md#mark) option, but written
+> as hexadecimal number. If a mask is specified, mark value is logically ANDed with the mask before the comparison.
+
+## Adaptive shaping
+
+Adaptive shaping can be used to limit the use of user's bandwidth depending on the time. The typical use-case is to limit a subscriber that use 
+the bandwidth to transmit huge portions of data for a long time period. NetX makes statistics of each shaping group every minute, these statistics
+are used to apply the adaptive shaping. The adaptive shaping uses the following parameters:
+
+* step - number of steps (measured and changed every minute)
+* min-rate - minimal download/upload rate 
+* threshold - traffic threshold measured in one-minute window defined in percents according to basic download/upload rate 
+* algo - algorithm to use (linear, logarithmic or exponential)
+
+There are three types of algorithms which adaptive shaping can use: linear, logarithmic and exponential. Each algorithm increases or decreases
+the bandwidth every minute based on the measurements from the last one-minute window.
+
+* linear - bandwidth is decreasing or increasing on a linear scale by a constant calculated from the configured parameters.
+* logarithmic - bandwidth is decreasing or increasing on a logarithmic scale by a value calculated from the configured parameters
+  and actual step of the algorithm.
+* Exponential - bandwidth is decreasing or increasing on an exponential scale by a value calculated from the configured parameters
+  and actual step of the algorithm.
+
+### Example configuration using linear algorithm:
+
+The configuration of the adaptive shaping uses [adaptive](traffic-shaping.md#adaptive) command syntax.
+
+```
+netx# traffic-manager qos-rules
+netx(traff-mgr-rules)# shape prefix 192.168.1.1/32 group host1 download 100M upload 100M adaptive 3,30,20,linear
+```
+
+The example shows node with IPv4 address 192.168.1.1 has a bandwidth of 100 Mbps download/upload and adaptive shaping option configured. The adaptive
+comnand has option set as ` 3,30,20,linear`. This means three steps of the algorithm with minimal bandwidth configured as 30% of basic rate. Thus, 
+the download rate does not drop under 30 Mbps. Threshold is configured as 20% of the basic rate. It means that the algorithm is activated when a 
+node transmits at least 20 Mbps on average in one one-minute window. The last parameter signals that adaptive shaping will use a linear algorithm.
+
+After downloading at least 20 Mbps on average for a one minute window, the algorithm lowers the download rate by about 23 Mbps to 77 Mbps. It’s 
+because the download rate can be lowered from 100 Mbps to 30 Mbps in three steps. Thus, each step of the algorithm will lower the download rate
+by about 23.3 Mbps. After another minute of transmitting at least 20 Mbps, the rate is lowered by another 23 Mbps to 54 Mbps. Finally, after the
+third minute of transmitting at least 20 Mbps, the download rate is lowered to 30 Mbps. Node's download rate stays the same (30 Mbps)  if the node
+transmits at leasts 20 Mbps on average for an unlimited number of one minute windows. After the node stops transmitting at least the bandwidth of
+the threshold (20 Mbps), the node rate is recovered by 23 Mbps. This means, the download rate is back to 100 Mbps after three minutes of not
+exceeding the threshold rate.
+
+### Adaptive Shaping in ISPadmin
+
+It is possible to use integration between NetX and ISPadmin and sets the adaptive parameters for a user in IPSadmin tarrif. 
+Adaptive shaping parameters can be set in tariff settings (settings -> tariffs -> internet). For threshold, use the “burst threshold” text box,
+“burst time” is used as min value and “priority” as the number of steps. Each parameter is set as a percentage from the base download and upload
+speed. “Burst limit” parameter must be also set - this parameter is not used (need to be greater than base download and upload speed). If these
+parameters are entered and “ispa-data-interpretation” is set to “adaptive” then adaptive shaping will be activated. For further details, please
+see documentation for [Sync manager]().
+
+## Verify and show traffic manager settings
+
+It is possible to verify and check traffic manager settings with the following commands.
+
+#### show traffic-mangager
+
+Basic information about traffic manager status.
+
+##### Example
+
+```
+netx# show traffic-manager
+DB Driver Name                : sqlite
+DB Name                       : /var/netc/traffic-manager-rules.db
+Scan Time (secs)              : 300
 Query Error Status            : OK
-Query Execution Time (secs)   : 0.249039173126221
-Query Returned Records        : 7970
-Installed QoS Rules           : 7970
-Last updated                  : 2019-06-03 12:57:26 (26.93 secs ago)
+Query Execution Time (secs)   : 0.641937017440796
+Query Returned Records        : 12555
+Installed QoS Rules           : 11628
+Last updated                  : 2021-07-26 14:12:32 (101.62 secs ago)
 Traffic manager status        : IDLE
-Interfaces                    : ve3,bond0
+Interfaces                    : bond0
 ```
 
-The output of the `show config` command displays that NetX successfully connected to the SQL server (`Query Error Status` is OK), the SQL query returned 
-7970 records (`Query Returned Records` is 7970). All those records have been successfully installed (`Installed QoS Rules` is 7970).
+> [!NOTE]
+> `Query Returned Records` can show more QoS shaping rules then `Installed QoS Rules`. The reason is that
+> `Query Returned Records` shows all rules in database, but `Installed QoS Rules` shows only the rules
+> installed on interface. If a rule contains several prefixes, there are several records in database, but only
+> one installed QoS rule in interface.
 
+---
 
-## Display QoS information
+### Verify QoS rules
 
-It is possible to display information about all configured QoS groups, together with actual traffic for each group using `show qos-rules` in 
-traffic-manager context.
+All the following commands are run in traffic manager context. E.g.
+
 
 ```
-netx(traff-mgr)# show qos-rules 
-GROUP                    DOWNLOAD                    UPLOAD
-                      p/s        b/s             p/s        b/s
-usr-pus0025           0.3      491.2             0.0        0.0 
-usr-lul0084          20.8      235.2k            0.0       40.8 
-usr-pros0015          2.9        3.2k            3.7       23.7k
-usr-rac0018         861.4        5.0M          322.6      185.7k
-...
+netx# traffic-manager
+netx(traff-mgr-rules)# show qos-rules <opts>
 ```
 
-Detailed information about the group can be displayed using the `show qos-rules group <group-name>`. E.g. the following command show detailed 
-information about the usr `usr-rac0018`.
+The meaning of the options `<opts>` is following:
+
+#### none
+
+Without any `<opts>`, the command `show qos-rules` in `traffic-manager` context returns list of all QoS rules managed by
+traffic-manager with information about configured and actual speed of each node.
+
+##### Example
 
 ```
-netx# show traffic-manager qos-rules group usr-rac0018
-Group:                usr-rac0018
-IP(s):                10.4.8.11
+netx# show traffic-manager qos-rules
+GROUP                         DOWNLOAD                    UPLOAD           COMMENT
+                       b/s (cfg)   b/s (act)      p/s (cfg)   b/s (act)
+line1                    100.0M      13.2M           100.0M    931.6k
+  100.64.1.1             100.0M      12.1M           100.0M    921.3k
+  100.64.1.2             100.0M       1.1M           100.0M     10.3k
+line2                     30.0M       0.0            90.0M       0.0
+  line21                  25.0M       0.0            70.0M       0.0
+    100.64.2.1            20.0M       0.0            50.0M       0.0
+    100.64.2.2            20.0M       0.0            50.0M       0.0
+  line22                  20.0M       0.0            50.0M       0.0
+    100.64.3.1            20.0M       0.0            50.0M       0.0
+    100.64.3.2            10.0M       0.0            20.0M       0.0
+```
+
+The basic output displays hierarchical structure configured in traffic manager. `act` collumn shows actual
+traffic flowing through the node. The example above shows that only 100.64.1.1 and 100.64.1.2 nodes are communicating.
+
+---
+
+#### detail
+
+Detailed information about a node. Works only when [group](traffic-shaping.md#group-1) or [ip](traffic-shaping.md#ip) option is provided.
+
+##### Example
+
+```
+netx# show traffic-manager qos-rules group 100.64.2.1 detail
+Group:                100.64.2.1
+Installed/Updated:    2021-04-09 08:19:19 (783.98 secs ago)
+IP(s):                100.64.2.1
 Interfaces:           bond0
-Download:             11.3M
-Upload:                2.3M
-Mark:                 1
+Download:             20.0M
+Upload:               50.0M
+Mark:                 0
+Comment:
+Parent group(s):      /line2/line21 (level 2)
 
                          DOWNLOAD                     UPLOAD
                       total     per/sec          total     per/sec
-Bytes,bits/s          29.7G     145.3k            2.8G      21.9k
-pkts                  46.8M      47.7            35.0M      46.7 
-dropped                0.0        0.0             0.0        0.0 
-overlimits             0.0        0.0             0.0        0.0 
-requeues               0.0        0.0             0.0        0.0 
-```
-
-It is possible to watch the traffic in real time, using the `monitor` command. E.g. the following command will refresh terminal screen every seconds
-with current information. Pressing `Q` will quit the screen and return to the `netc` shell. Keys `+` or `-` can be used to adjust the refreshing 
-interval.
-
-```
-netx# monitor traffic-manager qos-rules group usr-rac0018
-
- 15:35:05   delay: 1 s
-----------------------------------------------------------------------
-Group:                usr-rac0018
-IP(s):                10.4.8.11
-Interfaces:           bond0
-Download:             11.3M
-Upload:                2.3M
-Mark:                 1
-
-                         DOWNLOAD                     UPLOAD
-                      total     per/sec          total     per/sec
-Bytes,bits/s          29.8G     129.6k            2.8G      18.7k
-pkts                  46.9M      42.7            35.1M      41.2
+Bytes,bits/s         274.4G       3.4k            8.7G       3.3k
+pkts                 196.6M       3.2            52.0M       2.8
 dropped                0.0        0.0             0.0        0.0
 overlimits             0.0        0.0             0.0        0.0
 requeues               0.0        0.0             0.0        0.0
-----------------------------------------------------------------------
- Q: quit   <space>: refresh   +,-: delay
 ```
 
-## Sync manager configuration
+---
 
-The synchronisation manager handles cases where there is a need for data preprocessing. The perfect use case for sync manager is synchronisation with
-3rd party management softwares such as [ISPadmin](https://ispadmin.eu) or [Mango](https://www.ogsoft.cz/produkty-a-sluzby/pro-isp/mango-isp). It is 
-possible to use flat files or custom scripts as well. Sync manager configuration is very similar to traffic manager. In the following example, sync
-manager is connected to ISPadmin to download all shaping rules.
+#### group
 
-```
-netx# sync-manager 
-netx(sync-mgr)# data-source ispadmin
-netx(sync-mgr)# db-host 10.100.103.2
-netx(sync-mgr)# db-password j43nvfk3
-netx(sync-mgr)# db-username netx
-netx(sync-mgr)# enable
-```
+List only QoS rules identified by group name.
 
-### Sync manager - dynamic shaping configuration
+##### Syntax
 
-Sync manger also supports dynamic shaping algorithm (currently supported with ISPadmin only). It provides dynamic bandwidth alocation based on additional parameters. If download or upload threshold limit is exceeded, bandwidth is reduced according to number of configured steps and minimal guaranteed bandwidth. Sync manager is checking the bandwidth every minute.
+`group <string>`
 
-ISPadmin parameters and their description:
-* `Download/Upload (speed)` : Download/Upload speed in kbps
-* `BURST threshold:` : Download/Upload threshold speed in kbps.
-* `BURST time:` : Minimal guaranteed download/upload bandwidth.
-* `Priority:` : Number of algorithm steps.
-
-Simple example:
-Subscriber has a 100 Mbps download bandwidth. Threshold is set to 10 Mbps, minimal guaranteed bandwidth to 10 Mbps and step to 3 (algorithm will have three steps). Algorithm calculates that in each step, subscriber will be limited by 30 Mbps. Subscriber starts to download a large file. After a minute, sync manager changes a download bandwidth to 70 Mbps. One minute later to 40 Mbps and then to 10 Mbps. This works also vice versa (subscriber will gain back full bandwidth after 3 minutes of not crossing the threshold).
-
-## Database schema
-
-The traffic manager uses the following database schema for basic shaping/policing and marking.
+##### Example
 
 ```
---
--- Table structure for table `shaping`
---
-
-CREATE TABLE shaping (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  ipaddr varchar(128) NOT NULL,
-  grp varchar(128) NOT NULL,
-  download int(11) NOT NULL,
-  upload int(11) NOT NULL,
-  mark varchar(128) NOT NULL,
-  parent varchar(128) NOT NULL,
-  active int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-);
+netx# show traffic-manager qos-rules group line1
+line1                    100.0M      13.2M           100.0M    931.6k
+  100.64.1.1             100.0M      12.1M           100.0M    921.3k
+  100.64.1.2             100.0M       1.1M           100.0M     10.3k
 ```
 
-The meaning of the columns is the following:
-* `ipaddr` : IPv4 or IPv6 address in text format. IP address can be extended with a mask length (IP prefix). If the prefix syntax is
-used, the shaping rule is applied for the whole prefix. Examples of the values in the column: `192.0.2.2`, `192.0.2.16/28`, 
-`2001:db8:1220::/48`. The `NULL` value is allowed only if the column `grp` is defined.
-* `grp` : A unique group for every shaping rule. Groups can be used in the hierarchical shaping or can merge multiple shaping rules 
-(for example IPv4 and IPv6 prefixes) into a one shaping queue. `NULL` value is allowed. If the `NULL` value is set, the group is 
-internally created based on the `ipaddr` column as `grp-<ipaddr>`.
-* `download` : Allowed bandwidth in bits per second (Example: 10000000 = 10Mb/s)
-* `upload` : The same as `download` but for the upload direction.
-* `mark` :  Every packet entering into NetX router can be marked by a value. This mark can be later used in firewall rules, etc. `NULL` 
-value is transformed to 0.
-* `parent` : Name of the superior group. This column is used when hierarchical traffic shaping is required.
-* `active` : A flag which defines whether record will be used by traffic manager or not.  
- 
-## Database rules examples
+---
 
-The [database schema](traffic-shaping.md#database-schema) shows basic database table that can be used by traffic manager. This section shows basic 
-examples how to use all those fields.
+#### ip
 
-* Shaping an address: The following record achieve that IP address 192.0.2.5 is allowed to download 10 Mb/s. Upload speed is set to 5 Mb/s. No marking
-or hieararchical shaping is used.
+List only rules related to specified IP address or prefix.
+
+##### Syntax
+
+`ip <x.x.x.x[/y]|XX:XX::X[/y]>`
+
+##### Example
 
 ```
-IP                        GRP     DOWNLOAD  UPLOAD   MARK  PARENT
-192.0.2.5                 NULL    10000000  5000000  NULL  NULL
+netx# show traffic-manager qos-rules ip 100.64.1.1
+line1                    100.0M      13.2M           100.0M    931.6k
+  100.64.1.1             100.0M      12.1M           100.0M    921.3k
 ```
 
-* Shaping a prefix: It's possible to shape a whole prefix (either IPv4 or IPv6). E.g.
+---
+
+#### sub-levels
+
+Limit the number of sub-levels of a hierarchical structure. In some cases it might be useful to decrease the number of levels
+of the hierarchical structure that is displayed via sub-levels option:
+
+##### Syntax
+
+`sub-levels <number>`
+
+##### Example
+
+* Display only highest hierarchy
 
 ```
-IP                        GRP     DOWNLOAD  UPLOAD   MARK  PARENT
-2001:db8:1220:a::/64      NULL    10000000  5000000  NULL  NULL
+netx# show traffic-manager qos-rules sub-levels 1
+GROUP                         DOWNLOAD                    UPLOAD           COMMENT
+                       b/s (cfg)   b/s (act)      p/s (cfg)   b/s (act)
+line1                    100.0M      13.2M           100.0M    931.6k
+line2                     30.0M       0.0            90.0M       0.0
 ```
 
-* Shaping IPv4 + IPv6: If dual stacked is provided to a client, it's possible to shape the client regardless of a protocol. Group column is used for 
-grouping all IP addresses (IPv4 or IPv6) to one group. In the following example, two groups (`user1` and `user2`) are created. All IP addresses in the
-particular group will have togeteher 10 Mb/s download and 5 Mb/s upload.
+* Display first two levels of the hirerarchy
 
 ```
-IP                        GRP     DOWNLOAD  UPLOAD   MARK  PARENT
-192.0.2.5                 user1   10000000  5000000  NULL  NULL
-2001:67c:1220:a::/64      user1   10000000  5000000  NULL  NULL
-192.0.2.6                 user2   10000000  5000000  NULL  NULL
-2001:67c:1220:b::/64      user2   10000000  5000000  NULL  NULL
+netx# show traffic-manager qos-rules sub-levels 2
+GROUP                         DOWNLOAD                    UPLOAD           COMMENT
+                       b/s (cfg)   b/s (act)      p/s (cfg)   b/s (act)
+line1                    100.0M      13.2M           100.0M    931.6k
+  100.64.1.1             100.0M      12.1M           100.0M    921.3k
+  100.64.1.2             100.0M       1.1M           100.0M     10.3k
+line2                     30.0M       0.0            90.0M       0.0
+  line21                  25.0M       0.0            70.0M       0.0
+  line22                  20.0M       0.0            50.0M       0.0
 ```
 
+* If [group](traffic-shaping.md#group-1) or [ip](traffic-shaping.md#ip) option is specified with the sub-level option, the output
+starts on the node specified by the group or ip option, but all parent nodes are shown as well.
+
+```
+netx# show traffic-manager qos-rules sub-levels 2 group line21
+GROUP                         DOWNLOAD                    UPLOAD           COMMENT
+                       b/s (cfg)   b/s (act)      p/s (cfg)   b/s (act)
+line2                     30.0M       0.0            90.0M       0.0
+  line21                  25.0M       0.0            70.0M       0.0
+    100.64.2.1            20.0M       0.0            50.0M       0.0
+    100.64.2.2            20.0M       0.0            50.0M       0.0
+```
+
+---
+
+#### verbose
+
+Provide more detailed internal information.
+
+##### Example
+
+```
+netx# show traffic-manager qos-rules group 100.64.1.1 verbose
+GROUP                         DOWNLOAD                    UPLOAD           COMMENT
+                       b/s (cfg)   b/s (act)      p/s (cfg)   b/s (act)
+line1                    100.0M      13.2M           100.0M    931.6k
+                       DID:   404 (0x0194), UID:   405 (0x0195)
+                       CPU: 11, MARK:      1, LEVEL:  0
+                       IP(s):
+
+  100.64.1.1             100.0M      12.1M           100.0M    921.3k
+                       DID:   504 (0x01f8), UID:   505 (0x01f9)
+                       CPU: 11, MARK:      1, LEVEL:  1
+                       IP(s):100.64.1.1
+```
+---
