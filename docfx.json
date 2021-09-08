@@ -36,6 +36,9 @@
 		"_appFaviconPath": "templates/netx/netx-icon.ico",
 		"_appFooter": "<a href=\"https://netx.as\">netx.as</a>",
 		"_enableSearch": true,
+        "_gitContribute": {
+              "repo": "https://github.com/netx-as/docs",
+       }
 	},
 	"fileMetadata": {
 		"_disableAffix": {
