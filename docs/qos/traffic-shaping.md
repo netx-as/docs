@@ -1,6 +1,6 @@
 # QoS
 
-Quality of Service (QoS) controls network traffic and allow a service provider to meet the level of service required by a customer.
+Quality of Service (QoS) controls network traffic and allows a service provider to meet the level of service required by a customer.
 QoS reduces packet loss, provides dedicated bandwidth for users or services and implements congestion management.
 
 NetX platform offers comprehensive set of functions for managing QoS rules, perform traffic shaping using several advanced algorithms,
@@ -24,7 +24,7 @@ parameters, organize shaping queues into hierarchical structure and much more.
 It is possible to switch to the traffic manager context using `traffic-manager` command.
 
 ```
-netx# traffic-mannager
+netx# traffic-manager
 netx(traff-mgr)# <command>
 ```
 
@@ -64,7 +64,7 @@ No interface is set.
 The following example configures traffic-manager to work on bond0 and bond1 interfaces.
 
 ```
-netx# traffic-mannager
+netx# traffic-manager
 netx(traff-mgr)# interface bond0
 netx(traff-mgr)# interface bond1
 ```
@@ -317,7 +317,7 @@ burst -20,15
 #### adaptive
 
 Adaptive shaping can be used to update the QoS rule in realtime based on the rule utilization. This can help to limit
-subscribers that transmit permanently huge portions of data. NetX makes internall statistics of each shaping group
+subscribers that transmit permanently huge portions of data. NetX makes internal statistics of each shaping group
 every minute, these statistics are used to apply adaptive shaping. See [Adaptive shaping]() for further information.
 
 ##### Syntax
@@ -753,7 +753,7 @@ netx(traff-mgr-rules)# shape prefix 192.168.1.1/32 group host1 download 100M upl
 ```
 
 The example shows node with IPv4 address 192.168.1.1 has a bandwidth of 100 Mbps download/upload and adaptive shaping option configured. The adaptive
-comnand has option set as ` 3,30,20,linear`. This means three steps of the algorithm with minimal bandwidth configured as 30% of basic rate. Thus, 
+command has option set as ` 3,30,20,linear`. This means three steps of the algorithm with minimal bandwidth configured as 30% of basic rate. Thus, 
 the download rate does not drop under 30 Mbps. Threshold is configured as 20% of the basic rate. It means that the algorithm is activated when a 
 node transmits at least 20 Mbps on average in one one-minute window. The last parameter signals that adaptive shaping will use a linear algorithm.
 
@@ -841,7 +841,7 @@ line2                     30.0M       0.0            90.0M       0.0
     100.64.3.2            10.0M       0.0            20.0M       0.0
 ```
 
-The basic output displays hierarchical structure configured in traffic manager. `act` collumn shows actual
+The basic output displays hierarchical structure configured in traffic manager. `act` column shows actual
 traffic flowing through the node. The example above shows that only 100.64.1.1 and 100.64.1.2 nodes are communicating.
 
 ---
