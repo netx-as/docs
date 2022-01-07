@@ -75,12 +75,12 @@ netx# clock timezone Europe/Prague
 
 ## NTP
 
-NTP settings is done via `system ntp` command. It is possible to set IP address or domain name of NTP server. The 
+NTP settings is done via `system ntp server` command. It is possible to set IP address or domain name of NTP server. The 
 default configuration use NTP servers `ntp1.netx.as` and `ntp2.netx.as`. The `show system clock` command can be used
 to verify the settings. 
 
 ```
-netx# system ntp ntp1.netx.as
+netx# system ntp server ntp1.netx.as
       Local time: Wed 2017-05-03 18:22:55 CEST
   Universal time: Wed 2017-05-03 16:22:55 UTC
         RTC time: Wed 2017-05-03 16:23:17
