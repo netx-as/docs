@@ -191,12 +191,12 @@ netx(system)# no user test
 
 If password for the `admin` account is forgotten, it is possible to start password recovery procedure by issuing the following steps:
 
-1. Connect __`ge1`__ and __`ge2`__ interfaces with straight through Ethernet cable
+1. Connect __`ge1`__ and __`ge2`__ or __`tge1`__ and __`tge2`__ interfaces with straight through Ethernet cable
 2. Reboot NETX router
 3. After the reboot, the `admin` credentials are set to default - `admin/N3tX0559` in running config
 4. Log in and change the password using `system user admin password` command
 5. Save the password using `copy running-config startup-config` command
-6. Disconnect the cable between __`ge1`__ and __`ge2`__ interfaces
+6. Disconnect the cable between __`ge1`__ and __`ge2`__ or __`tge1`__ and __`tge2`__ interfaces
 7. Reboot NETX router
 
 > [!NOTE] 
