@@ -2,6 +2,33 @@
 
 This page provides a summary of new features in each release of `netc` CLI. 
 
+#### Version 1.21.0
+
+**New features and notable changes**
+* Traffic-manager: performance improvements
+* DSCP support in ipv4/ipv6 firewall
+* Separate statistics for controlplane and dataplane
+* Show configuration performance improvements
+* IPv4/IPv6 arp cache settings
+* Service tags and NetX mac addresses added
+* Firewall apply with timeout
+* Experimental shaper interface feature
+* Introduce `show sync-manager rules` command to show synchronized rules
+
+**Fixed issues**
+* Improvements in IPv6 routing
+* NIC driver channels fix
+* Various DDoS Guard fixes and improvements
+* Various sync-manager fixes and improvements
+* Sync-manager adminus synchronization improvements
+* Sync-manager mango synchronization improvements
+* Proper interface shutdown fix
+* Password recovery fix on X12 platform
+* Various buffering fixes
+* Service module password modification fix
+
+---
+
 #### Version 1.20.1
 
 **New features and notable changes**
