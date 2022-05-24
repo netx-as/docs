@@ -2,6 +2,44 @@
 
 This page provides a summary of new features in each release of `netc` CLI. 
 
+#### Version 1.21.3
+
+**New features and notable changes**
+
+* traffic-manager: Allow to switch between HFSC and HTB shaping algorithms
+* traffic-manager: Increase number of HTB hierarchical levels
+* traffic-manager: Allow to set guaranteed speeds for HTB
+* sync-manager: Allow to ignore invalid certificates
+* sync-manager: Adminus: support for setting [MARK](~/docs/qos/traffic-shaping.md#mark) option
+* Add [Prometheus](https://prometheus.io/) exporter for exposing user's QoS traffic statistics
+
+**Fixed issues**
+
+* Password recovery fix for platform X12
+* Properly displays default QoS shaping algorithm
+
+---
+
+#### Version 1.21.2
+
+**New features and notable changes**
+
+* traffic-manager: allow to select default QoS shaping algorithm
+
+**Fixed issues**
+
+* sync-manager: correctly marking active/inactive users from Adminus
+
+---
+
+#### Version 1.21.1
+
+**New features and notable changes**
+
+* sync-manager: new universal NetX API for Adminus (Adminus NetX modul required)
+
+---
+
 #### Version 1.21.0
 
 **New features and notable changes**
