@@ -11,6 +11,10 @@ The following step-by-step guides for using NETX routers are available:
 
 * [NAT64: Set up IPv6 only network using NAT64](nat64/basic-nat64.md)
 
+## VPN
+
+* [WireGuard: Set up basic site-to-site VPN](vpn/wireguard.md)
+
 ## API
 
 * [Set up firewall via REST API](api/firewall.md)

@@ -14,6 +14,7 @@
 # [High availability](ha/vrrp.md)
 # [Troubleshooting tools](tools/tshoot.md)
 # [NetFlow export](netflow/netflow.md)
+# [VPN](vpn/wireguard.md)
 # [DDoS Guard](ddos/ddos-guard.md)
 # [API](api/api.md)
 # [Tutorials](~/tutorials/index.md)
