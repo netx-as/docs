@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2022-06-27T12:01:13Z</date>
+    <groups>
+        <group>
+            <name>Templates</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template NetX - NetFlow</template>
+            <name>Template NetX - NetFlow</name>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>NetFlow</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>NetFlow - drop packets</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>netc[stats, netflow, dropPackets]</key>
+                    <delay>60s</delay>
+                    <units>p/s</units>
+                    <applications>
+                        <application>
+                            <name>NetFlow</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>CHANGE_PER_SECOND</type>
+                            <params/>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <name>NetFlow - flows in cache</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>netc[stats, netflow, hashFlows]</key>
+                    <delay>60s</delay>
+                    <applications>
+                        <application>
+                            <name>NetFlow</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}&gt;2500000</expression>
+                            <name>Large number of flows in flowcache</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>NetFlow - Incoming  bytes</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>netc[stats, netflow, inBytes]</key>
+                    <delay>60s</delay>
+                    <units>bps</units>
+                    <applications>
+                        <application>
+                            <name>NetFlow</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <params>8</params>
+                        </step>
+                        <step>
+                            <type>CHANGE_PER_SECOND</type>
+                            <params/>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <name>NetFlow - Incoming  packets</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>netc[stats, netflow, inPackets]</key>
+                    <delay>60s</delay>
+                    <units>pps</units>
+                    <applications>
+                        <application>
+                            <name>NetFlow</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>CHANGE_PER_SECOND</type>
+                            <params/>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <name>NetFlow - lost flows</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>netc[stats, netflow, lostFlows]</key>
+                    <delay>60s</delay>
+                    <units>flows/s</units>
+                    <applications>
+                        <application>
+                            <name>NetFlow</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>CHANGE_PER_SECOND</type>
+                            <params/>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <name>NetFlow - outgoing traffic</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>netc[stats, netflow, outBytes]</key>
+                    <delay>60s</delay>
+                    <units>bps</units>
+                    <applications>
+                        <application>
+                            <name>NetFlow</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <params>8</params>
+                        </step>
+                        <step>
+                            <type>CHANGE_PER_SECOND</type>
+                            <params/>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <name>NetFlow - outgoing flows</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>netc[stats, netflow, outFlows]</key>
+                    <delay>60s</delay>
+                    <units>flows/s</units>
+                    <applications>
+                        <application>
+                            <name>NetFlow</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>CHANGE_PER_SECOND</type>
+                            <params/>
+                        </step>
+                    </preprocessing>
+                </item>
+            </items>
+        </template>
+    </templates>
+</zabbix_export>

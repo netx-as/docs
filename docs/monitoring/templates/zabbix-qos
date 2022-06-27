@@ -1,0 +1,104 @@
+#!/usr/bin/perl
+
+use warnings;
+use strict;
+
+use DBI;
+use File::Temp qw(tempfile); 
+use Sys::Syslog qw(:DEFAULT setlogsock);
+
+my $ZABBIX_CONF = "/etc/zabbix/zabbix_agentd.conf";
+my $DEBUG 		= 1;
+my $DBH;
+my $LOGNAME		= substr($0, rindex($0, "/") + 1);;
+my $LOGFACILITY	= "daemon.info";
+
+
+# logging rutine
+sub mylog {
+	my ($msg, @par) = @_;
+	my $lmsg = sprintf($msg, @par);
+	if ($DEBUG > 0) {
+		printf "%s[%d]: %s\n", strftime("%Y-%m-%d.%H:%M:%S", localtime), $$, $lmsg;
+	}
+	setlogsock('unix');
+	openlog("$LOGNAME\[$$\]", 'ndelay', 'user');
+	syslog($LOGFACILITY, $lmsg);
+}
+
+
+# database s ulozenymi statistikami
+sub db_connect {
+	my $dumpdb = '/var/netc/traffd.db';
+
+	$DBH = DBI->connect("dbi:SQLite:dbname=$dumpdb", undef, undef, {
+							AutoCommit => 0
+						});
+
+    if (!$DBH) {
+		mylog("Can not open datafile %s (%s).", $dumpdb,  $DBI::errstr);
+		return 0;
+    }
+	return 1;
+}
+
+sub calc_tm_stats($) {
+	my ($ref) = @_;
+
+	my $res = { };
+
+	foreach my $attr ('bytes_down') {
+
+		$ref->{$attr} = 0 if (!defined($ref->{$attr}));
+		if ( defined($ref->{'updated_down'}) && defined($ref->{'updated_down_prev'}) && ($ref->{'updated_down'} - $ref->{'updated_down_prev'} > 0) ) {
+			$res->{$attr} = int(($ref->{$attr} - $ref->{$attr . '_prev'}) / ($ref->{'updated_down'} - $ref->{'updated_down_prev'}));
+		} else {
+			$res->{$attr} = 0;
+		}
+	}
+
+	foreach my $attr ('bytes_up') {
+
+		$ref->{$attr} = 0 if (!defined($ref->{$attr}));
+		if ( defined($ref->{'updated_up'}) && defined($ref->{'updated_up_prev'}) && ($ref->{'updated_up'} - $ref->{'updated_up_prev'} > 0) ) {
+			$res->{$attr} = int(($ref->{$attr} - $ref->{$attr . '_prev'}) / ($ref->{'updated_up'} - $ref->{'updated_up_prev'}));
+		} else {
+			$res->{$attr} = 0;
+		}
+	}
+
+	return $res;
+}
+
+my $ref;
+exit 1 if (!db_connect);
+
+my $sql_query = "SELECT * FROM traff";
+
+if (!defined($DBH) || !( $ref = $DBH->selectall_hashref($sql_query, "id")) ) {
+        return 0;
+}
+
+my $temp = File::Temp->new();
+
+foreach my $child (keys %{$ref}) {
+	
+	my $grp = $ref->{$child}->{'grp'};
+	my $prefixes = $ref->{$child}->{'prefixes'};
+
+	my $stats_ps = calc_tm_stats($ref->{$child});
+
+	$stats_ps->{'bytes_down'} *= 8;
+	$stats_ps->{'bytes_up'} *= 8;
+
+	printf $temp "- \"dt.value[\\\"traffic-manager\\\",\\\"rules\\\", $grp, \\\"IP\\\"]\" \"%s\"\n", $prefixes;
+	printf $temp "- \"dt.value[\\\"traffic-manager\\\",\\\"rules\\\", $grp, \\\"BYTES_%s\\\"]\" %s\n", "DOWN", $stats_ps->{'bytes_down'};
+	printf $temp "- \"dt.value[\\\"traffic-manager\\\",\\\"rules\\\", $grp, \\\"BYTES_%s\\\"]\" %s\n", "UP", $stats_ps->{'bytes_up'};
+
+}
+
+system("zabbix_sender -c $ZABBIX_CONF -i " . $temp->filename());
+
+if ($? != 0) {
+	mylog("Upload statistics failed");	
+}

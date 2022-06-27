@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2022-06-27T12:02:05Z</date>
+    <groups>
+        <group>
+            <name>Templates</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template NetX - BGP</template>
+            <name>Template NetX - BGP</name>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>Bird protocols</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>dt.items[&quot;router&quot;,&quot;bird&quot;,&quot;protocols&quot;]</key>
+                    <delay>30m</delay>
+                    <filter>
+                        <conditions>
+                            <condition>
+                                <macro>{#PROTO_TYPE}</macro>
+                                <value>BGP</value>
+                                <formulaid>A</formulaid>
+                            </condition>
+                        </conditions>
+                    </filter>
+                    <lifetime>2h</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Protocol {#DTKEY} bgp state</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>dt.value[&quot;router&quot;,&quot;bird&quot;,&quot;protocols&quot;, {#DTKEY}, &quot;bgp_state&quot;]</key>
+                            <delay>60</delay>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;&gt;&quot;Established&quot; &#13;
+and &#13;
+{last()}&lt;&gt;&quot;Down&quot;</expression>
+                                    <name>Protocol {#DTKEY} bgp state not Established</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Protocol {#DTKEY} exported ipv4</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>dt.value[&quot;router&quot;,&quot;bird&quot;,&quot;protocols&quot;, {#DTKEY}, &quot;exported_ipv4&quot;]</key>
+                            <delay>60</delay>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Protocol {#DTKEY} exported ipv6</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>dt.value[&quot;router&quot;,&quot;bird&quot;,&quot;protocols&quot;, {#DTKEY}, &quot;exported_ipv6&quot;]</key>
+                            <delay>60</delay>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Protocol {#DTKEY} imported ipv4</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>dt.value[&quot;router&quot;,&quot;bird&quot;,&quot;protocols&quot;, {#DTKEY}, &quot;imported_ipv4&quot;]</key>
+                            <delay>60</delay>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Protocol {#DTKEY} imported ipv6</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>dt.value[&quot;router&quot;,&quot;bird&quot;,&quot;protocols&quot;, {#DTKEY}, &quot;imported_ipv6&quot;]</key>
+                            <delay>60</delay>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Protocol {#DTKEY} state</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>dt.value[&quot;router&quot;,&quot;bird&quot;,&quot;protocols&quot;, {#DTKEY}, &quot;proto_state&quot;]</key>
+                            <delay>60</delay>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Protocol {#DTKEY} type</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>dt.value[&quot;router&quot;,&quot;bird&quot;,&quot;protocols&quot;, {#DTKEY}, &quot;proto_type&quot;]</key>
+                            <delay>60</delay>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>

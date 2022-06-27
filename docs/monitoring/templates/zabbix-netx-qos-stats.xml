@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2022-06-27T13:53:56Z</date>
+    <groups>
+        <group>
+            <name>Templates</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template NetX - QoS stats</template>
+            <name>Template NetX - QoS stats</name>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>QoS stats</name>
+                </application>
+            </applications>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>QoS rules</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>dt.keys[&quot;traffic-manager&quot;,&quot;rules&quot;]</key>
+                    <delay>30m</delay>
+                    <lifetime>2h</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>{#DTKEY} : bps down</name>
+                            <type>TRAP</type>
+                            <key>dt.value[&quot;traffic-manager&quot;,&quot;rules&quot;, {#DTKEY}, &quot;BYTES_DOWN&quot;]</key>
+                            <delay>0</delay>
+                            <units>bps</units>
+                            <applications>
+                                <application>
+                                    <name>QoS stats</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>{#DTKEY} : bps up</name>
+                            <type>TRAP</type>
+                            <key>dt.value[&quot;traffic-manager&quot;,&quot;rules&quot;, {#DTKEY}, &quot;BYTES_UP&quot;]</key>
+                            <delay>0</delay>
+                            <units>bps</units>
+                            <applications>
+                                <application>
+                                    <name>QoS stats</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>{#DTKEY} : IP</name>
+                            <type>TRAP</type>
+                            <key>dt.value[&quot;traffic-manager&quot;,&quot;rules&quot;, {#DTKEY}, &quot;IP&quot;]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                            <applications>
+                                <application>
+                                    <name>QoS stats</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>
