@@ -374,7 +374,7 @@ comment "user comment"
 #### ecn
 
 In case of congestion, marks packets with ECN ([Explicit Congestion Notification](https://datatracker.ietf.org/doc/html/rfc3168))
-bit instead of dropping them. Works with codel as shadiscipline.
+bit instead of dropping them. Works with codel, fq_codel and sfq as queuing discipline.
 
 ##### Syntax
 
@@ -390,7 +390,7 @@ Marking packets with ECN is disabled by default.
 
 Limit queue size. When this limit is reached, incoming packets are dropped.
 If the value is lowered, packets are dropped so that the new limit is met.
-Works with codel as queuing discipline.
+Works with codel, fq_codel and sfq as queuing discipline.
 
 ##### Syntax
 
