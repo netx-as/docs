@@ -220,8 +220,8 @@ parent line1
 
 #### mark
 
-Internal mark sets on packets for an IP address or prefix. The mark is encoded in 8 bits where 4 bits are used if
-prefix is identified as source and 4 bits are set if prefix is identified as destination.
+Internal mark sets on packets for an IP address or prefix. The mark is encoded in 8 bits, where the top 4 bits are used if
+the prefix is identified as the source of the traffic, and the bottom 4 bits are set if the prefix is identified as the destination.
 
 ##### Syntax
 
@@ -232,6 +232,9 @@ prefix is identified as source and 4 bits are set if prefix is identified as des
 ```
 mark 10
 ```
+
+By setting `mark 10`, it is possible to use firewall with `mark 0xA0/0xF0` to match packets where IP address or a prefix is
+originator of the traffic. The `mark 0xA/0xF` can be used in firewall to match packets where IP address or a prefix is the destination.
 
 ---
 
