@@ -32,8 +32,11 @@ Rest api endpoint supports sending additional data as url parameters. These para
 ##### Syntax
 
 `watch <route|interface|rest>`
+
 `watch route [subnet|exact-match] [table <routing table number>]`
+
 `watch interface <interface name>`
+
 `watch rest <rest endpoint>`
 
 ##### Examples
