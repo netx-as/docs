@@ -23,4 +23,5 @@ Control Plane/Data Plane load, various QoS rules statistics and others.
 * [High availability](ha/vrrp.md): Describes how to set Virtual Router Redundancy Protocol to achieve high availability for default gateway.
 * [Troubleshooting tools](tools/tshoot.md): Describes basic troubleshooting tools - e.g., `ping`, `traceroute` or `tcpdump`.
 * [NetFlow export](netflow/netflow.md): NetFlow export configuration and accounting.
+* [Event manager](event/event.md): Event managers allows to define actions when certain events occurs.
 * [API](api/api.md): REST API documentation and basic examples.
