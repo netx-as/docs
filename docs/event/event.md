@@ -27,7 +27,7 @@ Event manager routes monitoring supports `exact-match` or `subnet` parameters. P
 
 Event manager can monitor any interface configured in NetX.
 
-Rest api endpoint supports sending additional data as url parameters. These parameters are sent to action script as arguments.
+Rest api endpoint can be found on `http://<netx-address>/events/<rest-endpoint>`. It supports sending additional data as url parameters. These parameters are sent to action script as arguments.
 
 ##### Syntax
 
