@@ -2,7 +2,7 @@
 
 Resource Public Key Infrastructure (RPKI) is designed to secure internet routing infrastructure. RPKI provides a way to perform Route Origin Validation. RPKI can be used by the legitimate holders of the resources to control the operation of Internet routing protocols to prevent route hijacking and other attacks. It is used to secure the Border Gateway protocol (BGP).
 
-RPKI validator is used to download all of the certificates and ROAs in their repositories to validate the signatures. Validator then can feed the validated information to hardware routers as well as software solutions like BIRD.  Next example shows Routinator as RPKI Validator together with BIRD routing daemon. For more information check the BIRD [documentation](https://bird.network.cz/?get_doc&v=20&f=bird-6.html#ss6.13).
+RPKI validator is used to download all of the certificates and ROAs in their repositories to validate the signatures. Validator then can feed the validated information to hardware routers as well as software solutions like BIRD.  Next example shows Routinator as RPKI Validator together with BIRD routing daemon. For more information check the BIRD [documentation](https://bird.network.cz/?get_doc&v=20&f=bird-6.html#ss6.14).
 
 RPKI configuration example in BIRD routing daemon:
 
