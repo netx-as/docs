@@ -67,6 +67,19 @@ Power Consumption:    46 W
 Service Module IP:    192.168.1.1/24
 ```
 
+### Update proxy
+
+Updating via HTTP proxy server can be enabled using `system update-proxy` command.
+Available command options:
+* `server` - hostname or ip address of proxy server
+* `port` - optional parameter - default port `3128` used if not configured
+* `username` - optional parameter
+* `password` - optional parameter
+
+```
+netx# system update-proxy server proxy.netx.as port 8080
+```
+
 ## Enabling devel repo
 
 If there is a specific reason, e.g. you want to try a new feature not available in the stable repo yet, it's possible to enable
