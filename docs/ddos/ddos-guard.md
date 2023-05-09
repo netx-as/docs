@@ -1,9 +1,8 @@
 # DDoS Guard
 
-DDoS Guard is a built-in NetX component for ddos attacks detection and mitigation. Core of the DDoS Guard is implemented as an iptables kernel module.
-It is divided into two parts - detection and mitigation called filtration.
+DDoS Guard is a built-in NetX component for DDoS attacks detection and mitigation. Core of the DDoS Guard is implemented as an iptables kernel module. It is divided into two parts - detection and mitigation (called filtration).
 
-Detection is done by counting the number of packets per second (pps) and bytes per second (bps) going through the system. If threshold is exceeded, the algorithm starts to go through the configured evaluation items e.g. source port, destination ip address, etc. These items are then evaluated and the final filtration rule is created. There are several parameters which are affecting the detection phase. We will go through these parameters in further sections.
+Detection is done by counting the number of packets per second (pps) and bytes per second (bps) going through the system. It computes baselines from actual traffic and sets threshold. If threshold is exceeded, the algorithm starts to go through the configured evaluation items e.g. source port, destination ip address, etc. These items are then evaluated and the final filtration rule is created. There are several parameters which are affecting the detection phase. We will go through these parameters in further sections.
 
 Mitigation phase starts after the filtration rule is created. There are several actions that can be taken. DDoS Guard can apply this filtration rule and filter packets internally before it hits the system. Another option is to use bgp flowspec to propagate filtering rules into the network to mitigate the effects of a DDoS attack. Each filtration rule has a timeout. This timeout is started after the traffic is below the threshold.
 
@@ -508,10 +507,13 @@ This example shows protection against attacks on udp port 123 (ntp).
 1. Firewall configuration - sending traffic on port 123 to DDoS Guard. ddg-rule identifies the DDoS Guard rule and should be used also as rule identification in the ddos-guard rule context.
 
 ```
-table raw chain PREROUTING
-	action DDG id 1 in hge11
-table raw chain DDG
-	action DDOSGUARD id 1 proto udp sport 123 ddg-rule 010ntp
+netx# ipv4 firewall
+netx(fw4)# table raw chain PREROUTING
+netx(fw4-raw-PREROUTING)# action DDG
+
+netx# ipv4 firewall
+netx(fw4)# table raw chain DDG
+netx(fw4-raw-DDG)# action DDOSGUARD id 1 proto udp sport 123 ddg-rule 010ntp
 ```
 
 2. DDoS Guard basic template configuration - Creating a defconf template with mail report configuration. Setting filter to drop packets.
