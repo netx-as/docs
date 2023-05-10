@@ -2,6 +2,55 @@
 
 This page provides a summary of new features in each release of `netc` CLI. 
 
+#### Version 1.22.2
+
+**New features and notable changes**
+
+* Redesigned packet scheduler
+* dhcp-relay support
+* System update via proxy server support
+* ddos-guard: internal redesign, lower resource requirements
+* Bridge interface: bridge-pass-filtering option
+* traffic-manager: statistics processing speedup
+* Shaper interface: pcq support - creating classes based on various parameters
+
+**Fixed issues**
+
+* sync-manager: adminus IPv6 support
+* ddos-guard: using default template
+
+#### Version 1.22.1
+
+**New features and notable changes**
+
+* Shaper interface: qos-type support
+
+**Fixed issues**
+
+* PPPoE-server: show status properly
+* Shaper interface: switching up/down the interface
+* traffic-manager: fixes related to shaper interfaces
+* firewall: fix showing tables
+
+
+#### Version 1.22.0
+
+**New features and notable changes**
+
+* Event manager: binding actions to various events
+* Blackhole interface support
+* traffic-manager: ecn support for sfq
+* Checking for default password change
+* Shaper interface feature from experimnetal to stable
+* PPPoE-server experimental support
+
+**Fixed issues**
+
+* ddos-guard: removing rules, refreshing counters
+* ddos-guard: mailing formating fixes
+* NIC queue statistics fix
+
+
 #### Version 1.21.3
 
 **New features and notable changes**
