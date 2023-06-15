@@ -184,3 +184,19 @@ netx# show ipv6 route 2001:db8:aaaa::/64
 2001:db8:aaaa::/64 via 2001:db8:bbbb::1 dev ve4 metric 1024 
 default via 2001:718:0:e710::2 dev bond0.1700 proto bird src 2a07:6881:0:ffff::2 metric 32 
 ``` 
+
+### DHCP Relay
+
+DHCP Relay can be configured inside interface context using `ipv4/ipv6 dhcp-relay` command. Both IPv4 and IPv6 protocols are supported. The following example sets `192.168.42.1` as DHCP Relay address.
+
+```
+netx# interface tge1
+netx(if-tge1)# ipv4 dhcp-relay 192.168.42.1
+```
+
+In IPv6, upstream interfaces must be configured, destination IPv6 address is an optional parameter. If no destionation IPv6 address is specified, the relay agent will forward to the DHCPv6 All_DHCP_Relay_Agents_and_Servers multicast address. The following example sets `2001::42:1` as DHCP Relay address and `tge2` as upstream interface.
+
+```
+netx# interface tge1
+netx(if-tge1)# ipv6 dhcp-relay tge2 address 2001::42:1
+```
