@@ -185,18 +185,41 @@ netx# show ipv6 route 2001:db8:aaaa::/64
 default via 2001:718:0:e710::2 dev bond0.1700 proto bird src 2a07:6881:0:ffff::2 metric 32 
 ``` 
 
-### DHCP Relay
+## DHCPv4 Relay
 
-DHCP Relay can be configured inside interface context using `ipv4/ipv6 dhcp-relay` command. Both IPv4 and IPv6 protocols are supported. The following example sets `192.168.42.1` as DHCP Relay address.
+DHCP Relay can be configured inside interface context using `ipv4 dhcp-relay` command. The following example forwards client's DHCP messages
+to the DHCP server with IPv4 address `192.168.42.1`.
 
 ```
 netx# interface tge1
 netx(if-tge1)# ipv4 dhcp-relay 192.168.42.1
 ```
 
-In IPv6, upstream interfaces must be configured, destination IPv6 address is an optional parameter. If no destionation IPv6 address is specified, the relay agent will forward to the DHCPv6 All_DHCP_Relay_Agents_and_Servers multicast address. The following example sets `2001::42:1` as DHCP Relay address and `tge2` as upstream interface.
+## DHCPv6 Relay
+
+DHCPv6 Relay can be configured using `ipv6 dhcp-relay` command. DHCPv6 Relay use IPv6 address of the DHCPv6 server as an optional parameter and
+can work without the unicast address of a DHCPv6 server. If no destionation IPv6 address is specified, the relay agent will forward messages
+to the DHCPv6 All_DHCP_Relay_Agents_and_Servers multicast address. The following example sets `2001::42:1` as address of a DHCP server and `tge2`
+as the upstream interface.
 
 ```
 netx# interface tge1
 netx(if-tge1)# ipv6 dhcp-relay tge2 address 2001::42:1
 ```
+
+### DHCPv6 Relay and prefix delegation
+
+DHCPv6 server can assign IPv6 prefix to a client using DHCPv6 Prefix delegation options. It is possible to configure the DHCPv6 Relay
+to extracts the information about the prefix that is being delegated and inserts an IPv6 route matching the prefix delegation
+information onto the relay agent. Future packets destined to that prefix via relay will be forwarded based on the information contained
+in the prefix delegation. The IPv6 route is then left in the routing table until the prefix delegation lease time expires or the DHCPv6 Relay
+receives a release packet from the client releasing the prefix delegation. Use `create-pd-route` option to enable creation of the IPv6 route
+as shown in the following example.
+
+```
+netx# interface tge1
+netx(if-tge1)# ipv6 dhcp-relay tge2 address 2001::42:1 create-pd-route
+```
+
+> [!NOTE]
+> This feature is supported since netc 1.22.3
