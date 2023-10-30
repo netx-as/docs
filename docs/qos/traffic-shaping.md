@@ -97,6 +97,25 @@ Not set.
 
 ---
 
+#### scheduling-opts
+
+List of available scheduling options:
+
+* `algo-hfsc` - utilizes hfsc as the packet scheduling algorithm (default)
+* `algo-htb` - utilizes htb as the packet scheduling algorithm
+* `guaranteed-auto` - automatically calculates guaranteed speeds without overriding manually set values (works only with htb)
+* `lock-queues <int>` - sets the number of locking queues
+
+##### Syntax
+
+`scheduling-opts <option> <val>`
+
+##### Default value
+
+Hfsc is used as the default packet scheduling algorithm.
+
+---
+
 ## Configuring QoS rules
 
 QoS rules are configured in traffic-manager context. The rules don’t have to be configured if sync-manager takes care of rules
