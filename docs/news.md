@@ -2,6 +2,15 @@
 
 This page provides a summary of new features in each release of `netc` CLI. 
 
+#### Version 1.22.3
+
+**Fixed issues**
+
+* bond interface: fix setting mtu
+* dhcp-server: fix nameserver issue
+* static routing: fix disappearing routes
+* traffic-manager: statistics processing fixes
+
 #### Version 1.22.2
 
 **New features and notable changes**
