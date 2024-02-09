@@ -10,7 +10,7 @@ Configuration is done in two places. First, the firewall rule should be configur
 
 ### Context
 
-It is possible to switch to the DDoS Guard context using `ddos-guard` command. 
+It is possible to switch to the DDoS Guard context using `ddos-guard` command.
 
 ```
 netx# ddos-guard
