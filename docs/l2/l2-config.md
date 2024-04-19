@@ -22,6 +22,7 @@ network interfaces:
 | bridge      | virtual interface for bridging multiple interfaces |
 | vxlan       | vxlan interface                  |
 | lo          | loopback interface               |
+| shaper      | shaper interface                 |
 
 The command `show interface` displays basic information and traffic statistics for all interfaces.
 
@@ -132,6 +133,25 @@ netx#
 > [!NOTE]
 > Default Linux loopback interface `lo` is ignored by `netc` and not displayed in running config. However, it is possible to edit `lo`
 > settings using `interface lo` command without a problem.
+
+## Shaper
+
+A shaper interface is a virtual interface used for traffic shaping in traffic-manager. The physical layer state of a shaper interface is always up unless the loopback
+interface is manually shut down. It is possible to create a shaper interface using `interface shaper<number>` command. E.g.:
+
+```
+netx# interface shaper1
+Creating shaper interface shaper1
+netx(if-lo1)#
+```
+
+Loopback interface can be deleted using `no interface shaper<number>` command. E.g.
+
+```
+netx# no interface shaper1
+Removing shaper interface shaper1
+netx#
+```
 
 ## Link Aggregation
 
