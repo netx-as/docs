@@ -48,7 +48,7 @@ traffic manager is disabled by default.
 
 #### interface
 
-Interface that traffic-manager works on. Multiple interfaces can be specified or one interface for each direction (download/upload). Bond and shaper interface types are supported. If no interface is configured the traffic manager does not install any rules.
+Interface that traffic-manager works on. Multiple interfaces can be specified or one interface for each direction (download/upload). [Bond](~/docs/l2/l2-config.md#link-aggregation) and [shaper](~/docs/l2/l2-config.md#shaper) interface types are supported. If no interface is configured the traffic manager does not install any rules.
 
 ##### Syntax
 
