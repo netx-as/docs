@@ -136,16 +136,15 @@ netx#
 
 ## Shaper
 
-A shaper interface is a virtual interface used for traffic shaping in traffic-manager. The physical layer state of a shaper interface is always up unless the loopback
-interface is manually shut down. It is possible to create a shaper interface using `interface shaper<number>` command. E.g.:
+A shaper interface is a virtual interface used for traffic shaping in [traffic-manager](~/docs/qos/traffic-shaping.md#interface). The physical layer state of a shaper interface is always up unless the shaper interface is manually shut down. It is possible to create a shaper interface using `interface shaper<number>` command. E.g.:
 
 ```
 netx# interface shaper1
 Creating shaper interface shaper1
-netx(if-lo1)#
+netx(if-shaper1)#
 ```
 
-Loopback interface can be deleted using `no interface shaper<number>` command. E.g.
+Shaper interface can be deleted using `no interface shaper<number>` command. E.g.
 
 ```
 netx# no interface shaper1
