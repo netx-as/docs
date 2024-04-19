@@ -48,12 +48,12 @@ traffic manager is disabled by default.
 
 #### interface
 
-Interface that traffic-manager works on. Multiple interfaces can be specified. If no interface is configured the traffic manager
-does not install any rules.
+Interface that traffic-manager works on. Multiple interfaces can be specified or one interface for each direction (download/upload). Bond and shaper interface types are supported. If no interface is configured the traffic manager does not install any rules.
 
 ##### Syntax
 
 `interface <interface-name>`
+`interface <interface-name>/<interface-name>`
 
 ##### Default value
 
@@ -61,12 +61,11 @@ No interface is set.
 
 ##### Example
 
-The following example configures traffic-manager to work on bond0 and bond1 interfaces.
+The following example configures traffic-manager to work on virtual shaper interfaces. This is the recommended setup.
 
 ```
 netx# traffic-manager
-netx(traff-mgr)# interface bond0
-netx(traff-mgr)# interface bond1
+netx(traff-mgr)# interface shaper1/shaper2
 ```
 
 ---
