@@ -152,6 +152,15 @@ Removing shaper interface shaper1
 netx#
 ```
 
+Shaper0 serves as a unique shaper interface that handles all the traffic passing through the device. No specific firewall rules are necessary.
+
+Sending traffic to shaper interface is posible using a traffic-manager or a firewall rule. E.g.
+
+```
+netx# ipv4 firewall table raw chain POSTROUTING
+netx(fw4-raw-POSTROUTING)# action SHAPER shaper-ifc shaper1
+```
+
 ## Link Aggregation
 
 Multiple physical links can be grouped together into a single logical "bonded" interface. This offers a ways to increase performance and to 
