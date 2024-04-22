@@ -152,7 +152,7 @@ Removing shaper interface shaper1
 netx#
 ```
 
-Shaper0 serves as a unique shaper interface that handles all the traffic passing through the device. No specific firewall rules are necessary.
+`shaper0` serves as a unique shaper interface that handles all the traffic passing through the device. No specific firewall rules are necessary.
 
 Sending traffic to shaper interface is posible using a traffic-manager or a firewall rule. E.g.
 
