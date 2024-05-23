@@ -2,6 +2,31 @@
 
 This page provides a summary of new features in each release of `netc` CLI. 
 
+#### Version 1.23.1
+
+**New features and notable changes**
+
+* PPPoE-server: better integration
+
+**Fixed issues**
+
+* lldp neighbor discovery fix
+* x13 platform support fixes
+
+#### Version 1.23.0
+
+**New features and notable changes**
+
+* x13 platform support
+* clustering support
+* DHCPv6 relay: support for creating IPv6 routes from IA_PD messages
+* traffic-manager: use new llq qdisc
+
+**Fixed issues**
+
+* ddos-guard: multiple fixes and improvements
+* sync-manager: improvements in stability and performance
+
 #### Version 1.22.3
 
 **Fixed issues**
