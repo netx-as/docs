@@ -2,6 +2,48 @@
 
 This page provides a summary of new features in each release of `netc` CLI. 
 
+#### Version 1.23.5
+
+**New features and notable changes**
+
+* traffic-manager: offloading support (traffic shaping optimization)
+
+#### Version 1.23.4
+
+**New features and notable changes**
+
+* traffic-manager: htb dynamic level optimization
+
+**Fixed issues**
+
+* wireguard interface status fix
+* traffic-manager: checking speed consistency fix
+
+#### Version 1.23.3
+
+**New features and notable changes**
+
+* sync-manager: mango CRM API support
+
+**Fixed issues**
+
+* traffic-manager: burst configuration fix
+
+#### Version 1.23.2
+
+**New features and notable changes**
+
+* cloud traffic-manager history support
+* X13C0 platform support
+* sync-manager: adminus hierarchical support
+
+**Fixed issues**
+
+* pppoe minor fixes
+* netflow collector address fix
+* device statistics reporting optimization
+* radius user mapping fix
+
 #### Version 1.23.1
 
 **New features and notable changes**
