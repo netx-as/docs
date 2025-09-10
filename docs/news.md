@@ -2,6 +2,12 @@
 
 This page provides a summary of new features in each release of `netc` CLI. 
 
+#### Version 1.23.6
+
+**Fixed issues**
+
+* Multiple minor fixes
+
 #### Version 1.23.5
 
 **New features and notable changes**
