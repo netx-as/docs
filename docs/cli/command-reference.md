@@ -1,7 +1,5 @@
 # Netc Command Reference
 
-This document is auto-generated from the source code.
-
 Operations: `[Config]` = Configuration command, `[Info]` = Information/Status command (using show command)
 
 - **birdc** `[Config]`: switch to internal bird CLI

@@ -266,7 +266,6 @@ def main():
     
     with open(OUTPUT_FILE, 'w') as f:
         f.write("# Netc Command Reference\n\n")
-        f.write("This document is auto-generated from the source code.\n\n")
         f.write("Operations: `[Config]` = Configuration command, `[Info]` = Information/Status command (using show command)\n\n")
         print_tree(command_tree, file_handle=f)
     
