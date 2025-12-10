@@ -2,6 +2,17 @@
 
 This page provides a summary of new features in each release of `netc` CLI. 
 
+#### Version 1.23.7
+
+**New features and notable changes**
+
+* sync-manager: Add support fot public ip addresses
+* cloud system status history support
+
+**Fixed issues**
+
+* dhcp-relay: upstream interface fix
+
 #### Version 1.23.6
 
 **Fixed issues**
