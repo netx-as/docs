@@ -1,0 +1,548 @@
+# Netc Command Reference
+
+This document is auto-generated from the source code.
+
+Operations: `[Config]` = Configuration command, `[Info]` = Information/Status command (using show command)
+
+- **birdc** `[Config]`: switch to internal bird CLI
+- **birdc6** `[Config]`: switch to internal bird CLI for IPv6
+- **cluster** **<number>** `[Config, Info]`: Cluster id
+  - **mode** **<string>** `[Config]`: cluster active/standby mode
+  - **watch** **<string>** `[Config]`: Bird protocol to watch
+- **copy** **<string>** **<string>** `[Config]`: destination file name
+- **ddos-guard** `[Config, Info]`: ddos protection
+  - **bgp**: bgp configuration - using for bgp flowspec
+    - **as** **<number>**: bgp as number
+    - **neighbor-address** **<ipv4-address>**: bgp neighbor ip address
+    - **neighbor-as** **<number>**: bgp neighbor as number
+    - **router-id** **<ipv4-address>**: bgp router-id
+  - **enable** `[Config]`: enable ddos-guard
+  - **reset-baseline** `[Config]`: reset baseline
+  - **rule** **<string>** `[Config, Info]`: log level
+    - **baseline**: rule baseline configuration
+      - **bps** **<number-with-unit>** `[Config]`: Bytes per second
+      - **pps** **<number-with-unit>** `[Config]`: Packets per second
+    - **baseline-coefficient** **<number>**: rule baseline coefficient configuration
+    - **clear-filters** `[Config]`: clear filters
+    - **description** **<string>**: description
+    - **eval-items** `[Config]`: ordered list of items to eval
+      - **dstip** `[Config]`: Dstip (ipv4 | ipv6)
+      - **dstip1** `[Config]`: Dstip1 - octet one (ipv4 | ipv6)
+      - **dstip2** `[Config]`: Dstip2 - octet two (ipv4 | ipv6)
+      - **dstip3** `[Config]`: Dstip3 - octet three (ipv4 | ipv6)
+      - **dstip4** `[Config]`: Dstip4 - octet four (ipv4 | ipv6)
+      - **dstport** `[Config]`: Dstport
+      - **dstport1** `[Config]`: Dstport1 - octet one
+      - **dstport2** `[Config]`: Dstport2 - octet two
+      - **ipflags** `[Config]`: IP flags
+      - **proto** `[Config]`: Protocol
+      - **srcip** `[Config]`: Srcip (ipv4 | ipv6)
+      - **srcip1** `[Config]`: Srcip1 - octet one (ipv4 | ipv6)
+      - **srcip2** `[Config]`: Srcip2 - octet two (ipv4 | ipv6)
+      - **srcip3** `[Config]`: Srcip3 - octet three (ipv4 | ipv6)
+      - **srcip4** `[Config]`: Srcip4 - octet four (ipv4 | ipv6)
+      - **srcport** `[Config]`: Srcport
+      - **srcport1** `[Config]`: Srcport1 - octet one
+      - **srcport2** `[Config]`: Srcport2 - octet two
+      - **tcpflags** `[Config]`: TCP flags
+      - **tcpflags1** `[Config]`: TCP flags 1 - octet one
+      - **tcpflags2** `[Config]`: TCP flags 2 - octet two
+    - **eval-step-msecs** **<number>**: eval step in milliseconds
+    - **filter-action** **<string>**: drop packets from search result
+    - **filter-timeout** **<number>**: rule filter-timeout in seconds
+    - **limit**: limit to which algorithm should work in case of exceeded threshold
+      - **bps** **<number-with-unit>** `[Config]`: Bytes per second
+      - **pps** **<number-with-unit>** `[Config]`: Packets per second
+    - **log-level** **<string>**: log level
+    - **pass-action** **<string>**: drop packets from search result
+    - **report-bgp-flowspec**: reporting filters via bgp flowspec - discarding
+    - **report-mail** **<email>**: reporting email address
+    - **required-items** `[Config]`: required items to valid result
+      - **dstip** `[Config]`: Dstip (ipv4 | ipv6)
+      - **dstip1** `[Config]`: Dstip1 - octet one (ipv4 | ipv6)
+      - **dstip2** `[Config]`: Dstip2 - octet two (ipv4 | ipv6)
+      - **dstip3** `[Config]`: Dstip3 - octet three (ipv4 | ipv6)
+      - **dstip4** `[Config]`: Dstip4 - octet four (ipv4 | ipv6)
+      - **dstport** `[Config]`: Dstport
+      - **dstport1** `[Config]`: Dstport1 - octet one
+      - **dstport2** `[Config]`: Dstport2 - octet two
+      - **ipflags** `[Config]`: IP flags
+      - **proto** `[Config]`: Protocol
+      - **srcip** `[Config]`: Srcip (ipv4 | ipv6)
+      - **srcip1** `[Config]`: Srcip1 - octet one (ipv4 | ipv6)
+      - **srcip2** `[Config]`: Srcip2 - octet two (ipv4 | ipv6)
+      - **srcip3** `[Config]`: Srcip3 - octet three (ipv4 | ipv6)
+      - **srcip4** `[Config]`: Srcip4 - octet four (ipv4 | ipv6)
+      - **srcport** `[Config]`: Srcport
+      - **srcport1** `[Config]`: Srcport1 - octet one
+      - **srcport2** `[Config]`: Srcport2 - octet two
+      - **tcpflags** `[Config]`: TCP flags
+      - **tcpflags1** `[Config]`: TCP flags 1 - octet one
+      - **tcpflags2** `[Config]`: TCP flags 2 - octet two
+    - **reset-baseline** `[Config]`: reset baseline
+    - **template** **<string>**: rule configuration template
+    - **test-mail** **<email>** `[Config]`: send testing email to verify mail configuration
+    - **threshold**: threshold packets or bytes per second configuration
+      - **bps** **<number-with-unit>** `[Config]`: Bytes per second
+      - **bps-baseline-derived** **<number>** `[Config]`: Multiply baseline bps
+      - **bps-min** **<number-with-unit>** `[Config]`: Min bytes per second (when using baseline based threshold)
+      - **pps** **<number-with-unit>** `[Config]`: Packets per second
+      - **pps-baseline-derived** **<number>** `[Config]`: Multiply baseline pps
+      - **pps-min** **<number-with-unit>** `[Config]`: Min packets per second (when using baseline based threshold)
+    - **threshold2-steps** **<number>**: threshold2 steps configuration
+  - **template** **<string>** `[Info]`: log level
+    - **baseline**: template baseline configuration
+      - **bps** **<number-with-unit>** `[Config]`: Bytes per second
+      - **pps** **<number-with-unit>** `[Config]`: Packets per second
+    - **baseline-coefficient** **<number>**: template baseline coefficient configuration
+    - **description** **<string>**: description
+    - **eval-items** `[Config]`: ordered list of items to eval
+      - **dstip** `[Config]`: Dstip (ipv4 | ipv6)
+      - **dstip1** `[Config]`: Dstip1 - octet one (ipv4 | ipv6)
+      - **dstip2** `[Config]`: Dstip2 - octet two (ipv4 | ipv6)
+      - **dstip3** `[Config]`: Dstip3 - octet three (ipv4 | ipv6)
+      - **dstip4** `[Config]`: Dstip4 - octet four (ipv4 | ipv6)
+      - **dstport** `[Config]`: Dstport
+      - **dstport1** `[Config]`: Dstport1 - octet one
+      - **dstport2** `[Config]`: Dstport2 - octet two
+      - **ipflags** `[Config]`: IP flags
+      - **proto** `[Config]`: Protocol
+      - **srcip** `[Config]`: Srcip (ipv4 | ipv6)
+      - **srcip1** `[Config]`: Srcip1 - octet one (ipv4 | ipv6)
+      - **srcip2** `[Config]`: Srcip2 - octet two (ipv4 | ipv6)
+      - **srcip3** `[Config]`: Srcip3 - octet three (ipv4 | ipv6)
+      - **srcip4** `[Config]`: Srcip4 - octet four (ipv4 | ipv6)
+      - **srcport** `[Config]`: Srcport
+      - **srcport1** `[Config]`: Srcport1 - octet one
+      - **srcport2** `[Config]`: Srcport2 - octet two
+      - **tcpflags** `[Config]`: TCP flags
+      - **tcpflags1** `[Config]`: TCP flags 1 - octet one
+      - **tcpflags2** `[Config]`: TCP flags 2 - octet two
+    - **eval-step-msecs** **<number>**: eval step in milliseconds
+    - **filter-action** **<string>**: drop packets from search result
+    - **filter-timeout** **<number>**: template filter-timeout in seconds
+    - **limit**: limit to which algorithm should work in case of exceeded threshold
+      - **bps** **<number-with-unit>** `[Config]`: Bytes per second
+      - **pps** **<number-with-unit>** `[Config]`: Packets per second
+    - **log-level** **<string>**: log level
+    - **pass-action** **<string>**: drop packets from search result
+    - **report-bgp-flowspec**: reporting filters via bgp flowspec - discarding
+    - **report-mail** **<email>**: reporting email address
+    - **required-items** `[Config]`: required items to valid result
+      - **dstip** `[Config]`: Dstip (ipv4 | ipv6)
+      - **dstip1** `[Config]`: Dstip1 - octet one (ipv4 | ipv6)
+      - **dstip2** `[Config]`: Dstip2 - octet two (ipv4 | ipv6)
+      - **dstip3** `[Config]`: Dstip3 - octet three (ipv4 | ipv6)
+      - **dstip4** `[Config]`: Dstip4 - octet four (ipv4 | ipv6)
+      - **dstport** `[Config]`: Dstport
+      - **dstport1** `[Config]`: Dstport1 - octet one
+      - **dstport2** `[Config]`: Dstport2 - octet two
+      - **ipflags** `[Config]`: IP flags
+      - **proto** `[Config]`: Protocol
+      - **srcip** `[Config]`: Srcip (ipv4 | ipv6)
+      - **srcip1** `[Config]`: Srcip1 - octet one (ipv4 | ipv6)
+      - **srcip2** `[Config]`: Srcip2 - octet two (ipv4 | ipv6)
+      - **srcip3** `[Config]`: Srcip3 - octet three (ipv4 | ipv6)
+      - **srcip4** `[Config]`: Srcip4 - octet four (ipv4 | ipv6)
+      - **srcport** `[Config]`: Srcport
+      - **srcport1** `[Config]`: Srcport1 - octet one
+      - **srcport2** `[Config]`: Srcport2 - octet two
+      - **tcpflags** `[Config]`: TCP flags
+      - **tcpflags1** `[Config]`: TCP flags 1 - octet one
+      - **tcpflags2** `[Config]`: TCP flags 2 - octet two
+    - **test-mail** **<email>** `[Config]`: send testing email to verify mail configuration
+    - **threshold**: threshold packets or bytes per second configuration
+      - **bps** **<number-with-unit>** `[Config]`: Bytes per second
+      - **bps-baseline-derived** **<number>** `[Config]`: Multiply baseline bps
+      - **bps-min** **<number-with-unit>** `[Config]`: Min bytes per second (when using baseline based threshold)
+      - **pps** **<number-with-unit>** `[Config]`: Packets per second
+      - **pps-baseline-derived** **<number>** `[Config]`: Multiply baseline pps
+      - **pps-min** **<number-with-unit>** `[Config]`: Min packets per second (when using baseline based threshold)
+    - **threshold2-steps** **<number>**: threshold2 steps configuration
+- **ddos-protector** **bgp-integration**: ddos protector bgp integration
+  - **as** **<number>** `[Config]`: AS number
+  - **edit** `[Config]`: Edit config file
+  - **enable** `[Config]`: Enable ddp-integration - routemond service
+  - **stats** `[Info]`: Show DDoS protector stats
+- **event** **<string>** `[Config, Info]`: rest api endpoint
+  - **action** **<string>** `[Config]`: script to run when action occurs
+    - **down** `[Config]`: Deleting a route or interface down
+    - **up** `[Config]`: New route or interface up
+  - **watch**
+    - **interface** **<interface>** `[Config]`: interface to watch
+    - **rest** **<string>** `[Config]`: rest api endpoint
+    - **route** **<ip-prefix>** `[Config]`: routing table route
+      - **exact-match** `[Config]`: Exact-match on configured route
+      - **subnet** `[Config]`: Subnetworks also matched
+      - **table** **<number>** `[Config]`: Routing table number
+- **interface** **<interface>** `[Config, Info]`: destination interface name
+  - **arp-reply** **<string>** `[Config]`
+  - **bridge-group** **<interface>** `[Config]`
+  - **channel-group** **<interface>** `[Config]`
+  - **cluster-id** **<number>** `[Config]`: bridge interface cluster id
+  - **description** **<string>** `[Config, Info]`
+  - **destination** **<ipv4-address>** `[Config]`: gre tunnel destination ip address
+  - **detail** `[Info]`: Detailed statistics including errors by types
+  - **disable-size-offload** `[Config]`: disable interface packet size offloading features
+  - **hw-filter** `[Config]`: set hw filter to interface
+    - **action** `[Config]`
+      - **dmask**: destination wildcard mask
+      - **dport**: destination port number
+      - **dst**: destination IP address
+      - **id**: filter id
+      - **proto**: protocol name/number
+      - **smask**: source wildcard mask
+      - **sport**: source port number
+      - **src**: source IP address
+    - **this** `[Info]`: this context
+  - **hw-queues** `[Info]`: Detailed utilisation of HW queues
+  - **igmp** **join** **<ipv4-address>** `[Config]`: A multicast group address
+  - **ipv4**
+    - **address** **comment** `[Config]`: comment
+    - **dhcp-relay** **upstream-interface** `[Config]`: upstream interface
+  - **ipv6**
+    - **address** **<ipv6/mask>** **eui-64** `[Config]`
+    - **dhcp-relay** `[Config]`: DCHP Relay upstream interface
+      - **address**: destination address
+      - **create-pd-route**: create IPv6 route from prefix delegation
+  - **listen-port** **<number>** `[Config, Info]`: Wireguard port for listening
+  - **master** **<interface>** **mac** `[Config]`: mac address
+  - **mirror-to** **<interface>** `[Config, Info]`: destination interface name
+    - **in**: incomming (rx) traffic
+    - **out**: outgoing (tx) traffic
+  - **mtu** **<number>** `[Config]`
+  - **offload** `[Info]`: interface offloading features
+  - **peer** `[Config, Info]`: Wireguard peer management
+  - **port-channel**: set port channel/bonding options
+    - **hash-policy** **<string>** `[Config]`
+    - **miimon** **<number>** `[Config]`
+    - **mode** **<string>** `[Config]`
+  - **private-key** `[Info]`: Wireguard private-key
+  - **promisc** `[Config]`: Enable promiscuous mode
+  - **public-key** `[Info]`
+  - **qos-type** **<string>** **speed** `[Config]`: speed limit
+  - **shutdown** `[Config]`
+  - **source** **<ipv4-address>** `[Config]`: gre tunnel source ip address
+  - **this** `[Info]`: this context
+  - **vrrp** `[Info]`: VRRP options
+    - **<number>** `[Config]`: VRRP group/ID
+      - **ipv4** **<ipv4-address>** `[Config, Info]`: virtual IP address
+      - **priority** **<number>** `[Config, Info]`: VRRP group priority
+    - **detail** `[Info]`: Detailed VRRP information
+- **ipv4**: IPv4 configuration
+  - **arp** `[Info]`: IPv4 neighbour table
+    - **<ipv4-address>** `[Info]`
+    - **interface**: interface
+  - **arp-cache** **<number>** `[Config]`: arp-cache min. number of entries to keep
+  - **dhcp-server** `[Info]`: DHCP server options
+    - **apply** `[Config]`: Apply configuration set in config-file
+    - **config-file** **<string>** `[Config, Info]`: Name of the config file
+    - **edit** `[Config]`: Edit config file
+    - **leases** `[Info]`: DHCP server leases
+  - **firewall** `[Config, Info]`
+    - **apply** **timeout** `[Config]`: number of seconds to revert the configuration
+    - **confirm** `[Config]`: confirm/revert previously applied configuration
+    - **custom-script** **<string>** `[Config, Info]`: configure IP firewall rules via custom shell script instead of netc
+    - **edit** **<string>** `[Config]`: edit custom shell script
+    - **match-list** **<string>** `[Config, Info]`: match-list name
+      - **action** `[Config]`: IPv4 ACL entry action
+        - **comment**: comment
+        - **interface**: interface
+        - **ip**: IP address
+        - **mac**: MAC address
+        - **mark**: mark
+        - **net**: network
+        - **port**: TCP/UDP/SCTP port
+        - **protocol**: protocol (tcp,udp,sctp,...)
+        - **timeout**: timeout in seconds
+      - **forceadd**: for hash:* types, add entry even if the list is full, random entry will be removed)
+      - **hashsize**: hash size for hash:* match list types
+      - **key**: match list type
+      - **maxelem**: maximum number of elements
+      - **this** `[Info]`: this context
+      - **timeout**: entry timeout in seconds
+    - **table** **<string>** **chain** `[Config, Info]`: chain name
+      - **action** `[Config]`: rule action or a custom chain
+      - **description**: IPv4 ACL entry
+      - **id**: rule ID to delete
+      - **rename** `[Config]`: rename current chain
+      - **this** `[Info]`: this context
+    - **this** `[Info]`: this context
+  - **igmp**: IGMP Global configuration
+    - **groups** `[Info]`: IGMP group membership information
+    - **max-groups** **<number>** `[Config, Info]`: Number of IGMP groups
+  - **interface** `[Info]`
+    - **detail**: detail interface information
+    - **vrrp**: VRRP information
+  - **route** `[Info]`: Static route settings
+    - **<ipv4/mask>** **<ipv4-address>** `[Config, Info]`: Next hop address
+      - **metric**: route metric
+      - **table**: routing table name
+    - **table**: routing table name
+  - **rule** **table** **<string>** `[Config, Info]`: Policy based routing table name or table number
+    - **from** **<ipv4/mask>** `[Config]`: From IPv4 prefix
+    - **iif** **<interface>** `[Config]`: Input interface
+    - **oif** **<interface>** `[Config]`: Output interface
+    - **to** **<ipv4/mask>** `[Config]`: To IPv4 prefix
+  - **sessions** `[Info]`: Show IPv4 connections
+    - **dstip** **<ipv4-address>** `[Config, Info]`: Destination IPv4 address
+    - **dstport** **<number>** `[Config, Info]`: Destination port
+    - **proto** **<string>** `[Config, Info]`: "L4 protocol (tcp, udp ...)"
+    - **rdstip** **<ipv4-address>** `[Config, Info]`: Destination IPv4 address in the reply direction
+    - **rdstport** **<number>** `[Config, Info]`: Destination port in the reply direction
+    - **rsrcip** **<ipv4-address>** `[Config, Info]`: Source IPv4 address in the reply direction
+    - **rsrcport** **<number>** `[Config, Info]`: Source port in the reply direction
+    - **srcip** **<ipv4-address>** `[Config, Info]`: Source IPv4 address
+    - **srcport** **<number>** `[Config, Info]`: Source port
+  - **vrrp** `[Info]`: show VRRP interfaces and status
+- **ipv6**: IPv6 configuration
+  - **arp-cache** **<number>** `[Config]`: arp-cache min. number of entries to keep
+  - **dhcp-server**
+    - **apply** `[Config]`: Apply configuration set in config-file
+    - **config-file** **<string>** `[Config, Info]`: Name of the config file
+    - **edit** `[Config]`: Edit config file
+  - **interface** `[Info]`
+    - **detail**: detail interface information
+    - **link-local**: include IPv6 link local address
+    - **vrrp**: VRRP information
+  - **rule** **table** **<string>** `[Config, Info]`: Policy based routing table name or table number
+    - **from** **<ipv6/mask>** `[Config]`: From IPv6 prefix
+    - **iif** **<interface>** `[Config]`: Input interface
+    - **oif** **<interface>** `[Config]`: Output interface
+    - **to** **<ipv6/mask>** `[Config]`: To IPv6 prefix
+  - **sessions** `[Info]`: Show IPv6 connections
+    - **dstip** **<ipv6-address>** `[Config, Info]`: Destination IPv6 address
+    - **dstport** **<number>** `[Config, Info]`: Destination port
+    - **proto** **<string>** `[Config, Info]`: "L4 protocol (tcp, udp ...)"
+    - **rdstip** **<ipv6-address>** `[Config, Info]`: Destination IPv6 address in the reply direction
+    - **rdstport** **<number>** `[Config, Info]`: Destination port in the reply direction
+    - **rsrcip** **<ipv6-address>** `[Config, Info]`: Source IPv6 address in the reply direction
+    - **rsrcport** **<number>** `[Config, Info]`: Source port in the reply direction
+    - **srcip** **<ipv6-address>** `[Config, Info]`: Source IPv6 address
+    - **srcport** **<number>** `[Config, Info]`: Source port
+- **lldp** `[Info]`: LLDP information
+  - **disable** `[Config]`: Disable LLDP protocol
+  - **neighbors** **details** `[Info]`: Show LLDP neighbors
+- **netflow** `[Config, Info]`: NetFlow export settings
+  - **active-timeout** **<number>** `[Config]`: Active timeout in seconds
+  - **collector** **<collection>** `[Config]`: Collector''s address and port (default port is 2055)
+  - **detail** `[Info]`: Verbose output
+  - **inactive-timeout** **<number>** `[Config]`: Inactive timeout in seconds
+  - **license** **<string>** `[Config]`: License key
+  - **max-flows**: Max number of active flows in cache
+  - **natevents** **enable** `[Config]`: Enable exporting NAT events
+  - **promisc** **enable** `[Config]`: Enable promisc mode
+  - **protocol** **<number>** `[Config]`: NetFlow protocol version
+  - **template-refresh** **<number>** `[Config]`: Templates refresh interval (packets)
+  - **template-timeout** **<number>** `[Config]`: Templates resend interval (mins)
+- **ping** `[Config]`: ping command
+  - **<host>** `[Config]`
+  - **count**: number of packets
+  - **interface**: output interface name
+  - **interval**: set wait interval in seconds
+  - **ipv4**: force IPv4 protocol
+  - **ipv6**: force IPv6 protocol
+  - **numeric**: do not lookup DNS names
+  - **size**: packet size in Bytes
+  - **source**: source ip address
+- **pppoe-server** `[Config, Info]`: PPPoE server
+  - **config-file** **<string>** `[Config]`: pppoe config file
+  - **edit-config** `[Config]`: edit config file
+  - **edit-secrets** `[Config]`: edit secrets file
+  - **enable** `[Config]`: enable pppoe server
+  - **interfaces** `[Info]`: pppoe interfaces config
+    - **add** **<interface>** `[Config]`: pppoe interface name
+    - **delete** **<interface>** `[Config]`: pppoe interface name
+  - **secrets-file** **<string>** `[Config]`: pppoe secrets file
+  - **sessions** `[Info]`: show sessions stats
+    - **ip** **<ipv4-address>** `[Info]`: pppoe session IPv4 address
+    - **user** **<string>** `[Info]`: pppoe session username
+- **reboot** `[Config]`: reboot netx
+- **router** `[Config]`: Configure routing protocols
+  - **<string>** **bgp** **neighbor** `[Info]`
+  - **apply** **timeout** `[Config]`: number of seconds to revert the configuration
+  - **check-config** `[Config]`: check the main configuration file
+  - **config-file** **<string>** `[Config, Info]`: name of config file
+    - **apply** `[Config]`: set config file and immediately apply
+    - **remove** `[Config]`: remove config file
+  - **confirm** `[Config]`: confirm/revert previously applied configuration
+  - **edit** **<string>** `[Config]`: name of config file
+  - **multicast** `[Config, Info]`: Configure multicast routing
+    - **apply** `[Config]`: Apply configuration set in config-file after changes
+    - **config-file** **<string>** `[Config, Info]`: name of the config file
+    - **edit** `[Config]`: Edit config file
+    - **route** **<interface>** `[Config]`: Output interface
+      - **<ipv4-address>** **<interface>** `[Config]`: Output interface
+      - **source** **<ipv4-address>** `[Config]`: Source of the multicast traffic
+  - **protocols** **<string>** `[Info]`: detailed information
+  - **routing-table** **<number>** **name** **<string>** `[Config, Info]`: Routing table name
+  - **this** `[Info]`: this context
+- **running-config** `[Info]`: actual configuration
+- **save** `[Config]`: save actual configuration
+- **shell** `[Config]`: switch to unix shell enviroment
+- **snmp-server** **community** `[Config]`
+- **startup-config** `[Info]`: saved configuration
+- **sync-manager** `[Config, Info]`: External systems synchronization manager
+  - **add-weblist** **<string>** `[Config]`: allowed web match list (ispadmin)
+  - **coeficient** **<string>** `[Config]`: shaping coeficient
+  - **data-source** **<string>** `[Config]`: data source system
+  - **db-driver** **<string>** `[Config]`: database driver
+  - **db-host** **<string>** `[Config]`: hostname or IP of database server
+  - **db-name** **<string>** `[Config]`: database name
+  - **db-password** **<string>** `[Config]`: password for connection to sync database
+  - **db-qos-min-records** **<number>** `[Config]`: minimum number of records that must be retreived by the QoS query
+  - **db-qos-query** **<string>** `[Config, Info]`: sync manager QoS SQL query file
+  - **db-scan-interval** **<number>** `[Config]`: scan interval - number of seconds
+  - **db-username** **<string>** `[Config]`: database server user name
+  - **debug-level** **<number>** `[Config]`: debug level value
+  - **edit** `[Config]`: edit SQL QoS query file
+  - **enable** `[Config]`: enable sync manager
+  - **force-update** `[Config]`
+  - **ignore-invalid-certificate** `[Config]`: ignore invalid certificate when connecting to api
+  - **ispa-data-interpretation** **<string>** `[Config]`: data interpretation (ispadmin)
+  - **routerid** **<number>** `[Config]`: database router id (ispadmin)
+  - **rules** `[Info]`: show synced rules
+    - **group** **<string>** `[Info]`: group name
+    - **ip** **<ip-address>** `[Info]`: lookup group by ip
+    - **mark** **<number>** `[Info]`: lookup group by mark
+  - **sync-stats** `[Config]`: synchronize statistics (ispadmin)
+- **system** `[Config, Info]`: Set system's basic configuration
+  - **bridge-pass-filtering** `[Config]`: bridge pass filtering
+  - **clock** `[Info]`: clock options
+    - **set** **<string>** **<string>** `[Config]`: time in HH:MM:SS format
+    - **timezone** **<string>** `[Config]`: set time zone
+  - **disable-serial-console** `[Config]`: disable serial console
+  - **domain-lookup** **<string>** `[Config, Info]`
+  - **editor** **<string>** `[Config, Info]`: editor name
+  - **hostname** **<string>** `[Config, Info]`: This system's network name
+  - **kernel** **<string>** `[Config, Info]`: kernel version
+  - **logging**: logging options
+    - **facility** **<string>** `[Config]`: logging facilities
+    - **server** **<host>** `[Config]`: logging server HOSTNAME[:PORT] or IP[:PORT]
+  - **name-server** **<string>** `[Config, Info]`: IPv4 or IPv6 address
+  - **ntp** `[Config, Info]`: network time protocol
+    - **server** `[Config]`: IPv4 addres of NTP server
+    - **sync** `[Config]`: Force sync time
+  - **police** `[Info]`: police system audit
+    - **enable** `[Config]`: enable periodical run of police audit
+    - **run-now** `[Config]`: run police audit now
+  - **radius-auth**: Radius authentication options
+    - **map-user** **<string>** `[Config]`: Local user to map all radius users to
+    - **server** **<host>** `[Config]`: Radius server for authentication
+      - **port** **<number>** `[Config]`
+      - **secret** **<string>** `[Config]`
+      - **timeout** **<number>** `[Config]`
+  - **release-channel**: select release channel
+    - **devel** `[Config, Info]`: enable devel release channel
+    - **early-access** `[Config, Info]`: enable early access release channel
+  - **service-module** `[Config, Info]`: Show service module operation values
+    - **factory-default** `[Config]`: Load default configuration to service module
+    - **fan** **speed** **<string>** `[Config, Info]`: Current fan status
+    - **fw** `[Info]`: "Manage IPv4 access for service-module"
+      - **action** **<string>** **id** **<number>** **src** **<ipv4/mask>** `[Config]`: Action identificator in range 1 - 10
+      - **disable** `[Config]`: "Disable IPv4 access for service-module"
+      - **enable** `[Config]`: "Enable IPv4 access for service-module"
+      - **id** **<number>**
+    - **gw** **<ipv4-address>** `[Config, Info]`: Service IPv4 gateway
+    - **ip** **<ipv4/mask|dhcp>** `[Config, Info]`: Service IPv4 interface
+    - **mode** `[Info]`: Service IPv4 interface mode
+      - **dedicated** `[Config]`
+      - **shared** `[Config]`
+    - **power** `[Info]`: Current status of power supplies
+    - **reboot** `[Config]`: Service module cold reboot (take 30-90 seconds)
+    - **temperature** `[Info]`: Current temperature
+    - **user** **<string>** `[Config, Info]`: New user name
+      - **password** **<string>** `[Config]`: New password
+      - **rename** **<string>** `[Config]`: New user name
+  - **snmp-server**: SNMP community
+    - **community** **<string>** `[Config]`: SNMP community
+    - **contact** **<string>** `[Config]`: SNMP contact
+    - **location** **<string>** `[Config]`: SNMP location
+  - **statistics** `[Config]`: System statistics
+    - **cloud-history** **refresh-interval** **<number>** `[Config]`: Refresh interval for cloud-history statistics in seconds
+    - **cloud-id** **<string>** `[Config]`: Statistics ID - unique client identifier for NetX Cloud
+    - **cloud-password** **<string>** `[Config]`: Cloud password for NetX Cloud
+    - **cloud-username** **<string>** `[Config]`: Cloud username for NetX Cloud
+    - **match-list** **refresh-interval** **<number>** `[Config]`: Refresh interval for match-list statistics in seconds
+  - **update** **nocache** `[Config]`: update system to the latest version
+  - **update-proxy** **server** **<string>** `[Config]`: Proxy server password
+    - **password** **<string>** `[Config]`: Proxy server password
+    - **port** **<number>** `[Config]`: Proxy server port
+    - **username** **<string>** `[Config]`: Proxy server username
+  - **user** **<string>** `[Config, Info]`: user management
+    - **api**: set API access via token
+      - **create-token** `[Config]`: create API JWT token
+      - **token-expiration** **<number>** `[Config]`: set token lifetime
+    - **crypt** **<crypt>** `[Config]`: set encrypted password
+    - **login-shell** **<string>** `[Config]`: set default login shell
+    - **password** **<string>** `[Config]`: set plain text password
+    - **this** `[Info]`: this context
+  - **zabbix**: zabbix agent options
+    - **hostname** **<string>** `[Config]`: zabbix hostname identification
+    - **server** **<string>** `[Config]`: Zabbix server for active checks
+- **this** `[Info]`: this context
+- **traceroute** `[Config]`: traceroute command
+  - **<host>** `[Config]`
+  - **interface**: output interface name
+  - **ipv4**: force IPv4 protocol
+  - **ipv6**: force IPv6 protocol
+  - **numeric**: do not lookup DNS names
+  - **source**: source ip address
+- **traffic-manager** `[Config, Info]`: Traffic manager options
+  - **config** `[Info]`: show current traffic manager config
+  - **db-connstr** **<string>** `[Config]`: connect string
+  - **db-dbname** **<string>** `[Config]`: database name
+  - **db-driver** **<string>** `[Config]`: database driver
+  - **db-host** **<string>** `[Config]`: hostname or IP address
+  - **db-password** **<string>** `[Config]`: password
+  - **db-qos-min-records** **<number>** `[Config]`: number of records
+  - **db-qos-query** **<string>** `[Config, Info]`: SQL query filename
+  - **db-scan-interval** **<number>** `[Config]`: number of seconds
+  - **db-username** **<string>** `[Config]`: username
+  - **default-qdisc** **<qdisc>** `[Config]`: qdisc name
+  - **edit** `[Config]`: edit SQL QoS query file
+  - **enable** `[Config]`: enable traffic manager
+  - **force-update** `[Config]`: force update from database
+  - **interface** **<interfaces>** `[Config]`: interface name
+  - **qos-rules** `[Config, Info]`: show current active top QoS rules
+    - **active**: only rules with non zero statistics
+    - **adaptive**: add adaptive shaping information
+    - **bps**: do not convert speeds to M/K/G/bps
+    - **detail**: detailed output for group
+    - **group**: group name
+    - **inconsistent-speed**: information about inconsistent speed child > parent
+    - **ip**: lookup group by ip
+    - **mark**: lookup by mark
+    - **offload**: show only offloaded rules
+    - **shape** `[Config, Info]`: Shaping QoS rule
+      - **adaptive** **<string>** `[Config]`: Adaptive shaping
+      - **burst** **<numbers-comma>** `[Config]`: Burst options
+      - **comment** **<string>** `[Config]`: Comment
+      - **customid** **<number>** `[Config]`: Custom ID
+      - **download** **<number-with-unit>** `[Config]`: Download speed
+      - **ecn** `[Config]`: Codel ECN
+      - **group** **<string>** `[Config]`: Group name
+      - **guaranteed** **<numbers>** `[Config]`: Guaranteed capacity in percent
+      - **halfduplex** `[Config]`: Half duplex shaping
+      - **mark** **<number>** `[Config]`: Mark number
+      - **offload** `[Config]`: Offload shaping
+      - **parent** **<string>** `[Config]`: Parent Group name
+      - **prefix** **<ip-prefix>** `[Config]`: IPv4/6 address or prefix
+      - **priority** **<numbers>** `[Config]`: Priority options
+      - **qdisc** **<qdisc>** `[Config]`: Queue discipline
+      - **queuelimit** **<number>** `[Config]`: Codel queue packet size limit
+      - **upload** **<number-with-unit>** `[Config]`: Upload speed
+    - **sub-levels**: max number of subtree levels
+    - **top-download**: top 10 download rules
+    - **top-upload**: top 10 upload rules
+    - **verbose**: add detailed internal information
+  - **scheduling-opts** `[Config]`: packet scheduling options
+    - **algo-hfsc**: hfsc packet scheduling algorithm
+    - **algo-htb**: htb packet scheduling algorithm
+    - **guaranteed-auto**: auto compute guaranteed speeds
+    - **lock-queues**: number of locking queues
+    - **offload-all**: offload all shaping rules
+    - **offload-auto**: auto offload shaping when speed exceeds configured value
+  - **subqueues** **<string>** `[Config]`: number of seconds
+  - **this** `[Info]`: this context
+- **write** `[Config]`: save actual configuration
