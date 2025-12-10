@@ -65,6 +65,32 @@ netx(router-bird)# apply
 > Reconfiguration confirmed
 > ```
 
+### Additional Router Commands
+
+Besides the basic configuration workflow, the `router` context provides several other useful commands:
+
+*   **check-config**: Validates the syntax of the current configuration file without applying it.
+    ```
+    netx(router-bird)# check-config
+    ```
+
+*   **protocols**: Displays the status of configured routing protocols directly within `netc`.
+    ```
+    netx(router-bird)# protocols
+    name     proto    table    state  since       info
+    device1  Device   master4  up     10:00:00    
+    kernel1  Kernel   master4  up     10:00:00    
+    ```
+    You can also view detailed information for a specific protocol:
+    ```
+    netx(router-bird)# protocols <protocol_name>
+    ```
+
+*   **bgp neighbor**: Displays BGP neighbor status (shortcut for `show protocols` filtered for BGP).
+    ```
+    netx(router-bird)# bgp neighbor
+    ```
+
 ## BIRD CLI
 
 Switching between `netc` and BIRD CLI can be easily done with `birdc` command. If BIRD version 1.x is running, `birdc` and `birdc6` commands are available as

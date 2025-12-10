@@ -104,6 +104,11 @@ List of available scheduling options:
 * `algo-htb` - utilizes htb as the packet scheduling algorithm
 * `guaranteed-auto` - automatically calculates guaranteed speeds without overriding manually set values (works only with htb)
 * `lock-queues <int>` - sets the number of locking queues
+* `offload-all` - offload all shaping rules
+* `offload-auto <speed>` - auto offload shaping when speed exceeds configured value
+
+> [!NOTE]
+> Offloading the rules in traffic manager is for performance using enhanced token bucket algorithm. It is recommended for rules where download or upload is more than 1 Gbps. Tree stucture is ignored for offloaded rules.
 
 ##### Syntax
 
@@ -129,15 +134,15 @@ netx# traffic-manager qos-rules
 netx(traff-mgr-rules)#
 ```
 
-The main comnand for setting a QoS rule and various rule options is `action shape` command in `qos-rules` subcontext.
+The main comnand for setting a QoS rule and various rule options is `shape` command in `qos-rules` subcontext.
 
-#### action shape
+#### shape
 
 The main command for configuring QoS rules. Contains several options for detailed setting of a QoS rule.
 
 ##### Syntax
 
-`action shape <opts>`
+`shape <opts>`
 
 ##### Example
 
@@ -287,6 +292,38 @@ priority 300/50
 
 ---
 
+#### guaranteed
+
+Guaranteed capacity in percent. This ensures that the rule gets at least the specified percentage of the parent's bandwidth.
+
+##### Syntax
+
+`guaranteed <percent>[/<percent-up>]`
+
+##### Example
+
+```
+guaranteed 50
+```
+
+---
+
+#### qdisc
+
+Queue discipline to use for the rule. Supported values are `sfq`, `pfifo`, `codel`, `fq_codel`.
+
+##### Syntax
+
+`qdisc <type>`
+
+##### Example
+
+```
+qdisc fq_codel
+```
+
+---
+
 #### burst
 
 Amount of additional bandwidth that is added to the base bandwidth at the beginning of download/upload.
@@ -426,6 +463,26 @@ Default is 1000 packets.
 ```
 queuelimit 10000
 ```
+
+---
+
+#### offload
+
+Enable hardware offload for the shaping rule if supported by the underlying hardware.
+
+##### Syntax
+
+`offload`
+
+---
+
+#### customid
+
+Set a custom numeric identifier for the rule.
+
+##### Syntax
+
+`customid <number>`
 
 ---
 

@@ -8,6 +8,8 @@ thus all standard shortcuts are available. This is the default mode that is avai
 * unix command: `netc` operates directly in the unix shell (e.g., `bash`). Completion support is available to allow you to complete commands and their 
 arguments easily.
 
+For a complete list of available commands, see the [Command Reference](command-reference.md).
+
 ## Netc shell
 
 The built-in CLI is ready to use after you login as `admin` or as a user with `netc` login shell. You can use `?` to display list of available 

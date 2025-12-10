@@ -9,6 +9,7 @@ repositories. The package management utilities in NetXOS are already configured 
 * **[extras]** Packages that add functionality to the core distribution. It is enabled by default.
 * **[epel]** Extra Packages for Enterprise Linux (EPEL) repository provides set of additional packages for Enterprise Linux. It is enabled by default.
 * **[netx]** Repository that contains custom packages designed primarily for NetXOS. These packages add new functionality and updates/enhanced some of the [base], or [updates] packages. The repository provides core NetXOS packages, such as `netc`. It is enabled by default. 
+* **[netx-early-access]** Early access version for [netx] packages. These packages are candidates for the stable release and are more tested than devel packages. It is disabled by default.
 * **[netx-devel]** Development version for [netx] packages. These packages use up-to-date git code and have undergone some basic testing. Users should not use this repository except for a specific reason. It is disabled by default.
 
 ## Update naming conventions
@@ -80,7 +81,19 @@ Available command options:
 netx# system update-proxy server proxy.netx.as port 8080
 ```
 
-## Enabling devel repo
+## Enabling release channels
+
+It is possible to enable different release channels to access newer features.
+
+### Early Access
+
+The `early-access` channel provides packages that are candidates for the next stable release. They are more stable than `devel` packages but might still contain bugs.
+
+```
+netx# system release-channel early-access
+```
+
+### Devel
 
 If there is a specific reason, e.g. you want to try a new feature not available in the stable repo yet, it's possible to enable
 devel repository using `system release-channel devel` command. `show system release-channel devel` command can be used to check
