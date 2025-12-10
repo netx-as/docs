@@ -6,7 +6,7 @@ This page provides a summary of new features in each release of `netc` CLI.
 
 **New features and notable changes**
 
-* sync-manager: Add support fot public ip addresses
+* sync-manager: ISPAdmin add support fot public ip addresses
 * cloud system status history support
 
 **Fixed issues**
@@ -264,7 +264,7 @@ This page provides a summary of new features in each release of `netc` CLI.
 
 **New features and notable changes**
 * sync-manager: Add support for increasing debug level
-* sync-manager: Allows ISPAdming burst and adaptive shaping synchronization
+* sync-manager: Allows ISPAdmin burst and adaptive shaping synchronization
 
 ---
 
