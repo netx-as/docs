@@ -83,17 +83,17 @@ You can monitor and manage active PPPoE sessions directly from the CLI.
 
 **Show all active sessions:**
 ```
-netx(pppoe)# sessions
+netx(pppoe)# show pppoe-server sessions
 ```
 
 **Show session details by IP:**
 ```
-netx(pppoe)# sessions ip <ip_address>
+netx(pppoe)# show pppoe-server sessions ip <ip_address>
 ```
 
 **Show session details by Username:**
 ```
-netx(pppoe)# sessions user <username>
+netx(pppoe)# show pppoe-server sessions user <username>
 ```
 
 **Terminate a session:**
@@ -109,6 +109,7 @@ netx(pppoe)# no sessions user <username>
 ```
 netx# pppoe-server
 netx(pppoe)# interfaces add eth2
+netx(pppoe)# config-file /etc/ppp/pppoe.cfg
 netx(pppoe)# secrets-file /etc/ppp/chap-secrets
 netx(pppoe)# edit-secrets
 # Add user: "user1" * "password" *

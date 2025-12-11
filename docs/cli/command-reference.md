@@ -184,27 +184,27 @@ Operations: `[Config]` = Configuration command, `[Info]` = Information/Status co
   - **disable-size-offload** `[Config]`: disable interface packet size offloading features
   - **hw-filter** `[Config]`: set hw filter to interface
     - **action** `[Config]`
-      - **dmask**: destination wildcard mask
-      - **dport**: destination port number
-      - **dst**: destination IP address
-      - **id**: filter id
-      - **proto**: protocol name/number
-      - **smask**: source wildcard mask
-      - **sport**: source port number
-      - **src**: source IP address
+      - **dmask** **<ipv4-address>**: destination wildcard mask
+      - **dport** **<number>**: destination port number
+      - **dst** **<ipv4-address>**: destination IP address
+      - **id** **<number>**: filter id
+      - **proto** **<string>**: protocol name/number
+      - **smask** **<ipv4-address>**: source wildcard mask
+      - **sport** **<number>**: source port number
+      - **src** **<ipv4-address>**: source IP address
     - **this** `[Info]`: this context
   - **hw-queues** `[Info]`: Detailed utilisation of HW queues
   - **igmp** **join** **<ipv4-address>** `[Config]`: A multicast group address
   - **ipv4**
-    - **address** **comment** `[Config]`: comment
-    - **dhcp-relay** **upstream-interface** `[Config]`: upstream interface
+    - **address** **comment** **<string>** `[Config]`: comment
+    - **dhcp-relay** **upstream-interface** **<interface>** `[Config]`: upstream interface
   - **ipv6**
     - **address** **<ipv6/mask>** **eui-64** `[Config]`
     - **dhcp-relay** `[Config]`: DCHP Relay upstream interface
-      - **address**: destination address
+      - **address** **<ipv6-address>**: destination address
       - **create-pd-route**: create IPv6 route from prefix delegation
   - **listen-port** **<number>** `[Config, Info]`: Wireguard port for listening
-  - **master** **<interface>** **mac** `[Config]`: mac address
+  - **master** **<interface>** **mac** **<mac-address>** `[Config]`: mac address
   - **mirror-to** **<interface>** `[Config, Info]`: destination interface name
     - **in**: incomming (rx) traffic
     - **out**: outgoing (tx) traffic
@@ -218,7 +218,7 @@ Operations: `[Config]` = Configuration command, `[Info]` = Information/Status co
   - **private-key** `[Info]`: Wireguard private-key
   - **promisc** `[Config]`: Enable promiscuous mode
   - **public-key** `[Info]`
-  - **qos-type** **<string>** **speed** `[Config]`: speed limit
+  - **qos-type** **<string>** **speed** **<number-with-unit>** `[Config]`: speed limit
   - **shutdown** `[Config]`
   - **source** **<ipv4-address>** `[Config]`: gre tunnel source ip address
   - **this** `[Info]`: this context
@@ -230,7 +230,7 @@ Operations: `[Config]` = Configuration command, `[Info]` = Information/Status co
 - **ipv4**: IPv4 configuration
   - **arp** `[Info]`: IPv4 neighbour table
     - **<ipv4-address>** `[Info]`
-    - **interface**: interface
+    - **interface** **<interface>**: interface
   - **arp-cache** **<number>** `[Config]`: arp-cache min. number of entries to keep
   - **dhcp-server** `[Info]`: DHCP server options
     - **apply** `[Config]`: Apply configuration set in config-file
@@ -242,23 +242,23 @@ Operations: `[Config]` = Configuration command, `[Info]` = Information/Status co
     - **confirm** `[Config]`: confirm/revert previously applied configuration
     - **custom-script** **<string>** `[Config, Info]`: configure IP firewall rules via custom shell script instead of netc
     - **edit** **<string>** `[Config]`: edit custom shell script
-    - **match-list** **<string>** `[Config, Info]`: match-list name
+    - **match-list** **<string>** `[Config, Info]`: comment
       - **action** `[Config]`: IPv4 ACL entry action
-        - **comment**: comment
-        - **interface**: interface
-        - **ip**: IP address
-        - **mac**: MAC address
-        - **mark**: mark
-        - **net**: network
-        - **port**: TCP/UDP/SCTP port
-        - **protocol**: protocol (tcp,udp,sctp,...)
-        - **timeout**: timeout in seconds
+        - **comment** **<string>**: comment
+        - **interface** **<number>**: interface
+        - **ip** **<ipv4/mask>**: IP address
+        - **mac** **<string>**: MAC address
+        - **mark** **<number>**: mark
+        - **net** **<ipv4/mask>**: network
+        - **port** **<number>**: TCP/UDP/SCTP port
+        - **protocol** **<string>**: protocol (tcp,udp,sctp,...)
+        - **timeout** **<number>**: timeout in seconds
       - **forceadd**: for hash:* types, add entry even if the list is full, random entry will be removed)
-      - **hashsize**: hash size for hash:* match list types
-      - **key**: match list type
-      - **maxelem**: maximum number of elements
+      - **hashsize** **<number>**: hash size for hash:* match list types
+      - **key** **<string>**: match list type
+      - **maxelem** **<number>**: maximum number of elements
       - **this** `[Info]`: this context
-      - **timeout**: entry timeout in seconds
+      - **timeout** **<number>**: entry timeout in seconds
     - **table** **<string>** **chain** `[Config, Info]`: chain name
       - **action** `[Config]`: rule action or a custom chain
       - **description**: IPv4 ACL entry
@@ -270,13 +270,13 @@ Operations: `[Config]` = Configuration command, `[Info]` = Information/Status co
     - **groups** `[Info]`: IGMP group membership information
     - **max-groups** **<number>** `[Config, Info]`: Number of IGMP groups
   - **interface** `[Info]`
-    - **detail**: detail interface information
+    - **detail** **<interface>**: detail interface information
     - **vrrp**: VRRP information
   - **route** `[Info]`: Static route settings
     - **<ipv4/mask>** **<ipv4-address>** `[Config, Info]`: Next hop address
-      - **metric**: route metric
-      - **table**: routing table name
-    - **table**: routing table name
+      - **metric** **<number>**: route metric
+      - **table** **<string>**: routing table name
+    - **table** **<string>**: routing table name
   - **rule** **table** **<string>** `[Config, Info]`: Policy based routing table name or table number
     - **from** **<ipv4/mask>** `[Config]`: From IPv4 prefix
     - **iif** **<interface>** `[Config]`: Input interface
@@ -300,7 +300,7 @@ Operations: `[Config]` = Configuration command, `[Info]` = Information/Status co
     - **config-file** **<string>** `[Config, Info]`: Name of the config file
     - **edit** `[Config]`: Edit config file
   - **interface** `[Info]`
-    - **detail**: detail interface information
+    - **detail** **<interface>**: detail interface information
     - **link-local**: include IPv6 link local address
     - **vrrp**: VRRP information
   - **rule** **table** **<string>** `[Config, Info]`: Policy based routing table name or table number
@@ -335,14 +335,14 @@ Operations: `[Config]` = Configuration command, `[Info]` = Information/Status co
   - **template-timeout** **<number>** `[Config]`: Templates resend interval (mins)
 - **ping** `[Config]`: ping command
   - **<host>** `[Config]`
-  - **count**: number of packets
-  - **interface**: output interface name
-  - **interval**: set wait interval in seconds
+  - **count** **<number>**: number of packets
+  - **interface** **<interface>**: output interface name
+  - **interval** **<number>**: set wait interval in seconds
   - **ipv4**: force IPv4 protocol
   - **ipv6**: force IPv6 protocol
   - **numeric**: do not lookup DNS names
-  - **size**: packet size in Bytes
-  - **source**: source ip address
+  - **size** **<number>**: packet size in Bytes
+  - **source** **<host>**: source ip address
 - **pppoe-server** `[Config, Info]`: PPPoE server
   - **config-file** **<string>** `[Config]`: pppoe config file
   - **edit-config** `[Config]`: edit config file
@@ -481,11 +481,11 @@ Operations: `[Config]` = Configuration command, `[Info]` = Information/Status co
 - **this** `[Info]`: this context
 - **traceroute** `[Config]`: traceroute command
   - **<host>** `[Config]`
-  - **interface**: output interface name
+  - **interface** **<interface>**: output interface name
   - **ipv4**: force IPv4 protocol
   - **ipv6**: force IPv6 protocol
   - **numeric**: do not lookup DNS names
-  - **source**: source ip address
+  - **source** **<host>**: source ip address
 - **traffic-manager** `[Config, Info]`: Traffic manager options
   - **config** `[Info]`: show current traffic manager config
   - **db-connstr** **<string>** `[Config]`: connect string
@@ -507,10 +507,10 @@ Operations: `[Config]` = Configuration command, `[Info]` = Information/Status co
     - **adaptive**: add adaptive shaping information
     - **bps**: do not convert speeds to M/K/G/bps
     - **detail**: detailed output for group
-    - **group**: group name
+    - **group** **<string>**: group name
     - **inconsistent-speed**: information about inconsistent speed child > parent
-    - **ip**: lookup group by ip
-    - **mark**: lookup by mark
+    - **ip** **<ip-address>**: lookup group by ip
+    - **mark** **<number>**: lookup by mark
     - **offload**: show only offloaded rules
     - **shape** `[Config, Info]`: Shaping QoS rule
       - **adaptive** **<string>** `[Config]`: Adaptive shaping
@@ -530,7 +530,7 @@ Operations: `[Config]` = Configuration command, `[Info]` = Information/Status co
       - **qdisc** **<qdisc>** `[Config]`: Queue discipline
       - **queuelimit** **<number>** `[Config]`: Codel queue packet size limit
       - **upload** **<number-with-unit>** `[Config]`: Upload speed
-    - **sub-levels**: max number of subtree levels
+    - **sub-levels** **<number>**: max number of subtree levels
     - **top-download**: top 10 download rules
     - **top-upload**: top 10 upload rules
     - **verbose**: add detailed internal information
@@ -538,9 +538,9 @@ Operations: `[Config]` = Configuration command, `[Info]` = Information/Status co
     - **algo-hfsc**: hfsc packet scheduling algorithm
     - **algo-htb**: htb packet scheduling algorithm
     - **guaranteed-auto**: auto compute guaranteed speeds
-    - **lock-queues**: number of locking queues
+    - **lock-queues** **<number>**: number of locking queues
     - **offload-all**: offload all shaping rules
-    - **offload-auto**: auto offload shaping when speed exceeds configured value
+    - **offload-auto** **<number-with-unit>**: auto offload shaping when speed exceeds configured value
   - **subqueues** **<string>** `[Config]`: number of seconds
   - **this** `[Info]`: this context
 - **write** `[Config]`: save actual configuration

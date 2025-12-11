@@ -60,7 +60,7 @@ netx(matchlist4-blacklist)# action add ip 198.51.100.0/24
 
 **Show match lists:**
 ```
-netx(matchlist4)# show
+netx(matchlist4)# show match-list
 ```
 
 ## Tables and Chains
@@ -69,12 +69,7 @@ The firewall is organized into standard tables (`filter`, `nat`, `mangle`, `raw`
 
 ### Managing Tables
 
-Enter the `table` context:
-```
-netx(fw4)# table
-```
-
-Select a table (e.g., `filter`, `nat`):
+Enter the `table` context and select a table (e.g., `filter`, `nat`):
 ```
 netx(fw4)# table filter
 ```
@@ -145,7 +140,7 @@ action <target> [options]
 4.  **Masquerade (NAT):**
     ```
     netx(fw4)# table nat chain POSTROUTING
-    netx(fw4-POSTROUTING)# action MASQUERADE out eth0
+    netx(fw4-POSTROUTING)# action MASQUERADE out tge1
     ```
 
 ## Custom Scripts
@@ -159,7 +154,7 @@ For complex firewall logic that is difficult to express via the CLI, you can use
 You can specify the name of the script file to use. If you provide a filename without a path, it will be created in `/etc/netc/firewall/` by default. You can also provide a full absolute path.
 
 ```
-netx(fw4)# custom-script my-firewall.sh
+netx(fw4)# custom-script ipv4-custom-firewall
 ```
 
 **Edit the script:**
@@ -184,7 +179,7 @@ netx(fw4)# custom-script confirm
 
 **Show the script:**
 ```
-netx(fw4)# custom-script show
+netx(fw4)# show custom-script
 ```
 
 ## Advanced Rule Options

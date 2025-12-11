@@ -156,6 +156,7 @@ def parse_config_pm():
     
     key_regex = re.compile(r"'([^']+)'\s*=>\s*\{")
     descr_regex = re.compile(r"DESCR\s*=>\s*'((?:[^'\\]|\\.)*)'")
+    value_regex = re.compile(r"VALUE\s*=>\s*'([^']+)'")
     
     set_regex = re.compile(r"\bSET\s*=>")
     unset_regex = re.compile(r"\bUNSET\s*=>")
@@ -164,6 +165,7 @@ def parse_config_pm():
     
     current_ops = set()
     current_descr = None
+    current_value = None
     
     for line in lines:
         line_content = line.split('#')[0]
@@ -188,6 +190,10 @@ def parse_config_pm():
         if match:
             current_descr = match.group(1).replace("\\'", "'")
             
+        match = value_regex.search(line_content)
+        if match:
+            current_value = match.group(1)
+
         if set_regex.search(line_content):
             current_ops.add('Config')
         # if unset_regex.search(line_content):
@@ -206,9 +212,15 @@ def parse_config_pm():
         if stack:
             path = "/".join([k for l, k in stack])
             if current_descr or current_ops:
-                add_to_tree(path, current_descr, current_ops)
+                if current_value:
+                    add_to_tree(path, None, current_ops)
+                    add_to_tree(path + "/" + current_value, current_descr, current_ops)
+                else:
+                    add_to_tree(path, current_descr, current_ops)
+                
                 current_descr = None
                 current_ops = set()
+                current_value = None
 
         level += open_braces
         level -= close_braces
