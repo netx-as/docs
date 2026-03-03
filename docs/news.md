@@ -2,6 +2,18 @@
 
 This page provides a summary of new features in each release of `netc` CLI. 
 
+#### Version 1.23.8
+
+**New features and notable changes**
+
+* traffic-manager: New TUI interface for statistics
+* ddos-guard: New optimized version with faster detection
+
+**Fixed issues**
+
+* configuration backend fixes
+* traffic-manager: adaptive shaping fixes
+
 #### Version 1.23.7
 
 **New features and notable changes**
