@@ -2,6 +2,14 @@
 
 This page provides a summary of new features in each release of `netc` CLI. 
 
+#### Version 1.23.9
+
+**Fixed issues**
+
+* traffic-manager: showing rules statistics fixes
+* pppoe: show sessions fixes
+* cli: multiword comment fixes
+
 #### Version 1.23.8
 
 **New features and notable changes**
