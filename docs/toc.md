@@ -20,6 +20,7 @@
 # [NetFlow export](netflow/netflow.md)
 # [VPN](vpn/wireguard.md)
 # [Monitoring](monitoring/monitoring.md)
+## [Cloud telemetry API](monitoring/cloud-telemetry-api.md)
 # [DDoS Guard](ddos/ddos-guard.md)
 # [Event manager](event/event.md)
 # [API](api/api.md)

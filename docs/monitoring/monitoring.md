@@ -3,6 +3,9 @@
 NetX can be monitored using standard network protocols, such as SNMP or with other advanced
 network monitoring systems, such as [Zabbix](https://www.zabbix.com/).
 
+For read-only access to metrics and logs collected by the NetX cloud statistics platform, see the
+[Cloud telemetry API client guide](cloud-telemetry-api.md).
+
 ## SNMP
 
 By default, the SNMP configuration is disabled on the NetX router and it's necessary to
@@ -171,4 +174,3 @@ script that use `zabbix-sender`.
 > There could be a large number of Zabbix items for QoS rules. Each QoS rule (a customer) creates three zabbix items by default.
 > E.g., 5k customers creates 15k zabbix items are created. It's recommanded to use the zabbix-qos script that pushes the data using
 > `zabbix-sender` as standard zabbix-agent, either passive or active, cannot handle this large amount of updates per second.
-

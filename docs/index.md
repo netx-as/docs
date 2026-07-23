@@ -18,8 +18,8 @@ The following NETX documentation topics are available:
 * [Routing](l3/l3-advanced.md): Advanced routing configuration, BGP, OSFP and RIP settings.
 * [QoS](qos/traffic-shaping.md): Traffic shaping and integration with 3rd party management softwares and custom scripts.
 * [VPN](vpn/wireguard.md): Describes WireGuard VPN integration in NetX routers.
-* [Monitoring](monitoring/monitoring.md): SNMP and Zabbix integration allows to monitor various NetX properties, such as
-Control Plane/Data Plane load, various QoS rules statistics and others.
+* [Monitoring](monitoring/monitoring.md): SNMP and Zabbix integrations, together with the NetX cloud telemetry API, provide access
+to Control Plane/Data Plane load, QoS rule statistics, logs, and other router telemetry.
 * [High availability](ha/vrrp.md): Describes how to set Virtual Router Redundancy Protocol to achieve high availability for default gateway.
 * [Troubleshooting tools](tools/tshoot.md): Describes basic troubleshooting tools - e.g., `ping`, `traceroute` or `tcpdump`.
 * [NetFlow export](netflow/netflow.md): NetFlow export configuration and accounting.
