@@ -157,24 +157,27 @@ You can specify the name of the script file to use. If you provide a filename wi
 netx(fw4)# custom-script ipv4-custom-firewall
 ```
 
+> [!NOTE]
+> If the filename (e.g. `ipv4-custom-firewall`) doesn't exist, the file will be created with the current iptables rules.
+
 **Edit the script:**
 ```
-netx(fw4)# custom-script edit
+netx(fw4)# edit
 ```
-This opens an editor where you can write your script.
+This opens an editor where you can write your script. Without a filename, the file configured using `custom-script` command will be opened. It is possible to configure custom filename to edit specific file, e.g. `edit nat-rules`.
 
 **Apply the script with safety timeout:**
 It is recommended to apply changes with a timeout (in seconds). If you do not confirm the changes within this period, the previous configuration is restored.
 
 ```
-netx(fw4)# custom-script apply timeout 60
+netx(fw4)# apply timeout 60
 ```
 
 **Confirm the changes:**
 If the configuration works as expected, you must confirm it to make it permanent.
 
 ```
-netx(fw4)# custom-script confirm
+netx(fw4)# confirm
 ```
 
 **Show the script:**
