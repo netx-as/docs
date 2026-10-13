@@ -2,6 +2,13 @@
 
 This page provides a summary of new features in each release of `netc` CLI. 
 
+#### Version 1.23.10
+
+**Fixed issues**
+
+* configuration: configuration rendering fix
+* interfaces: ipv4 address dhcp configuration display fix
+
 #### Version 1.23.9
 
 **Fixed issues**
