@@ -3,7 +3,7 @@
 NetX can be monitored using standard network protocols, such as SNMP or with other advanced
 network monitoring systems, such as [Zabbix](https://www.zabbix.com/).
 
-For read-only access to metrics and logs collected by the NetX cloud statistics platform, see the
+For read-only access to per-prefix traffic statistics, metrics and logs collected by the NetX cloud statistics platform, see the
 [Cloud telemetry API client guide](cloud-telemetry-api.md).
 
 ## SNMP
